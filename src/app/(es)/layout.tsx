@@ -7,6 +7,10 @@ import "../globals.css";
 export const metadata: Metadata = {
   title: "Miquel Manzano — Full-stack developer",
   description: "Portfolio técnico de Miquel Manzano.",
+  alternates: {
+    canonical: "/",
+    languages: { es: "/", en: "/en" },
+  },
 };
 
 interface SpanishLayoutProps {
