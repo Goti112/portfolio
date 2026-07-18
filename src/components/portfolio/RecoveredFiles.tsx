@@ -17,7 +17,7 @@ export function RecoveredFiles({ eyebrow, heading, items, pendingLabel }: Recove
         {items.map((experiment) => (
           <article key={experiment.id} className="recovered-files__item" data-motion-reveal>
             <span className="recovered-files__case-id">{experiment.id}</span>
-            <h4 className="recovered-files__name">{experiment.name}</h4>
+            <h3 className="recovered-files__name">{experiment.name}</h3>
             <span className="recovered-files__category">{experiment.category}</span>
             <ExternalAction destination={experiment.repository} label={experiment.name} pendingLabel={pendingLabel} />
           </article>

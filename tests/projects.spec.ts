@@ -12,9 +12,9 @@ test("renders the three confirmed primary projects in order", async ({ page }) =
 test("renders secondary experiments without invented descriptions", async ({ page }) => {
   await page.goto("/");
   const recoveredFiles = page.locator("[data-section='experiments']");
-  await expect(recoveredFiles.getByText("Web Game", { exact: true })).toBeVisible();
-  await expect(recoveredFiles.getByText("Roblox Game", { exact: true })).toBeVisible();
-  await expect(recoveredFiles.getByText("AI Wrapped", { exact: true })).toBeVisible();
+  await expect(recoveredFiles.getByText("Web Game", { exact: true }).first()).toBeVisible();
+  await expect(recoveredFiles.getByText("Roblox Game", { exact: true }).first()).toBeVisible();
+  await expect(recoveredFiles.getByText("AI Wrapped", { exact: true }).first()).toBeVisible();
 });
 
 test("pending destinations never render broken anchors", async ({ page }) => {

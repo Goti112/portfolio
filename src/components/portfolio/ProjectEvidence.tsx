@@ -28,7 +28,7 @@ export function ProjectEvidence({ eyebrow, heading, items, pendingLabel }: Proje
           <article key={project.id} className="project-evidence__item" data-project-id={project.id} data-motion-reveal>
             <div className="project-evidence__text">
               <span className="project-evidence__case-label">{project.caseLabel}</span>
-              <h4 className="project-evidence__name">{project.name}</h4>
+              <h3 className="project-evidence__name">{project.name}</h3>
               <p className="project-evidence__summary">{project.summary}</p>
               <ul className="project-evidence__techs">
                 {project.technologies.map((tech) => (

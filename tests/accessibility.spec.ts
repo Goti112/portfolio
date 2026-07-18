@@ -43,6 +43,10 @@ test("keeps the full narrative usable on a mobile viewport", async ({ page }, te
 
 test("has no automatically detectable serious accessibility violations", async ({ page }) => {
   await page.goto("/");
+  // Scroll to the bottom to complete all GSAP scroll-triggered animations
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  // Wait for GSAP scrub lerp (0.6s) to settle
+  await page.waitForTimeout(2000);
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
 });
