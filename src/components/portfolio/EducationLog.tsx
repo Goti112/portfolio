@@ -7,10 +7,10 @@ interface EducationLogProps {
 export function EducationLog({ content }: EducationLogProps): React.JSX.Element {
   return (
     <section id="education" className="education-log" data-motion-section="education">
-      <h2 className="education-log__heading">{content.heading}</h2>
+      <h2 className="education-log__heading" data-motion-reveal>{content.heading}</h2>
       <ol className="education-log__list">
         {content.items.map((item) => (
-          <li key={item.abbreviation} className="education-log__item">
+          <li key={item.abbreviation} className="education-log__item" data-motion-reveal>
             <time dateTime={String(item.startYear)}>{item.startYear}</time>
             <span aria-hidden="true"> — </span>
             <time dateTime={String(item.endYear)}>{item.endYear}</time>

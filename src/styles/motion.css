@@ -26,7 +26,7 @@
 }
 
 /* ===== Scanline Overlay ===== */
-[data-scan-line] {
+[data-scanline-overlay] {
   pointer-events: none;
   position: fixed;
   inset: 0;

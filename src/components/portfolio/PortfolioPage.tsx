@@ -19,6 +19,7 @@ export function PortfolioPage({ content }: PortfolioPageProps): React.JSX.Elemen
     <div className="portfolio-shell" data-motion-root>
       <MotionController />
       <ForensicCursor />
+      <div className="portfolio-shell__corruption-line" data-corruption-line aria-hidden="true" />
       <SessionNavigation
         locale={content.locale}
         items={content.navigation}

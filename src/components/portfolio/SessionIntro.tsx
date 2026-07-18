@@ -10,11 +10,11 @@ export function SessionIntro({ content }: SessionIntroProps): React.JSX.Element 
       <h1 className="sr-only">{content.name}</h1>
       <div className="session-intro__titles" aria-hidden="true">
         {content.titleLines.map((line, i) => (
-          <span key={i} className="session-intro__title">{line}</span>
+          <span key={i} className="session-intro__title" data-motion-reveal>{line}</span>
         ))}
       </div>
-      <p className="session-intro__availability">{content.availability}</p>
-      <pre className="session-intro__command" aria-hidden="true">{content.command}</pre>
+      <p className="session-intro__availability" data-motion-reveal>{content.availability}</p>
+      <pre className="session-intro__command" aria-hidden="true" data-motion-reveal>{content.command}</pre>
     </section>
   );
 }
