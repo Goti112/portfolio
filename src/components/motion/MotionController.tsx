@@ -1,17 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { createPortfolioMotion } from "@/motion/create-portfolio-motion";
 
 gsap.registerPlugin(useGSAP);
 
-export function MotionController(): React.JSX.Element {
+export function MotionController(): null {
   useGSAP(() => {
     const root = document.querySelector<HTMLElement>("[data-motion-root]");
     if (root === null) {
-      return;
+      throw new Error("MotionController could not resolve its root element");
     }
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -21,7 +20,7 @@ export function MotionController(): React.JSX.Element {
     }
 
     return createPortfolioMotion(root);
-  });
+  }, { dependencies: [] });
 
-  return <span aria-hidden="true" data-motion-marker />;
+  return null;
 }

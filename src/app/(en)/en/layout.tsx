@@ -22,11 +22,6 @@ export default function EnglishLayout({ children }: EnglishLayoutProps): React.J
     <html lang="en">
       <body>
         {children}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var r=document.querySelector("[data-motion-root]");if(r){var m=window.matchMedia("(prefers-reduced-motion: reduce)");r.dataset.motionState=m.matches?"reduced":"ready";}})()`,
-          }}
-        />
       </body>
     </html>
   );
