@@ -5,6 +5,8 @@ import { IdentityTrace } from "@/components/portfolio/IdentityTrace";
 import { CapabilityAnalysis } from "@/components/portfolio/CapabilityAnalysis";
 import { EducationLog } from "@/components/portfolio/EducationLog";
 import { SessionExit } from "@/components/portfolio/SessionExit";
+import { ProjectEvidence } from "@/components/portfolio/ProjectEvidence";
+import { RecoveredFiles } from "@/components/portfolio/RecoveredFiles";
 
 interface PortfolioPageProps {
   readonly content: PortfolioContent;
@@ -23,7 +25,18 @@ export function PortfolioPage({ content }: PortfolioPageProps): React.JSX.Elemen
         <SessionIntro content={content.intro} />
         <IdentityTrace content={content.identity} />
         <CapabilityAnalysis content={content.capabilities} />
-        <div id="projects" className="project-story-anchor" />
+        <ProjectEvidence
+          eyebrow={content.projects.eyebrow}
+          heading={content.projects.heading}
+          items={content.projects.items}
+          pendingLabel={content.system.pendingLink}
+        />
+        <RecoveredFiles
+          eyebrow={content.experiments.eyebrow}
+          heading={content.experiments.heading}
+          items={content.experiments.items}
+          pendingLabel={content.system.pendingLink}
+        />
         <EducationLog content={content.education} />
         <SessionExit content={content.exit} pendingLabel={content.system.pendingLink} />
       </main>
