@@ -7,6 +7,8 @@ import { EducationLog } from "@/components/portfolio/EducationLog";
 import { SessionExit } from "@/components/portfolio/SessionExit";
 import { ProjectEvidence } from "@/components/portfolio/ProjectEvidence";
 import { RecoveredFiles } from "@/components/portfolio/RecoveredFiles";
+import { MotionController } from "@/components/motion/MotionController";
+import { ForensicCursor } from "@/components/motion/ForensicCursor";
 
 interface PortfolioPageProps {
   readonly content: PortfolioContent;
@@ -14,7 +16,9 @@ interface PortfolioPageProps {
 
 export function PortfolioPage({ content }: PortfolioPageProps): React.JSX.Element {
   return (
-    <div className="portfolio-shell">
+    <div className="portfolio-shell" data-motion-root>
+      <MotionController />
+      <ForensicCursor />
       <SessionNavigation
         locale={content.locale}
         items={content.navigation}

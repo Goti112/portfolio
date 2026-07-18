@@ -20,7 +20,14 @@ interface SpanishLayoutProps {
 export default function SpanishLayout({ children }: SpanishLayoutProps): React.JSX.Element {
   return (
     <html lang="es">
-      <body>{children}</body>
+      <body>
+        {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var r=document.querySelector("[data-motion-root]");if(r){var m=window.matchMedia("(prefers-reduced-motion: reduce)");r.dataset.motionState=m.matches?"reduced":"ready";}})()`,
+          }}
+        />
+      </body>
     </html>
   );
 }
