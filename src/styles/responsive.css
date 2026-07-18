@@ -103,8 +103,13 @@
     justify-content: center;
   }
 
-  .session-nav .sr-only ~ * {
-    display: inline-flex;
+  .session-nav__language .sr-only {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: nowrap;
   }
 }
 
