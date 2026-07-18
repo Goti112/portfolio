@@ -5,8 +5,8 @@ import "@fontsource-variable/jetbrains-mono/wght.css";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Miquel Manzano — Full-stack developer",
-  description: "Portfolio técnico de Miquel Manzano.",
+  title: "Miquel Manzano — Desarrollador full-stack",
+  description: "Portfolio técnico de Miquel Manzano: desarrollo web, aplicaciones, IA aplicada y proyectos interactivos.",
   alternates: {
     canonical: "/",
     languages: { es: "/", en: "/en" },

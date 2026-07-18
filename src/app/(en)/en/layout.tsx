@@ -6,7 +6,7 @@ import "../../globals.css";
 
 export const metadata: Metadata = {
   title: "Miquel Manzano — Full-stack developer",
-  description: "Technical portfolio of Miquel Manzano.",
+  description: "Technical portfolio of Miquel Manzano: web development, applications, applied AI, and interactive projects.",
   alternates: {
     canonical: "/en",
     languages: { es: "/", en: "/en" },
