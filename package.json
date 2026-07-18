@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
     "validate:content": "tsx scripts/validate-content.ts",
-    "validate": "npm run validate:content && npm run lint && npm run typecheck && npm run build"
+    "audit:performance": "lhci autorun",
+    "validate": "npm run validate:content && npm run lint && npm run typecheck && npm run build && npm run audit:performance && npm run test:e2e"
   },
   "keywords": [],
   "author": "",
