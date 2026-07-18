@@ -22,3 +22,14 @@ test("exposes direct anchors for every narrative destination", async ({ page }) 
     await expect(page.locator(`#${id}`)).toHaveCount(1);
   }
 });
+
+test("renders confirmed profile, capabilities, education, and AI positioning", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByText("Disponible para crear, aprender y llevar ideas hasta producción.").first()).toBeVisible();
+  await expect(page.getByText(/Uso la IA como acelerador/)).toBeVisible();
+  await expect(page.getByText("TypeScript", { exact: true })).toBeVisible();
+  await expect(page.getByText("Docker", { exact: true })).toBeVisible();
+  await expect(page.getByText(/Sistemas Microinformáticos y Redes/)).toBeVisible();
+  await expect(page.getByText(/Desarrollo de Aplicaciones Web/)).toBeVisible();
+  await expect(page.getByText("Institut Bernat el Ferrer", { exact: true })).toHaveCount(2);
+});

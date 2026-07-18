@@ -1,5 +1,10 @@
 import type { PortfolioContent } from "@/content/types";
 import { SessionNavigation } from "@/components/portfolio/SessionNavigation";
+import { SessionIntro } from "@/components/portfolio/SessionIntro";
+import { IdentityTrace } from "@/components/portfolio/IdentityTrace";
+import { CapabilityAnalysis } from "@/components/portfolio/CapabilityAnalysis";
+import { EducationLog } from "@/components/portfolio/EducationLog";
+import { SessionExit } from "@/components/portfolio/SessionExit";
 
 interface PortfolioPageProps {
   readonly content: PortfolioContent;
@@ -15,14 +20,12 @@ export function PortfolioPage({ content }: PortfolioPageProps): React.JSX.Elemen
         readOnlyLabel={content.system.readOnly}
       />
       <main>
-        <section id="profile" className="narrative-section">
-          <h1>Miquel Manzano</h1>
-          <p>{content.intro.availability}</p>
-        </section>
-        <section id="capabilities" className="narrative-section" aria-label={content.capabilities.heading} />
-        <section id="projects" className="narrative-section" aria-label={content.projects.heading} />
-        <section id="education" className="narrative-section" aria-label={content.education.heading} />
-        <section id="contact" className="narrative-section" aria-label={content.exit.headingLines.join(" ")} />
+        <SessionIntro content={content.intro} />
+        <IdentityTrace content={content.identity} />
+        <CapabilityAnalysis content={content.capabilities} />
+        <div id="projects" className="project-story-anchor" />
+        <EducationLog content={content.education} />
+        <SessionExit content={content.exit} pendingLabel={content.system.pendingLink} />
       </main>
     </div>
   );
