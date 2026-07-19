@@ -14,6 +14,8 @@ test.describe("reduced motion", () => {
     await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "reduced");
     await expect(page.locator("[data-project-id]")).toHaveCount(3);
     await expect(page.locator("[data-motion-section][aria-hidden='true']")).toHaveCount(0);
+    await expect(page.locator("[data-forensic-cursor]")).toBeHidden();
+    await expect(page.locator("[data-corruption-line]")).toBeHidden();
   });
 });
 
@@ -39,6 +41,23 @@ test("keeps the full narrative usable on a mobile viewport", async ({ page }, te
   const bodyWidth = await page.locator("body").evaluate((body) => body.scrollWidth);
   const viewportWidth = page.viewportSize()?.width;
   expect(bodyWidth).toBeLessThanOrEqual(viewportWidth ?? bodyWidth);
+});
+
+test("flashes the corruption line once when Projects enters the center band", async ({ page }) => {
+  await page.goto("/");
+  const line = page.locator("[data-corruption-line]");
+  const projects = page.locator("[data-motion-section='projects']");
+
+  await expect(line).not.toHaveAttribute("data-corruption-active", "true");
+  await expect.poll(async () => line.evaluate((element) => getComputedStyle(element).opacity)).toBe("0");
+
+  await projects.evaluate((element) => element.scrollIntoView({ block: "center", behavior: "instant" }));
+  await expect(line).toHaveAttribute("data-corruption-active", "true");
+  await expect.poll(async () => line.evaluate((element) => getComputedStyle(element).opacity)).toBe("0");
+
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await projects.evaluate((element) => element.scrollIntoView({ block: "center", behavior: "instant" }));
+  await expect(line).not.toHaveAttribute("data-corruption-active", "true");
 });
 
 test("has no automatically detectable serious accessibility violations", async ({ page }) => {
