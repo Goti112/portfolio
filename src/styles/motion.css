@@ -3,6 +3,97 @@
   /* no initial hidden state */
 }
 
+@keyframes content-reveal {
+  from {
+    translate: 0 0.75rem;
+  }
+
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes ticket-scan {
+  from {
+    translate: 0 -110%;
+  }
+
+  to {
+    translate: 0 520%;
+  }
+}
+
+@keyframes output-recovery {
+  from {
+    translate: 18% 0;
+  }
+
+  to {
+    translate: 0 0;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  [data-motion-section]:not(#profile) [data-motion-reveal] {
+    animation: content-reveal linear both;
+    animation-timeline: view(block);
+    animation-range: entry 0% cover 38%;
+  }
+
+  [data-scan-line] {
+    animation: ticket-scan linear both;
+    animation-timeline: view(block);
+    animation-range: entry 0% cover 70%;
+  }
+
+  [data-output-row] {
+    animation: output-recovery linear both;
+    animation-timeline: view(block);
+    animation-range: entry 0% cover 45%;
+  }
+}
+
+@keyframes corruption-flash {
+  0% {
+    opacity: 0;
+    transform: translateX(-5vw) skewX(0deg);
+  }
+
+  35% {
+    opacity: 0.7;
+    transform: translateX(0) skewX(-7deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(5vw) skewX(0deg);
+  }
+}
+
+.portfolio-shell__corruption-line {
+  position: fixed;
+  top: 42%;
+  left: -10vw;
+  z-index: 3;
+  width: 120vw;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(232, 48, 42, 0.16) 18%,
+    rgba(232, 48, 42, 0.55) 51%,
+    rgba(232, 48, 42, 0.12) 82%,
+    transparent 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: center;
+}
+
+.portfolio-shell__corruption-line[data-corruption-active="true"] {
+  animation: corruption-flash 220ms ease-out both;
+}
+
 /* ===== Forensic Cursor Probe ===== */
 [data-forensic-cursor] {
   position: fixed;
@@ -55,8 +146,17 @@
     display: none !important;
   }
 
-  [data-motion-reveal] {
+  [data-scanline-overlay],
+  .portfolio-shell__corruption-line {
+    display: none !important;
+  }
+
+  [data-motion-reveal],
+  [data-scan-line],
+  [data-output-row] {
+    animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+    translate: none !important;
   }
 }
