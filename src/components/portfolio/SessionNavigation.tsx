@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Locale, NavigationItem } from "@/content/types";
 
 interface SessionNavigationProps {
@@ -29,9 +28,9 @@ export function SessionNavigation({ locale, items, languageLabel, readOnlyLabel 
             ))}
           </ul>
         </nav>
-        <Link className="session-nav__language" href={targetHref} hrefLang={targetLocale} lang={targetLocale}>
+        <a className="session-nav__language" href={targetHref} hrefLang={targetLocale} lang={targetLocale}>
           <span className="sr-only">{languageLabel}: </span>{targetLabel}
-        </Link>
+        </a>
       </header>
     </>
   );

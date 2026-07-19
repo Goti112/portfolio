@@ -7,6 +7,7 @@ interface IdentityTraceProps {
 export function IdentityTrace({ content }: IdentityTraceProps): React.JSX.Element {
   return (
     <section className="identity-trace" data-motion-section="identity">
+      <p className="narrative-eyebrow" data-motion-reveal>{content.eyebrow}</p>
       <h2 className="identity-trace__heading" data-motion-reveal>
         {content.headingLines.map((line, i) => (
           <span key={i}>{line}</span>

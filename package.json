@@ -4,15 +4,20 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "build:browser": "tsc src/browser/portfolio-effects.ts --ignoreConfig --target ES2020 --lib DOM,ES2020 --module ES2020 --outDir public/browser --strict --skipLibCheck",
+    "build:server": "tsc scripts/serve-static-portfolio.ts --ignoreConfig --target ES2022 --lib ES2022 --types node --module CommonJS --outDir .server --strict --skipLibCheck --esModuleInterop",
+    "predev": "npm run build:browser",
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "npm run build:browser && npm run build:server && next build",
+    "start": "node .server/serve-static-portfolio.js",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
-    "test:e2e": "playwright test",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test:e2e": "npm run build && npm run test:e2e:built",
+    "test:e2e:built": "playwright test",
+    "test:content": "tsx scripts/test-content-validation.ts",
     "validate:content": "tsx scripts/validate-content.ts",
-    "audit:performance": "lhci autorun",
-    "validate": "npm run validate:content && npm run lint && npm run typecheck && npm run build && npm run audit:performance && npm run test:e2e"
+    "audit:performance": "patch-package && lhci autorun",
+    "validate": "npm run validate:content && npm run test:content && npm run lint && npm run typecheck && npm run build && npm run audit:performance && npm run test:e2e:built"
   },
   "keywords": [],
   "author": "",
@@ -20,8 +25,6 @@
   "dependencies": {
     "@fontsource-variable/archivo": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
-    "@gsap/react": "^2.1.2",
-    "gsap": "^3.15.0",
     "next": "^16.2.10",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
@@ -35,7 +38,15 @@
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.2.10",
+    "patch-package": "^8.0.1",
     "tsx": "^4.23.1",
     "typescript": "^6.0.3"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "^8.5.10"
+    },
+    "tmp": "^0.2.6",
+    "uuid": "^11.1.1"
   }
 }

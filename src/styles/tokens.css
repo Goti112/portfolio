@@ -6,8 +6,8 @@
   --color-line: #39322e;
   --color-alert: #e7342b;
   --color-alert-dark: #230a08;
-  --font-display: "Archivo Variable", Arial, sans-serif;
-  --font-code: "JetBrains Mono Variable", Consolas, monospace;
+  --font-display: var(--font-archivo), Arial, sans-serif;
+  --font-code: var(--font-jetbrains-mono), Consolas, monospace;
   --page-inline: clamp(1rem, 3vw, 3rem);
   --focus-ring: 0 0 0 3px var(--color-bone), 0 0 0 6px var(--color-alert);
 }

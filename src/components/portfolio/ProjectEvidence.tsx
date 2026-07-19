@@ -25,7 +25,13 @@ export function ProjectEvidence({ eyebrow, heading, items, pendingLabel }: Proje
       {items.map((project) => {
         const Preview = previewByProjectId[project.id];
         return (
-          <article key={project.id} className="project-evidence__item" data-project-id={project.id} data-motion-reveal>
+          <article
+            key={project.id}
+            className="project-evidence__item"
+            data-project-id={project.id}
+            data-motion-reveal
+            data-probe
+          >
             <div className="project-evidence__text">
               <span className="project-evidence__case-label">{project.caseLabel}</span>
               <h3 className="project-evidence__name">{project.name}</h3>

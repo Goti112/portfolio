@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "@fontsource-variable/archivo/wght.css";
-import "@fontsource-variable/jetbrains-mono/wght.css";
+import { archivo, jetBrainsMono } from "@/lib/fonts";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -20,7 +19,7 @@ interface SpanishLayoutProps {
 export default function SpanishLayout({ children }: SpanishLayoutProps): React.JSX.Element {
   return (
     <html lang="es">
-      <body>
+      <body className={`${archivo.variable} ${jetBrainsMono.variable}`}>
         {children}
       </body>
     </html>

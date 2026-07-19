@@ -7,8 +7,6 @@ import { EducationLog } from "@/components/portfolio/EducationLog";
 import { SessionExit } from "@/components/portfolio/SessionExit";
 import { ProjectEvidence } from "@/components/portfolio/ProjectEvidence";
 import { RecoveredFiles } from "@/components/portfolio/RecoveredFiles";
-import { MotionController } from "@/components/motion/MotionController";
-import { ForensicCursor } from "@/components/motion/ForensicCursor";
 
 interface PortfolioPageProps {
   readonly content: PortfolioContent;
@@ -17,9 +15,9 @@ interface PortfolioPageProps {
 export function PortfolioPage({ content }: PortfolioPageProps): React.JSX.Element {
   return (
     <div className="portfolio-shell" data-motion-root>
-      <MotionController />
-      <ForensicCursor />
+      <div aria-hidden="true" data-forensic-cursor />
       <div className="portfolio-shell__corruption-line" data-corruption-line aria-hidden="true" />
+      <div data-scanline-overlay aria-hidden="true" />
       <SessionNavigation
         locale={content.locale}
         items={content.navigation}
@@ -45,6 +43,7 @@ export function PortfolioPage({ content }: PortfolioPageProps): React.JSX.Elemen
         <EducationLog content={content.education} />
         <SessionExit content={content.exit} pendingLabel={content.system.pendingLink} />
       </main>
+      <script defer src="/browser/portfolio-effects.js" />
     </div>
   );
 }

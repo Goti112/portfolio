@@ -7,6 +7,7 @@ interface EducationLogProps {
 export function EducationLog({ content }: EducationLogProps): React.JSX.Element {
   return (
     <section id="education" className="education-log" data-motion-section="education">
+      <p className="narrative-eyebrow" data-motion-reveal>{content.eyebrow}</p>
       <h2 className="education-log__heading" data-motion-reveal>{content.heading}</h2>
       <ol className="education-log__list">
         {content.items.map((item) => (

@@ -9,6 +9,7 @@ interface SessionExitProps {
 export function SessionExit({ content, pendingLabel }: SessionExitProps): React.JSX.Element {
   return (
     <section id="contact" className="session-exit" data-motion-section="exit">
+      <p className="narrative-eyebrow" data-motion-reveal>{content.eyebrow}</p>
       <h2 className="session-exit__heading" data-motion-reveal>
         {content.headingLines.map((line, i) => (
           <span key={i}>{line}</span>

@@ -5,7 +5,7 @@ import nextTypeScript from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTypeScript,
-  globalIgnores([".next/**", "out/**", "coverage/**", "playwright-report/**", "test-results/**"]),
+  globalIgnores([".next/**", ".server/**", "out/**", "coverage/**", "playwright-report/**", "test-results/**"]),
 ]);
 
 export default eslintConfig;

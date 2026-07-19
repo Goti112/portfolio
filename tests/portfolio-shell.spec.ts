@@ -1,10 +1,21 @@
 import { expect, test } from "@playwright/test";
 
+test("compresses the exported HTML document", async ({ page }) => {
+  const response = await page.goto("/");
+
+  expect(response).not.toBeNull();
+  expect(response?.headers()["content-encoding"]).toBe("br");
+});
+
 test("serves Spanish as the default semantic document", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("lang", "es");
   await expect(page).toHaveTitle(/Miquel Manzano/);
-  await expect(page.getByRole("heading", { level: 1, name: "Miquel Manzano" })).toBeVisible();
+  const identityHeading = page.getByRole("heading", { level: 1, name: "Miquel Manzano" });
+  await expect(identityHeading).toBeVisible();
+  const identityHeadingBox = await identityHeading.boundingBox();
+  expect(identityHeadingBox?.width).toBeGreaterThan(120);
+  expect(identityHeadingBox?.height).toBeGreaterThanOrEqual(16);
   await expect(page.getByRole("link", { name: "English" })).toHaveAttribute("href", "/en");
   await expect(page.getByRole("navigation", { name: "Navegación principal" })).toBeVisible();
 });
@@ -32,4 +43,19 @@ test("renders confirmed profile, capabilities, education, and AI positioning", a
   await expect(page.getByText(/Sistemas Microinformáticos y Redes/)).toBeVisible();
   await expect(page.getByText(/Desarrollo de Aplicaciones Web/)).toBeVisible();
   await expect(page.getByText("Institut Bernat el Ferrer", { exact: true })).toHaveCount(2);
+});
+
+test("renders every narrative status marker", async ({ page }) => {
+  await page.goto("/");
+  const markers = [
+    "SESIÓN DESCONOCIDA / ACCESO DE SOLO LECTURA",
+    "RECONSTRUCCIÓN DE IDENTIDAD / 34%",
+    "ANÁLISIS DE FUENTE / SIN BARRAS DE HABILIDAD",
+    "TRAZA FORMATIVA / 2022—2026",
+    "IDENTIDAD VERIFICADA / SESIÓN SEGURA",
+  ];
+
+  for (const marker of markers) {
+    await expect(page.getByText(marker, { exact: true })).toBeVisible();
+  }
 });
