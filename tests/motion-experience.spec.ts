@@ -34,3 +34,33 @@ test("creates no more than three desktop pin spacers", async ({ page }, testInfo
   expect(pinCount).toBeGreaterThan(0);
   expect(pinCount).toBeLessThanOrEqual(3);
 });
+
+test("restores claim and verdict scene state while scrolling back", async ({ page }) => {
+  await page.goto("/");
+  const root = page.locator("[data-motion-root]");
+  const claim = page.locator("[data-scene='claim']");
+  const scrollInsideSceneTrigger = async (selector: string): Promise<void> => {
+    await page.locator(selector).evaluate((section) => {
+      const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo(0, sectionTop - window.innerHeight * 0.65);
+    });
+  };
+
+  await claim.scrollIntoViewIfNeeded();
+  await expect(root).toHaveAttribute("data-active-scene", "claim");
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await scrollInsideSceneTrigger("[data-scene='verdict']");
+  await expect(root).toHaveAttribute("data-active-scene", "verdict");
+  await scrollInsideSceneTrigger("[data-scene='claim']");
+  await expect(root).toHaveAttribute("data-active-scene", "claim");
+});
+
+test("normalizes all method connector paths", async ({ page }) => {
+  await page.goto("/");
+  const connectors = page.locator("[data-method-connector]");
+  await expect(connectors).toHaveCount(3);
+  const pathLengths = await connectors.evaluateAll(
+    (paths) => paths.map((path) => path.getAttribute("pathLength")),
+  );
+  expect(pathLengths).toEqual(["1", "1", "1"]);
+});

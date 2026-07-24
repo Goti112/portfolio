@@ -17,9 +17,18 @@ export function createExecutionClaimScene(root: HTMLElement, conditions: MotionC
     const state = Flip.getState(fragments);
     section.dataset.claimAssembled = "true";
     animation = Flip.from(state, { duration: 0.9, ease: "power3.inOut", stagger: 0.06 });
+  };
+  const setActiveScene = (): void => {
     root.dataset.activeScene = scene;
   };
-  const trigger = ScrollTrigger.create({
+  const sceneTrigger = ScrollTrigger.create({
+    trigger: section,
+    start: "top 65%",
+    end: "+=1",
+    onEnter: setActiveScene,
+    onEnterBack: setActiveScene,
+  });
+  const revealTrigger = ScrollTrigger.create({
     trigger: section,
     start: "top 65%",
     once: true,
@@ -27,7 +36,8 @@ export function createExecutionClaimScene(root: HTMLElement, conditions: MotionC
   });
 
   return (): void => {
-    trigger.kill();
+    sceneTrigger.kill();
+    revealTrigger.kill();
     animation?.kill();
     delete section.dataset.claimAssembled;
   };

@@ -30,9 +30,9 @@ export function BuildMethod({ method, education }: BuildMethodProps): React.JSX.
         preserveAspectRatio="none"
         aria-hidden="true"
       >
-        <path data-method-connector d="M 50 10 H 150" />
-        <path data-method-connector d="M 150 10 H 250" />
-        <path data-method-connector d="M 250 10 H 350" />
+        <path data-method-connector pathLength="1" d="M 50 10 H 150" />
+        <path data-method-connector pathLength="1" d="M 150 10 H 250" />
+        <path data-method-connector pathLength="1" d="M 250 10 H 350" />
       </svg>
       <FormationTrace content={education} />
     </section>
