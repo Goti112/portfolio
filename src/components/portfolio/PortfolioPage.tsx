@@ -1,4 +1,5 @@
 import type { PortfolioContent } from "@/content/types";
+import { PortfolioExperienceRoot } from "@/components/motion/MotionExperience";
 import { BuildMethod } from "@/components/portfolio/BuildMethod";
 import { EvidenceLens } from "@/components/portfolio/EvidenceLens";
 import { ExperimentMontage } from "@/components/portfolio/ExperimentMontage";
@@ -14,7 +15,7 @@ interface PortfolioPageProps {
 
 export function PortfolioPage({ content }: PortfolioPageProps): React.JSX.Element {
   return (
-    <div className="portfolio-shell" data-motion-root data-motion-state="static">
+    <PortfolioExperienceRoot>
       <ExperienceHeader content={content} />
       <main id="main-content">
         <ProofIntro content={content.intro} />
@@ -25,6 +26,6 @@ export function PortfolioPage({ content }: PortfolioPageProps): React.JSX.Elemen
         <ProofVerdict content={content.verdict} pendingLabel={content.system.pendingLink} />
       </main>
       <EvidenceLens />
-    </div>
+    </PortfolioExperienceRoot>
   );
 }
