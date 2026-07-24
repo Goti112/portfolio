@@ -24,23 +24,30 @@ test("keeps the complete hiring argument available without JavaScript", async ({
   await context.close();
 });
 
-test("keeps static project previews inline", async ({ page }, testInfo) => {
+test("keeps static project previews inline", async ({ browser }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-chromium", "Desktop-only assertion");
-  await page.goto("/");
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto("http://127.0.0.1:3000/");
+  const inlinePreviews = page.locator("[data-project-inline-preview]");
 
   await expect(page.locator("[data-project-visual-stage]")).toBeHidden();
-  for (const preview of await page.locator("[data-project-inline-preview]").all()) {
+  await expect(inlinePreviews).toHaveCount(3);
+  for (const preview of await inlinePreviews.all()) {
     await expect(preview).toBeVisible();
   }
+  await context.close();
 });
 
 test("uses the shared project stage only for full desktop motion", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-chromium", "Desktop-only assertion");
   await page.goto("/");
   await page.locator("[data-motion-root]").evaluate((root) => root.setAttribute("data-motion-state", "ready"));
+  const inlinePreviews = page.locator("[data-project-inline-preview]");
 
   await expect(page.locator("[data-project-visual-stage]")).toBeVisible();
-  for (const preview of await page.locator("[data-project-inline-preview]").all()) {
+  await expect(inlinePreviews).toHaveCount(3);
+  for (const preview of await inlinePreviews.all()) {
     await expect(preview).toBeHidden();
   }
 });
@@ -49,9 +56,11 @@ test("keeps compact project previews inline when motion is ready", async ({ page
   test.skip(testInfo.project.name !== "mobile-chromium", "Mobile-only assertion");
   await page.goto("/");
   await page.locator("[data-motion-root]").evaluate((root) => root.setAttribute("data-motion-state", "ready"));
+  const inlinePreviews = page.locator("[data-project-inline-preview]");
 
   await expect(page.locator("[data-project-visual-stage]")).toBeHidden();
-  for (const preview of await page.locator("[data-project-inline-preview]").all()) {
+  await expect(inlinePreviews).toHaveCount(3);
+  for (const preview of await inlinePreviews.all()) {
     await expect(preview).toBeVisible();
   }
 });
