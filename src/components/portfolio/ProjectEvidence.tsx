@@ -1,5 +1,5 @@
 import type { PrimaryProject, PrimaryProjectId } from "@/content/types";
-import { ExternalAction } from "@/components/portfolio/ExternalAction";
+import { ProjectCaseScene } from "@/components/portfolio/ProjectCaseScene";
 import { QgcPreview } from "@/components/previews/QgcPreview";
 import { BorderPassPreview } from "@/components/previews/BorderPassPreview";
 import { OcrPreview } from "@/components/previews/OcrPreview";
@@ -19,36 +19,31 @@ const previewByProjectId: Readonly<Record<PrimaryProjectId, () => React.JSX.Elem
 
 export function ProjectEvidence({ eyebrow, heading, items, pendingLabel }: ProjectEvidenceProps): React.JSX.Element {
   return (
-    <section id="projects" className="project-evidence" data-scene="projects" data-motion-section="projects">
+    <section id="projects" className="project-evidence" data-scene="projects" data-project-stage data-motion-section="projects">
       <p className="project-evidence__eyebrow">{eyebrow}</p>
       <h2 className="project-evidence__heading" data-motion-reveal>{heading}</h2>
-      {items.map((project) => {
-        const Preview = previewByProjectId[project.id];
-        return (
-          <article
-            key={project.id}
-            className="project-evidence__item"
-            data-project-id={project.id}
-            data-motion-reveal
-            data-probe
-          >
-            <div className="project-evidence__text">
-              <span className="project-evidence__case-label">{project.caseLabel}</span>
-              <h3 className="project-evidence__name">{project.name}</h3>
-              <p className="project-evidence__summary">{project.summary}</p>
-              <ul className="project-evidence__techs">
-                {project.technologies.map((tech) => (
-                  <li key={tech}>{tech}</li>
-                ))}
-              </ul>
-              <ExternalAction destination={project.repository} label={project.name} pendingLabel={pendingLabel} />
-            </div>
-            <div className="project-evidence__preview">
-              <Preview />
-            </div>
-          </article>
-        );
-      })}
+      <div className="project-evidence__layout">
+        <div data-project-copy-track>
+          {items.map((project) => (
+            <ProjectCaseScene
+              key={project.id}
+              project={project}
+              pendingLabel={pendingLabel}
+              preview={previewByProjectId[project.id]}
+            />
+          ))}
+        </div>
+        <div aria-hidden="true" data-project-visual-stage>
+          {items.map((project) => {
+            const Preview = previewByProjectId[project.id];
+            return (
+              <div key={project.id} data-project-preview={project.id}>
+                <Preview />
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 }

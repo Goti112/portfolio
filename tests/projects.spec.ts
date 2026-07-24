@@ -9,12 +9,30 @@ test("renders the three confirmed primary projects in order", async ({ page }) =
   await expect(evidence.locator("[data-project-id]")).toHaveCount(3);
 });
 
+test("renders each primary project as a motion-ready semantic case", async ({ page }) => {
+  await page.goto("/");
+  const stage = page.locator("[data-project-stage]");
+  await expect(stage).toHaveCount(1);
+  await expect(stage.locator("[data-project-case]")).toHaveCount(3);
+  await expect(stage.locator("[data-project-preview]")).toHaveCount(3);
+  await expect(stage.locator("[data-project-case='qgc-planner']")).toContainText("QGC Planner");
+  await expect(stage.locator("[data-project-case='borderpass-ai']")).toContainText("BorderPass AI");
+  await expect(stage.locator("[data-project-case='ticket-ocr']")).toContainText("Ticket OCR Scanner");
+});
+
 test("renders secondary experiments without invented descriptions", async ({ page }) => {
   await page.goto("/");
-  const recoveredFiles = page.locator("[data-section='experiments']");
-  await expect(recoveredFiles.getByText("Web Game", { exact: true }).first()).toBeVisible();
-  await expect(recoveredFiles.getByText("Roblox Game", { exact: true }).first()).toBeVisible();
-  await expect(recoveredFiles.getByText("AI Wrapped", { exact: true }).first()).toBeVisible();
+  const montage = page.locator("[data-scene='experiments']");
+  await expect(montage.getByText("Web Game", { exact: true }).first()).toBeVisible();
+  await expect(montage.getByText("Roblox Game", { exact: true }).first()).toBeVisible();
+  await expect(montage.getByText("AI Wrapped", { exact: true }).first()).toBeVisible();
+});
+
+test("keeps secondary work in a subordinate montage", async ({ page }) => {
+  await page.goto("/");
+  const montage = page.locator("[data-experiment-strip]");
+  await expect(montage).toHaveCount(1);
+  await expect(montage.locator("article")).toHaveCount(3);
 });
 
 test("pending destinations never render broken anchors", async ({ page }) => {
