@@ -45,17 +45,21 @@ test("renders confirmed profile, capabilities, education, and AI positioning", a
   await expect(page.getByText("Institut Bernat el Ferrer", { exact: true })).toHaveCount(2);
 });
 
-test("renders every narrative status marker", async ({ page }) => {
+test("renders the proof execution narrative in semantic order", async ({ page }) => {
   await page.goto("/");
-  const markers = [
-    "SESIÓN DESCONOCIDA / ACCESO DE SOLO LECTURA",
-    "RECONSTRUCCIÓN DE IDENTIDAD / 34%",
-    "ANÁLISIS DE FUENTE / SIN BARRAS DE HABILIDAD",
-    "TRAZA FORMATIVA / 2022—2026",
-    "IDENTIDAD VERIFICADA / SESIÓN SEGURA",
-  ];
+  const main = page.getByRole("main");
+  await expect(main.getByRole("heading", { level: 1, name: "Miquel Manzano" })).toBeVisible();
+  await expect(main.getByText("NO CONFÍES EN LO QUE DIGO.", { exact: true })).toBeVisible();
+  await expect(main.getByText("INSPECCIONA EL TRABAJO.", { exact: true })).toBeVisible();
+  await expect(main.getByText("CONVIERTO PROBLEMAS COMPLEJOS", { exact: true })).toBeVisible();
+  await expect(page.locator("[data-method-stage]")).toHaveCount(4);
+  await expect(main.getByText("PREPARADO PARA", { exact: true })).toBeVisible();
+  await expect(main.getByText("CONSTRUIR LO SIGUIENTE.", { exact: true })).toBeVisible();
+});
 
-  for (const marker of markers) {
-    await expect(page.getByText(marker, { exact: true })).toBeVisible();
+test("exposes every motion scene exactly once", async ({ page }) => {
+  await page.goto("/");
+  for (const scene of ["intro", "claim", "method", "projects", "experiments", "verdict"]) {
+    await expect(page.locator(`[data-scene='${scene}']`)).toHaveCount(1);
   }
 });

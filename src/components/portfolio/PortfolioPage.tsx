@@ -1,11 +1,11 @@
 import type { PortfolioContent } from "@/content/types";
-import { SessionNavigation } from "@/components/portfolio/SessionNavigation";
-import { SessionIntro } from "@/components/portfolio/SessionIntro";
-import { IdentityTrace } from "@/components/portfolio/IdentityTrace";
-import { CapabilityAnalysis } from "@/components/portfolio/CapabilityAnalysis";
-import { EducationLog } from "@/components/portfolio/EducationLog";
-import { SessionExit } from "@/components/portfolio/SessionExit";
+import { BuildMethod } from "@/components/portfolio/BuildMethod";
+import { EvidenceLens } from "@/components/portfolio/EvidenceLens";
+import { ExecutionClaim } from "@/components/portfolio/ExecutionClaim";
+import { ExperienceHeader } from "@/components/portfolio/ExperienceHeader";
 import { ProjectEvidence } from "@/components/portfolio/ProjectEvidence";
+import { ProofIntro } from "@/components/portfolio/ProofIntro";
+import { ProofVerdict } from "@/components/portfolio/ProofVerdict";
 import { RecoveredFiles } from "@/components/portfolio/RecoveredFiles";
 
 interface PortfolioPageProps {
@@ -14,36 +14,17 @@ interface PortfolioPageProps {
 
 export function PortfolioPage({ content }: PortfolioPageProps): React.JSX.Element {
   return (
-    <div className="portfolio-shell" data-motion-root>
-      <div aria-hidden="true" data-forensic-cursor />
-      <div className="portfolio-shell__corruption-line" data-corruption-line aria-hidden="true" />
-      <div data-scanline-overlay aria-hidden="true" />
-      <SessionNavigation
-        locale={content.locale}
-        items={content.navigation}
-        languageLabel={content.system.languageLabel}
-        readOnlyLabel={content.system.readOnly}
-      />
-      <main>
-        <SessionIntro content={content.intro} />
-        <IdentityTrace content={content.identity} />
-        <CapabilityAnalysis content={content.capabilities} />
-        <ProjectEvidence
-          eyebrow={content.projects.eyebrow}
-          heading={content.projects.heading}
-          items={content.projects.items}
-          pendingLabel={content.system.pendingLink}
-        />
-        <RecoveredFiles
-          eyebrow={content.experiments.eyebrow}
-          heading={content.experiments.heading}
-          items={content.experiments.items}
-          pendingLabel={content.system.pendingLink}
-        />
-        <EducationLog content={content.education} />
-        <SessionExit content={content.exit} pendingLabel={content.system.pendingLink} />
+    <div className="portfolio-shell" data-motion-root data-motion-state="static">
+      <ExperienceHeader content={content} />
+      <main id="main-content">
+        <ProofIntro content={content.intro} />
+        <ExecutionClaim content={content.claim} />
+        <BuildMethod method={content.method} education={content.education} />
+        <ProjectEvidence {...content.projects} pendingLabel={content.system.pendingLink} />
+        <RecoveredFiles {...content.experiments} pendingLabel={content.system.pendingLink} />
+        <ProofVerdict content={content.verdict} pendingLabel={content.system.pendingLink} />
       </main>
-      <script defer src="/browser/portfolio-effects.js" />
+      <EvidenceLens />
     </div>
   );
 }

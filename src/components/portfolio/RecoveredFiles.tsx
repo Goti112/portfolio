@@ -10,7 +10,7 @@ interface RecoveredFilesProps {
 
 export function RecoveredFiles({ eyebrow, heading, items, pendingLabel }: RecoveredFilesProps): React.JSX.Element {
   return (
-    <section className="recovered-files" data-section="experiments" data-motion-section="experiments">
+    <section className="recovered-files" data-scene="experiments" data-section="experiments" data-motion-section="experiments">
       <p className="recovered-files__eyebrow">{eyebrow}</p>
       <h2 className="recovered-files__heading" data-motion-reveal>{heading}</h2>
       <div className="recovered-files__list">

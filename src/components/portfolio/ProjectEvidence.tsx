@@ -19,7 +19,7 @@ const previewByProjectId: Readonly<Record<PrimaryProjectId, () => React.JSX.Elem
 
 export function ProjectEvidence({ eyebrow, heading, items, pendingLabel }: ProjectEvidenceProps): React.JSX.Element {
   return (
-    <section id="projects" className="project-evidence" data-motion-section="projects">
+    <section id="projects" className="project-evidence" data-scene="projects" data-motion-section="projects">
       <p className="project-evidence__eyebrow">{eyebrow}</p>
       <h2 className="project-evidence__heading" data-motion-reveal>{heading}</h2>
       {items.map((project) => {
