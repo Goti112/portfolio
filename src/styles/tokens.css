@@ -10,4 +10,8 @@
   --font-code: var(--font-jetbrains-mono), Consolas, monospace;
   --page-inline: clamp(1rem, 3vw, 3rem);
   --focus-ring: 0 0 0 3px var(--color-bone), 0 0 0 6px var(--color-alert);
+  --scene-inline: clamp(1rem, 4vw, 4.5rem);
+  --scene-block: clamp(5rem, 10vw, 10rem);
+  --scene-border: 1px solid var(--color-line);
+  --content-max: 96rem;
 }

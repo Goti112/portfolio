@@ -8,6 +8,7 @@ html {
   background: var(--color-void);
   color: var(--color-bone);
   scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -17,9 +18,23 @@ body {
   font-family: var(--font-display);
 }
 
+main {
+  display: block;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
 a,
 button {
   color: inherit;
+}
+
+a {
+  text-underline-offset: 0.2em;
 }
 
 :focus-visible {
