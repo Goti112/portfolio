@@ -6,7 +6,7 @@ import type { MotionConditions, SceneCleanup } from "@/motion/types";
 export function createIntroScene(root: HTMLElement, conditions: MotionConditions): SceneCleanup {
   const scene = "intro";
   const section = requireElement<HTMLElement>(root, scene, "[data-scene='intro']");
-  if (conditions.isCompact) {
+  if (!conditions.isDesktop) {
     const reveals = requireElements<HTMLElement>(section, scene, "[data-motion-reveal]");
     const tween = gsap.from(reveals, {
       y: 24,

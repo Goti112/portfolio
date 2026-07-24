@@ -5,7 +5,7 @@ import type { MotionConditions, SceneCleanup } from "@/motion/types";
 export function createBuildMethodScene(root: HTMLElement, conditions: MotionConditions): SceneCleanup {
   const scene = "method";
   const section = requireElement<HTMLElement>(root, scene, "[data-scene='method']");
-  if (conditions.isCompact) {
+  if (!conditions.isDesktop) {
     const reveals = requireElements<HTMLElement>(section, scene, "[data-motion-reveal]");
     const tween = gsap.from(reveals, {
       y: 24,

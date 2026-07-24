@@ -17,7 +17,7 @@ export function createPortfolioMotion(root: HTMLElement): () => void {
   const media = gsap.matchMedia();
   media.add({
     isDesktop: "(min-width: 960px)",
-    isCompact: "(max-width: 959px)",
+    isCompact: "(max-width: 959.98px)",
     reduceMotion: "(prefers-reduced-motion: reduce)",
     finePointer: "(pointer: fine)",
   }, (context) => {

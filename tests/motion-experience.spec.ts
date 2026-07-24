@@ -42,6 +42,55 @@ test("does not pin the compact experience", async ({ page }, testInfo) => {
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
 });
 
+test("keeps compact and desktop motion exhaustive at the breakpoint", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Boundary assertion");
+  await page.addInitScript(() => {
+    const nativeMatchMedia = window.matchMedia.bind(window);
+    const observedQueries = new Set<string>();
+    Object.defineProperty(window, "__observedMotionQueries", {
+      configurable: false,
+      get: (): readonly string[] => Array.from(observedQueries),
+    });
+    const boundaryMatches = new Map<string, boolean>([
+      ["(max-width: 959px)", false],
+      ["(max-width: 959.98px)", true],
+      ["(min-width: 960px)", false],
+    ]);
+    window.matchMedia = (query: string): MediaQueryList => {
+      observedQueries.add(query);
+      const mediaQueryList = nativeMatchMedia(query);
+      const forcedMatch = boundaryMatches.get(query);
+      if (forcedMatch === undefined) {
+        return mediaQueryList;
+      }
+      return new Proxy(mediaQueryList, {
+        get(target, property, receiver): unknown {
+          if (property === "matches") {
+            return forcedMatch;
+          }
+          const value = Reflect.get(target, property, receiver) as unknown;
+          return typeof value === "function" ? value.bind(target) : value;
+        },
+      });
+    };
+  });
+
+  await page.goto("/");
+  await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "ready");
+  const observedQueries = await page.evaluate(
+    () => (window as unknown as { readonly __observedMotionQueries: readonly string[] }).__observedMotionQueries,
+  );
+  expect(observedQueries).toContain("(max-width: 959.98px)");
+  const conditions = await page.evaluate(() => ({
+    compact: matchMedia("(max-width: 959.98px)").matches,
+    desktop: matchMedia("(min-width: 960px)").matches,
+  }));
+  expect(conditions).toEqual({ compact: true, desktop: false });
+
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect(page.locator(".pin-spacer")).toHaveCount(0);
+});
+
 test("creates no GSAP pinning or split wrappers with reduced motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");

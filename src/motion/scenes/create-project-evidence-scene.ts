@@ -31,7 +31,7 @@ export function createProjectEvidenceScene(root: HTMLElement, conditions: Motion
   const scene = "projects";
   const section = requireElement<HTMLElement>(root, scene, "[data-project-stage]");
   const cases = requireElements<HTMLElement>(section, scene, "[data-project-case]");
-  if (conditions.isCompact) {
+  if (!conditions.isDesktop) {
     const reveals = requireElements<HTMLElement>(section, scene, "[data-motion-reveal]");
     const tween = gsap.from(reveals, {
       y: 24,
