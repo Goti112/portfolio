@@ -44,6 +44,10 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .proof-intro {
+    min-height: calc(100svh - 20.125rem);
+  }
+
   .build-method__stage,
   .experiment-montage__item {
     border-right: 0;
@@ -127,11 +131,5 @@
 
   .external-action {
     overflow-wrap: anywhere;
-  }
-}
-
-@media (pointer: coarse) {
-  [data-forensic-cursor] {
-    display: none !important;
   }
 }

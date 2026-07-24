@@ -2,9 +2,9 @@ module.exports = {
   ci: {
     collect: {
       numberOfRuns: 2,
-      startServerCommand: "npm run start",
-      startServerReadyPattern: "Ready",
-      startServerReadyTimeout: 120000,
+      settings: {
+        chromeFlags: "--no-sandbox",
+      },
       url: ["http://127.0.0.1:3000/", "http://127.0.0.1:3000/en"],
     },
     assert: {

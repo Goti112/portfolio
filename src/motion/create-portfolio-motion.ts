@@ -13,8 +13,22 @@ import type { MotionConditions } from "@/motion/types";
 
 gsap.registerPlugin(Flip, ScrollTrigger, SplitText);
 
+function scrollToInitialAnchor(root: HTMLElement): void {
+  const encodedId = window.location.hash.slice(1);
+  if (encodedId.length === 0) {
+    return;
+  }
+  const target = document.getElementById(decodeURIComponent(encodedId));
+  if (target === null || !root.contains(target)) {
+    return;
+  }
+  target.scrollIntoView();
+}
+
 export function createPortfolioMotion(root: HTMLElement): () => void {
   const media = gsap.matchMedia();
+  let refreshFrame: number | null = null;
+  let isActive = true;
   media.add({
     isDesktop: "(min-width: 960px)",
     isCompact: "(max-width: 959.98px)",
@@ -39,7 +53,20 @@ export function createPortfolioMotion(root: HTMLElement): () => void {
       cleanups.forEach((cleanup) => cleanup());
     };
   }, root);
+  void document.fonts.ready.then((): void => {
+    if (!isActive) {
+      return;
+    }
+    refreshFrame = window.requestAnimationFrame((): void => {
+      ScrollTrigger.refresh();
+      scrollToInitialAnchor(root);
+    });
+  });
   return (): void => {
+    isActive = false;
+    if (refreshFrame !== null) {
+      window.cancelAnimationFrame(refreshFrame);
+    }
     media.revert();
     delete root.dataset.activeScene;
     delete root.dataset.activeProject;

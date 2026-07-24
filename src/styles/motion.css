@@ -139,28 +139,6 @@
   animation: corruption-flash 220ms ease-out both;
 }
 
-/* ===== Forensic Cursor Probe ===== */
-[data-forensic-cursor] {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 24px;
-  height: 24px;
-  border: 1.5px solid var(--color-alert);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  translate: none;
-  transform: translate3d(var(--cursor-x, 0), var(--cursor-y, 0), 0);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  mix-blend-mode: difference;
-}
-
-[data-forensic-cursor][data-cursor-active="true"] {
-  opacity: 0.6;
-}
-
 /* ===== Scanline Overlay ===== */
 [data-scanline-overlay] {
   pointer-events: none;
@@ -185,10 +163,6 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  [data-forensic-cursor] {
-    display: none !important;
   }
 
   [data-scanline-overlay],

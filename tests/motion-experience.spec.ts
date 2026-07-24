@@ -4,7 +4,7 @@ test("enhances the semantic page through one scoped motion boundary", async ({ p
   await page.goto("/");
   const root = page.locator("[data-motion-root]");
   await expect(root).toHaveAttribute("data-motion-state", "ready");
-  await expect(page.locator("script[src='/browser/portfolio-effects.js']")).toHaveCount(0);
+  await expect(page.locator("script[src^='/browser/']")).toHaveCount(0);
   await expect(page.locator("[data-scene]")).toHaveCount(6);
 });
 
@@ -14,6 +14,17 @@ test("does not emit motion contract errors during initialization", async ({ page
   await page.goto("/");
   await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "ready");
   expect(errors).toEqual([]);
+});
+
+test("restores the direct method anchor after desktop pin geometry initializes", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Desktop pin assertion");
+  await page.goto("/#capabilities");
+  await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "ready");
+  const method = page.locator("#capabilities");
+  await expect.poll(async (): Promise<number> => {
+    const box = await method.boundingBox();
+    return box?.y ?? Number.POSITIVE_INFINITY;
+  }).toBeLessThan(100);
 });
 
 test("updates scene and project progress while scrolling", async ({ page }) => {

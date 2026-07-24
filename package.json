@@ -14,7 +14,7 @@
     "test:e2e:built": "playwright test",
     "test:content": "tsx scripts/test-content-validation.ts",
     "validate:content": "tsx scripts/validate-content.ts",
-    "audit:performance": "patch-package && lhci autorun",
+    "audit:performance": "patch-package && tsx scripts/audit-performance.ts",
     "validate": "npm run validate:content && npm run test:content && npm run lint && npm run typecheck && npm run build && npm run audit:performance && npm run test:e2e:built"
   },
   "keywords": [],

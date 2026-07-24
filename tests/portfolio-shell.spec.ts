@@ -45,12 +45,28 @@ test("renders confirmed profile, capabilities, education, and AI positioning", a
   await expect(page.getByText("Institut Bernat el Ferrer", { exact: true })).toHaveCount(2);
 });
 
-test("renders the proof execution narrative in semantic order", async ({ page }) => {
+test("renders the proof execution narrative in semantic order", async ({ page }, testInfo) => {
   await page.goto("/");
   const main = page.getByRole("main");
+  const challenge = main.locator("[data-scene='intro'] [data-motion-heading]");
   await expect(main.getByRole("heading", { level: 1, name: "Miquel Manzano" })).toBeVisible();
-  await expect(main.getByText("NO CONFÍES EN LO QUE DIGO.", { exact: true })).toBeVisible();
-  await expect(main.getByText("INSPECCIONA EL TRABAJO.", { exact: true })).toBeVisible();
+  await expect(challenge).toBeVisible();
+  await expect(challenge).toContainText("NO CONFÍES EN LO QUE DIGO.");
+  await expect(challenge).toContainText("INSPECCIONA EL TRABAJO.");
+  if (testInfo.project.name === "desktop-chromium") {
+    const splitLines = challenge.locator(":scope > div > div");
+    await expect(splitLines).not.toHaveCount(0);
+    const linesAreInsideMasks = await splitLines.evaluateAll((lines): boolean =>
+      lines.every((line): boolean => {
+        const lineBox = line.getBoundingClientRect();
+        const maskBox = line.parentElement?.getBoundingClientRect();
+        return maskBox !== undefined
+          && lineBox.top < maskBox.bottom
+          && lineBox.bottom > maskBox.top;
+      }),
+    );
+    expect(linesAreInsideMasks).toBe(true);
+  }
   await expect(main.getByText("CONVIERTO PROBLEMAS COMPLEJOS", { exact: true })).toBeVisible();
   await expect(page.locator("[data-method-stage]")).toHaveCount(4);
   await expect(main.getByText("PREPARADO PARA", { exact: true })).toBeVisible();

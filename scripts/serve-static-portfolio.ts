@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { createServer } from "node:http";
-import type { IncomingMessage, ServerResponse } from "node:http";
+import type { IncomingMessage, Server, ServerResponse } from "node:http";
 import { extname, resolve, sep } from "node:path";
 import { brotliCompressSync, constants as zlibConstants } from "node:zlib";
 
@@ -24,6 +24,11 @@ const contentTypes: Readonly<Record<string, string>> = Object.freeze({
 type EncodedContent = Readonly<{
   body: Buffer;
   contentEncoding: "br" | null;
+}>;
+
+export type StaticPortfolioServer = Readonly<{
+  close: () => Promise<void>;
+  origin: string;
 }>;
 
 function encodeContent(content: Buffer, acceptEncoding: string | undefined): EncodedContent {
@@ -109,31 +114,72 @@ async function serveRequest(request: IncomingMessage, response: ServerResponse):
   response.end(request.method === "HEAD" ? undefined : encodedContent.body);
 }
 
-const server = createServer((request, response): void => {
-  void serveRequest(request, response).catch((cause: unknown): void => {
-    console.error("Static server request failed", { cause, method: request.method, url: request.url });
-    if (!response.headersSent) {
-      writeText(response, 500, "Internal server error");
-    } else {
-      response.destroy(cause instanceof Error ? cause : new Error("Unknown static server failure"));
-    }
-  });
-});
+function closeServer(server: Server): Promise<void> {
+  if (!server.listening) {
+    return Promise.resolve();
+  }
 
-function closeServer(): void {
-  server.close((cause?: Error): void => {
-    if (cause !== undefined) {
-      throw new Error("Static server could not close cleanly", { cause });
-    }
+  return new Promise((resolveClose, rejectClose): void => {
+    server.close((cause?: Error): void => {
+      if (cause !== undefined) {
+        rejectClose(new Error("Static server could not close cleanly", { cause }));
+        return;
+      }
+      resolveClose();
+    });
   });
 }
 
-server.once("error", (cause: Error): void => {
-  throw new Error(`Static server could not listen at ${origin}`, { cause });
-});
-server.listen(port, host, (): void => {
-  console.log(`Ready: static portfolio at ${origin}`);
-});
+function listen(server: Server): Promise<void> {
+  return new Promise((resolveListen, rejectListen): void => {
+    const onError = (cause: Error): void => {
+      rejectListen(new Error(`Static server could not listen at ${origin}`, { cause }));
+    };
+    server.once("error", onError);
+    server.listen(port, host, (): void => {
+      server.off("error", onError);
+      console.log(`Ready: static portfolio at ${origin}`);
+      resolveListen();
+    });
+  });
+}
 
-process.once("SIGINT", closeServer);
-process.once("SIGTERM", closeServer);
+export async function startStaticPortfolioServer(): Promise<StaticPortfolioServer> {
+  const server = createServer((request, response): void => {
+    void serveRequest(request, response).catch((cause: unknown): void => {
+      console.error("Static server request failed", { cause, method: request.method, url: request.url });
+      if (!response.headersSent) {
+        writeText(response, 500, "Internal server error");
+      } else {
+        response.destroy(cause instanceof Error ? cause : new Error("Unknown static server failure"));
+      }
+    });
+  });
+
+  await listen(server);
+
+  return Object.freeze({
+    close: (): Promise<void> => closeServer(server),
+    origin,
+  });
+}
+
+async function runStaticPortfolioServer(): Promise<void> {
+  const server = await startStaticPortfolioServer();
+  const stopServer = (): void => {
+    void server.close().catch((cause: unknown): void => {
+      console.error("Static server shutdown failed", { cause, origin: server.origin });
+      process.exitCode = 1;
+    });
+  };
+
+  process.once("SIGINT", stopServer);
+  process.once("SIGTERM", stopServer);
+}
+
+if (require.main === module) {
+  void runStaticPortfolioServer().catch((cause: unknown): void => {
+    console.error("Static server startup failed", { cause, origin });
+    process.exitCode = 1;
+  });
+}

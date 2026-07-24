@@ -52,7 +52,7 @@ export function createIntroScene(root: HTMLElement, conditions: MotionConditions
           },
         },
       })
-        .from(instance.lines, { yPercent: 110, stagger: 0.08 })
+        .to(instance.lines, { yPercent: -110, stagger: 0.08 })
         .from(evidenceWindow, { xPercent: 22, rotation: 4, autoAlpha: 0 }, "<")
         .fromTo(scan, { yPercent: -100 }, { yPercent: 700, ease: "none" }, 0);
       return activeTimeline;

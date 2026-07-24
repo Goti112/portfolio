@@ -108,6 +108,12 @@ test("keeps the full narrative usable on a mobile viewport", async ({ page }, te
   test.skip(testInfo.project.name !== "mobile-chromium", "Mobile-only assertion");
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1, name: "Miquel Manzano" })).toBeVisible();
+  const challengeBox = await page.locator(".proof-intro__challenge").boundingBox();
+  const viewportHeight = page.viewportSize()?.height;
+  expect(challengeBox).not.toBeNull();
+  expect(challengeBox?.y ?? 0).toBeGreaterThanOrEqual(0);
+  expect((challengeBox?.y ?? 0) + (challengeBox?.height ?? 0))
+    .toBeLessThanOrEqual(viewportHeight ?? Number.POSITIVE_INFINITY);
   await expect(page.locator("[data-project-id]")).toHaveCount(3);
   const bodyWidth = await page.locator("body").evaluate((body) => body.scrollWidth);
   const viewportWidth = page.viewportSize()?.width;
