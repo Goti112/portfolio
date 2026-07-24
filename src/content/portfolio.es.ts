@@ -14,16 +14,37 @@ const spanishNavigation = [
 ] as const;
 
 const spanishSystem = {
-  readOnly: "SESIÓN_DESCONOCIDA / SOLO_LECTURA",
   pendingLink: "ENLACE_PENDIENTE",
   languageLabel: "Cambiar idioma",
+  progressLabel: "Progreso de evidencia",
 } as const;
 
-const spanishEvidence = [
-  { label: "FORMACIÓN", value: "SISTEMAS + DESARROLLO WEB" },
-  { label: "MÉTODO", value: "CONSTRUIR → PROBAR → APRENDER" },
-  { label: "ESTADO", value: "DISPONIBLE" },
-] as const;
+const spanishIntro = {
+  eyebrow: "MIQUEL MANZANO / DESARROLLADOR FULL-STACK",
+  name: "Miquel Manzano",
+  role: "Desarrollador full-stack",
+  challengeLines: ["NO CONFÍES EN LO QUE DIGO.", "INSPECCIONA EL TRABAJO."],
+  availability: "Disponible para crear, aprender y llevar ideas hasta producción.",
+} as const;
+
+const spanishClaim = {
+  eyebrow: "POSICIONAMIENTO / DE LA INCERTIDUMBRE A LA EJECUCIÓN",
+  problemLines: ["PROBLEMA COMPLEJO", "RUTA INCIERTA", "SEÑAL LIMITADA"],
+  headingLines: ["CONVIERTO PROBLEMAS COMPLEJOS", "EN PRODUCTOS QUE FUNCIONAN."],
+  body: "Desarrollador full-stack formado en sistemas y desarrollo web. Convierto dominios desconocidos en productos funcionales.",
+  aiPosition: "Uso la IA como acelerador para abordar mayor complejidad, apoyándome en una base técnica que puedo aplicar de forma autónoma.",
+} as const;
+
+const spanishMethod = {
+  eyebrow: "MÉTODO / PREGUNTAR → MODELAR → CONSTRUIR → LLEVAR A PRODUCCIÓN",
+  headingLines: ["EL CAOS", "SE CONVIERTE", "EN SISTEMA."],
+  stages: [
+    { id: "question", label: "PREGUNTAR", description: "Aclarar el problema, el contexto y las restricciones.", capabilities: ["HTTP", "REST APIs", "JSON", "Linux", "Terminal"] },
+    { id: "model", label: "MODELAR", description: "Convertir el dominio en relaciones, datos y decisiones.", capabilities: ["MySQL", "SQL", "Relational modeling", "Authentication", "Sessions", "User management", "CRUD", "MVC"] },
+    { id: "build", label: "CONSTRUIR", description: "Materializar el sistema con una base técnica adaptable.", capabilities: ["TypeScript", "JavaScript", "React", "HTML", "CSS", "PHP", "Java", "Python", "Flutter", "Object-oriented programming"] },
+    { id: "ship", label: "LLEVAR A PRODUCCIÓN", description: "Probar, desplegar y mantener una experiencia utilizable.", capabilities: ["Git", "GitHub", "Docker", "Web deployment", "Responsive design", "Web accessibility"] },
+  ],
+} as const;
 
 export const portfolioSpanish = {
   locale: "es",
@@ -34,39 +55,9 @@ export const portfolioSpanish = {
   },
   navigation: spanishNavigation,
   system: spanishSystem,
-  intro: {
-    eyebrow: "SESIÓN DESCONOCIDA / ACCESO DE SOLO LECTURA",
-    name: "Miquel Manzano",
-    titleLines: ["AÚN", "NO", "ME CONOCES."],
-    availability: "Disponible para crear, aprender y llevar ideas hasta producción.",
-    command: "visitor@portfolio:~$ whoami --verify",
-  },
-  identity: {
-    eyebrow: "RECONSTRUCCIÓN DE IDENTIDAD / 34%",
-    headingLines: ["Técnico.", "Creativo.", "Adaptable."],
-    body: "Desarrollador full-stack formado en sistemas y desarrollo web. Convierto dominios desconocidos en productos funcionales.",
-    aiPosition:
-      "Uso la IA como acelerador para abordar mayor complejidad, apoyándome en una base técnica que puedo aplicar de forma autónoma.",
-    evidence: spanishEvidence,
-  },
-  capabilities: {
-    eyebrow: "ANÁLISIS DE FUENTE / SIN BARRAS DE HABILIDAD",
-    heading: "INSPECCIONA LA LÓGICA REAL.",
-    groups: [
-      {
-        title: "Lenguajes y producto",
-        items: ["TypeScript", "JavaScript", "React", "HTML", "CSS", "PHP", "MySQL", "Java", "Python", "Flutter"],
-      },
-      {
-        title: "Aplicaciones y datos",
-        items: ["REST APIs", "HTTP", "JSON", "SQL", "Relational modeling", "Authentication", "Sessions", "User management", "CRUD"],
-      },
-      {
-        title: "Herramientas y arquitectura",
-        items: ["Git", "GitHub", "Linux", "Terminal", "Web deployment", "Docker", "MVC", "Object-oriented programming", "Responsive design", "Web accessibility"],
-      },
-    ],
-  },
+  intro: spanishIntro,
+  claim: spanishClaim,
+  method: spanishMethod,
   projects: {
     eyebrow: "EXPEDIENTES PRINCIPALES / 03",
     heading: "EVIDENCIA RECUPERADA",
@@ -114,9 +105,9 @@ export const portfolioSpanish = {
       { qualification: "Desarrollo de Aplicaciones Web", abbreviation: "DAW", institution: "Institut Bernat el Ferrer", startYear: 2024, endYear: 2026 },
     ],
   },
-  exit: {
+  verdict: {
     eyebrow: "IDENTIDAD VERIFICADA / SESIÓN SEGURA",
-    headingLines: ["SESIÓN COMPLETA.", "CONSTRUYAMOS."],
+    headingLines: ["PREPARADO PARA", "CONSTRUIR LO SIGUIENTE."],
     availability: "Disponible para crear, aprender y llevar ideas hasta producción.",
     emailLabel: "CORREO",
     githubLabel: "GITHUB",

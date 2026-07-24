@@ -13,11 +13,19 @@ const navigationMismatch: PortfolioContent = {
   ],
 };
 
-const capabilityMismatch: PortfolioContent = {
+const methodCapabilityMismatch: PortfolioContent = {
   ...portfolioEnglish,
-  capabilities: {
-    ...portfolioEnglish.capabilities,
-    groups: portfolioEnglish.capabilities.groups.slice(0, -1),
+  method: {
+    ...portfolioEnglish.method,
+    stages: [
+      {
+        ...portfolioEnglish.method.stages[0],
+        capabilities: [...portfolioEnglish.method.stages[0].capabilities, "Rust"],
+      },
+      portfolioEnglish.method.stages[1],
+      portfolioEnglish.method.stages[2],
+      portfolioEnglish.method.stages[3],
+    ],
   },
 };
 
@@ -57,13 +65,34 @@ const emptyMetadata: PortfolioContent = {
   },
 };
 
+const methodStageMismatch: PortfolioContent = {
+  ...portfolioEnglish,
+  method: {
+    ...portfolioEnglish.method,
+    stages: [
+      { ...portfolioEnglish.method.stages[0], id: "ship" },
+      portfolioEnglish.method.stages[1],
+      portfolioEnglish.method.stages[2],
+      portfolioEnglish.method.stages[3],
+    ],
+  },
+};
+
+const emptyVerdict: PortfolioContent = {
+  ...portfolioEnglish,
+  verdict: {
+    ...portfolioEnglish.verdict,
+    headingLines: ["", portfolioEnglish.verdict.headingLines[1]],
+  },
+};
+
 assert.throws(
   () => validatePortfolioPair(portfolioSpanish, navigationMismatch),
   /Navigation targets differ between Spanish and English content/,
 );
 assert.throws(
-  () => validatePortfolioPair(portfolioSpanish, capabilityMismatch),
-  /Capability values differ between Spanish and English content/,
+  () => validatePortfolioPair(portfolioSpanish, methodCapabilityMismatch),
+  /Method capabilities differ between Spanish and English content/,
 );
 assert.throws(
   () => validatePortfolioPair(portfolioSpanish, educationMismatch),
@@ -80,6 +109,14 @@ assert.throws(
 assert.throws(
   () => validatePortfolioPair(portfolioSpanish, emptyMetadata),
   /Required content is empty for en:meta.title/,
+);
+assert.throws(
+  () => validatePortfolioPair(portfolioSpanish, methodStageMismatch),
+  /Method stage order differs between Spanish and English content/,
+);
+assert.throws(
+  () => validatePortfolioPair(portfolioSpanish, emptyVerdict),
+  /Required content is empty for en:verdict.headingLines/,
 );
 
 process.stdout.write("Content validation contract is enforced.\n");

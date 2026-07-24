@@ -2,6 +2,7 @@ export const LOCALES = ["es", "en"] as const;
 
 export type Locale = (typeof LOCALES)[number];
 export type PrimaryProjectId = "qgc-planner" | "borderpass-ai" | "ticket-ocr";
+export type MethodStageId = "question" | "model" | "build" | "ship";
 
 export type ExternalDestination =
   | { readonly status: "pending" }
@@ -10,11 +11,6 @@ export type ExternalDestination =
 export interface NavigationItem {
   readonly label: string;
   readonly target: "profile" | "capabilities" | "projects" | "education" | "contact";
-}
-
-export interface CapabilityGroup {
-  readonly title: string;
-  readonly items: readonly string[];
 }
 
 export interface PrimaryProject {
@@ -41,37 +37,40 @@ export interface EducationItem {
   readonly endYear: 2024 | 2026;
 }
 
+export interface MethodStage {
+  readonly id: MethodStageId;
+  readonly label: string;
+  readonly description: string;
+  readonly capabilities: readonly string[];
+}
+
 export interface PortfolioContent {
   readonly locale: Locale;
   readonly meta: { readonly title: string; readonly description: string };
   readonly navigation: readonly NavigationItem[];
   readonly system: {
-    readonly readOnly: string;
     readonly pendingLink: string;
     readonly languageLabel: string;
+    readonly progressLabel: string;
   };
   readonly intro: {
     readonly eyebrow: string;
     readonly name: "Miquel Manzano";
-    readonly titleLines: readonly [string, string, string];
+    readonly role: string;
+    readonly challengeLines: readonly [string, string];
     readonly availability: string;
-    readonly command: string;
   };
-  readonly identity: {
+  readonly claim: {
     readonly eyebrow: string;
-    readonly headingLines: readonly [string, string, string];
+    readonly problemLines: readonly [string, string, string];
+    readonly headingLines: readonly [string, string];
     readonly body: string;
     readonly aiPosition: string;
-    readonly evidence: readonly [
-      { readonly label: string; readonly value: string },
-      { readonly label: string; readonly value: string },
-      { readonly label: string; readonly value: string },
-    ];
   };
-  readonly capabilities: {
+  readonly method: {
     readonly eyebrow: string;
-    readonly heading: string;
-    readonly groups: readonly CapabilityGroup[];
+    readonly headingLines: readonly [string, string, string];
+    readonly stages: readonly [MethodStage, MethodStage, MethodStage, MethodStage];
   };
   readonly projects: {
     readonly eyebrow: string;
@@ -88,7 +87,7 @@ export interface PortfolioContent {
     readonly heading: string;
     readonly items: readonly EducationItem[];
   };
-  readonly exit: {
+  readonly verdict: {
     readonly eyebrow: string;
     readonly headingLines: readonly [string, string];
     readonly availability: string;

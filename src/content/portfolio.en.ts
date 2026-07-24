@@ -14,16 +14,37 @@ const englishNavigation = [
 ] as const;
 
 const englishSystem = {
-  readOnly: "UNKNOWN_SESSION / READ_ONLY",
   pendingLink: "LINK_PENDING",
   languageLabel: "Change language",
+  progressLabel: "Evidence progress",
 } as const;
 
-const englishEvidence = [
-  { label: "FOUNDATION", value: "SYSTEMS + WEB DEVELOPMENT" },
-  { label: "METHOD", value: "BUILD → TEST → LEARN" },
-  { label: "STATUS", value: "AVAILABLE" },
-] as const;
+const englishIntro = {
+  eyebrow: "MIQUEL MANZANO / FULL-STACK DEVELOPER",
+  name: "Miquel Manzano",
+  role: "Full-stack developer",
+  challengeLines: ["DON'T TRUST THE CLAIM.", "INSPECT THE WORK."],
+  availability: "Available to create, learn, and take ideas all the way to production.",
+} as const;
+
+const englishClaim = {
+  eyebrow: "POSITIONING / FROM UNCERTAINTY TO EXECUTION",
+  problemLines: ["COMPLEX PROBLEM", "UNCERTAIN PATH", "LIMITED SIGNAL"],
+  headingLines: ["I TURN COMPLEX PROBLEMS", "INTO WORKING PRODUCTS."],
+  body: "Full-stack developer trained in systems and web development. I turn unfamiliar domains into working products.",
+  aiPosition: "I use AI as an accelerator for greater complexity, supported by a technical foundation I can apply independently.",
+} as const;
+
+const englishMethod = {
+  eyebrow: "METHOD / QUESTION → MODEL → BUILD → SHIP",
+  headingLines: ["CHAOS", "BECOMES", "SYSTEM."],
+  stages: [
+    { id: "question", label: "QUESTION", description: "Clarify the problem, context, and constraints.", capabilities: ["HTTP", "REST APIs", "JSON", "Linux", "Terminal"] },
+    { id: "model", label: "MODEL", description: "Turn the domain into relationships, data, and decisions.", capabilities: ["MySQL", "SQL", "Relational modeling", "Authentication", "Sessions", "User management", "CRUD", "MVC"] },
+    { id: "build", label: "BUILD", description: "Materialize the system with an adaptable technical foundation.", capabilities: ["TypeScript", "JavaScript", "React", "HTML", "CSS", "PHP", "Java", "Python", "Flutter", "Object-oriented programming"] },
+    { id: "ship", label: "SHIP", description: "Test, deploy, and maintain a usable experience.", capabilities: ["Git", "GitHub", "Docker", "Web deployment", "Responsive design", "Web accessibility"] },
+  ],
+} as const;
 
 export const portfolioEnglish = {
   locale: "en",
@@ -34,39 +55,9 @@ export const portfolioEnglish = {
   },
   navigation: englishNavigation,
   system: englishSystem,
-  intro: {
-    eyebrow: "UNKNOWN SESSION / READ-ONLY ACCESS",
-    name: "Miquel Manzano",
-    titleLines: ["YOU DON'T", "KNOW", "ME YET."],
-    availability: "Available to create, learn, and take ideas all the way to production.",
-    command: "visitor@portfolio:~$ whoami --verify",
-  },
-  identity: {
-    eyebrow: "IDENTITY RECONSTRUCTION / 34%",
-    headingLines: ["Technical.", "Creative.", "Adaptable."],
-    body: "Full-stack developer trained in systems and web development. I turn unfamiliar domains into working products.",
-    aiPosition:
-      "I use AI as an accelerator for greater complexity, supported by a technical foundation I can apply independently.",
-    evidence: englishEvidence,
-  },
-  capabilities: {
-    eyebrow: "SOURCE ANALYSIS / NO SKILL BARS",
-    heading: "INSPECT THE ACTUAL LOGIC.",
-    groups: [
-      {
-        title: "Languages and product",
-        items: ["TypeScript", "JavaScript", "React", "HTML", "CSS", "PHP", "MySQL", "Java", "Python", "Flutter"],
-      },
-      {
-        title: "Applications and data",
-        items: ["REST APIs", "HTTP", "JSON", "SQL", "Relational modeling", "Authentication", "Sessions", "User management", "CRUD"],
-      },
-      {
-        title: "Tools and architecture",
-        items: ["Git", "GitHub", "Linux", "Terminal", "Web deployment", "Docker", "MVC", "Object-oriented programming", "Responsive design", "Web accessibility"],
-      },
-    ],
-  },
+  intro: englishIntro,
+  claim: englishClaim,
+  method: englishMethod,
   projects: {
     eyebrow: "PRIMARY CASE FILES / 03",
     heading: "RECOVERED EVIDENCE",
@@ -114,9 +105,9 @@ export const portfolioEnglish = {
       { qualification: "Web Application Development", abbreviation: "DAW", institution: "Institut Bernat el Ferrer", startYear: 2024, endYear: 2026 },
     ],
   },
-  exit: {
+  verdict: {
     eyebrow: "IDENTITY VERIFIED / SESSION SECURE",
-    headingLines: ["SESSION COMPLETE.", "LET'S BUILD."],
+    headingLines: ["READY TO BUILD", "THE NEXT ONE."],
     availability: "Available to create, learn, and take ideas all the way to production.",
     emailLabel: "EMAIL",
     githubLabel: "GITHUB",
