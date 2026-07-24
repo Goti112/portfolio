@@ -34,22 +34,60 @@
 }
 
 @supports (animation-timeline: view()) {
-  [data-motion-section]:not(#profile) [data-motion-reveal] {
+  [data-motion-state="static"] [data-motion-section]:not(#profile) [data-motion-reveal] {
     animation: content-reveal linear both;
     animation-timeline: view(block);
     animation-range: entry 0% cover 38%;
   }
 
-  [data-scan-line] {
+  [data-motion-state="static"] [data-scan-line] {
     animation: ticket-scan linear both;
     animation-timeline: view(block);
     animation-range: entry 0% cover 70%;
   }
 
-  [data-output-row] {
+  [data-motion-state="static"] [data-output-row] {
     animation: output-recovery linear both;
     animation-timeline: view(block);
     animation-range: entry 0% cover 45%;
+  }
+}
+
+[data-motion-state="ready"] [data-claim-assembled="true"] .execution-claim__fragments {
+  justify-content: center;
+  gap: 0;
+}
+
+[data-motion-state="ready"] [data-claim-assembled="true"] [data-claim-fragment] {
+  color: var(--color-bone);
+  background: var(--color-alert-dark);
+}
+
+[data-motion-state="ready"] [data-project-preview] {
+  display: block;
+}
+
+[data-motion-state="ready"] [data-evidence-lens] {
+  right: auto;
+  bottom: auto;
+  width: clamp(3rem, 6vw, 5rem);
+  height: clamp(3rem, 6vw, 5rem);
+  border-color: rgb(238 232 222 / 45%);
+  border-radius: 50%;
+  opacity: 0;
+  translate: -50% -50%;
+  transition: opacity 180ms ease;
+  mix-blend-mode: difference;
+}
+
+[data-motion-state="ready"] [data-evidence-lens][data-active="true"] {
+  opacity: 0.72;
+}
+
+@media (min-width: 960px) {
+  [data-motion-state="ready"] [data-experiment-strip] {
+    width: max-content;
+    grid-template-columns: repeat(3, minmax(24rem, 42vw));
   }
 }
 
