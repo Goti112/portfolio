@@ -17,7 +17,7 @@ export function PortfolioPage({ content }: PortfolioPageProps): React.JSX.Elemen
   return (
     <PortfolioExperienceRoot>
       <ExperienceHeader content={content} />
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <ProofIntro content={content.intro} />
         <ExecutionClaim content={content.claim} />
         <BuildMethod method={content.method} education={content.education} />

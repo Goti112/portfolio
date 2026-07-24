@@ -67,6 +67,14 @@
     min-height: auto;
   }
 
+  [data-motion-state="ready"] [data-project-visual-stage] {
+    display: none;
+  }
+
+  [data-motion-state="ready"] [data-project-inline-preview] {
+    display: block;
+  }
+
   .proof-verdict__actions {
     display: grid;
     grid-template-columns: minmax(0, 1fr);

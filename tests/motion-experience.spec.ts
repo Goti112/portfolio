@@ -35,6 +35,22 @@ test("creates no more than three desktop pin spacers", async ({ page }, testInfo
   expect(pinCount).toBeLessThanOrEqual(3);
 });
 
+test("does not pin the compact experience", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium", "Compact-only assertion");
+  await page.goto("/");
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect(page.locator(".pin-spacer")).toHaveCount(0);
+});
+
+test("creates no GSAP pinning or split wrappers with reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "reduced");
+  await expect(page.locator(".pin-spacer")).toHaveCount(0);
+  await expect(page.locator("[data-project-case]")).toHaveCount(3);
+  await expect(page.locator("[data-evidence-lens]")).toBeHidden();
+});
+
 test("restores claim and verdict scene state while scrolling back", async ({ page }) => {
   await page.goto("/");
   const root = page.locator("[data-motion-root]");

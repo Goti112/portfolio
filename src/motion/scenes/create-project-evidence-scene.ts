@@ -31,6 +31,43 @@ export function createProjectEvidenceScene(root: HTMLElement, conditions: Motion
   const scene = "projects";
   const section = requireElement<HTMLElement>(root, scene, "[data-project-stage]");
   const cases = requireElements<HTMLElement>(section, scene, "[data-project-case]");
+  if (conditions.isCompact) {
+    const reveals = requireElements<HTMLElement>(section, scene, "[data-motion-reveal]");
+    const tween = gsap.from(reveals, {
+      y: 24,
+      stagger: 0.08,
+      scrollTrigger: {
+        trigger: section,
+        start: "top 82%",
+        once: true,
+        onEnter: (): void => {
+          root.dataset.activeScene = scene;
+        },
+      },
+    });
+    const caseTriggers = cases.map((projectCase) => {
+      const projectId = projectCase.dataset.projectCase;
+      if (projectId === undefined) {
+        throw new MotionContractError(scene, "data-project-case value", window.location.pathname);
+      }
+      const activate = (): void => {
+        root.dataset.activeProject = projectId;
+      };
+      return ScrollTrigger.create({
+        trigger: projectCase,
+        start: "top center",
+        end: "bottom center",
+        onEnter: activate,
+        onEnterBack: activate,
+      });
+    });
+    return (): void => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+      caseTriggers.forEach((trigger) => trigger.kill());
+    };
+  }
+
   const visualStage = requireElement<HTMLElement>(section, scene, "[data-project-visual-stage]");
   const previews = requireElements<HTMLElement>(visualStage, scene, "[data-project-preview]");
   const lastCase = requireLastElement(cases, scene, "[data-project-case]");
@@ -40,7 +77,7 @@ export function createProjectEvidenceScene(root: HTMLElement, conditions: Motion
     endTrigger: lastCase,
     start: "top top",
     end: "bottom bottom",
-    pin: conditions.isDesktop ? visualStage : false,
+    pin: visualStage,
     pinSpacing: false,
     onEnter: (): void => {
       root.dataset.activeScene = scene;

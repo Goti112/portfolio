@@ -96,6 +96,7 @@ test("supports a keyboard-only skip and project navigation path", async ({ page 
   await expect(skipLink).toBeFocused();
   await skipLink.press("Enter");
   await expect(page).toHaveURL(/#main-content$/);
+  await expect(page.locator("main#main-content")).toBeFocused();
 
   const projectsLink = page.getByRole("link", { name: "Proyectos" });
   await projectsLink.focus();
@@ -166,7 +167,16 @@ test("has no automatically detectable accessibility violations before scrolling"
 
 test("has no automatically detectable accessibility violations during the scroll narrative", async ({ page }) => {
   await page.goto("/");
-  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight * 0.35));
+
+  await page.locator("[data-scene='method']").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(800);
+  await expectNoAccessibilityViolations(page);
+
+  await page.locator("[data-project-case='borderpass-ai']").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(800);
+  await expectNoAccessibilityViolations(page);
+
+  await page.locator("[data-scene='verdict']").scrollIntoViewIfNeeded();
   await page.waitForTimeout(800);
   await expectNoAccessibilityViolations(page);
 });
