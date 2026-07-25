@@ -54,18 +54,7 @@ test("renders the proof execution narrative in semantic order", async ({ page },
   await expect(challenge).toContainText("NO CONFÍES EN LO QUE DIGO.");
   await expect(challenge).toContainText("INSPECCIONA EL TRABAJO.");
   if (testInfo.project.name === "desktop-chromium") {
-    const splitLines = challenge.locator(":scope > div > div");
-    await expect(splitLines).not.toHaveCount(0);
-    const linesAreInsideMasks = await splitLines.evaluateAll((lines): boolean =>
-      lines.every((line): boolean => {
-        const lineBox = line.getBoundingClientRect();
-        const maskBox = line.parentElement?.getBoundingClientRect();
-        return maskBox !== undefined
-          && lineBox.top < maskBox.bottom
-          && lineBox.bottom > maskBox.top;
-      }),
-    );
-    expect(linesAreInsideMasks).toBe(true);
+    await expect(challenge.locator(":scope > span")).toHaveCount(2);
   }
   await expect(main.getByText("CONVIERTO PROBLEMAS COMPLEJOS", { exact: true })).toBeVisible();
   await expect(page.locator("[data-method-stage]")).toHaveCount(4);

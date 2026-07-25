@@ -1,6 +1,5 @@
 import { Flip } from "gsap/Flip";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 import { gsap } from "gsap";
 import { createBuildMethodScene } from "@/motion/scenes/create-build-method-scene";
 import { createEvidenceLens } from "@/motion/scenes/create-evidence-lens";
@@ -11,22 +10,34 @@ import { createProjectEvidenceScene } from "@/motion/scenes/create-project-evide
 import { createVerdictScene } from "@/motion/scenes/create-verdict-scene";
 import type { MotionConditions } from "@/motion/types";
 
-gsap.registerPlugin(Flip, ScrollTrigger, SplitText);
+gsap.registerPlugin(Flip, ScrollTrigger);
 
-function scrollToInitialAnchor(root: HTMLElement): void {
-  const encodedId = window.location.hash.slice(1);
-  if (encodedId.length === 0) {
-    return;
+function decodeAnchorId(fragment: string): string | null {
+  try {
+    return decodeURIComponent(fragment.slice(1));
+  } catch (error: unknown) {
+    if (error instanceof URIError) {
+      return null;
+    }
+    throw error;
   }
-  const target = document.getElementById(decodeURIComponent(encodedId));
+}
+
+function resolveInitialAnchor(root: HTMLElement, fragment: string): HTMLElement | null {
+  const anchorId = decodeAnchorId(fragment);
+  if (anchorId === null || anchorId.length === 0) {
+    return null;
+  }
+  const target = document.getElementById(anchorId);
   if (target === null || !root.contains(target)) {
-    return;
+    return null;
   }
-  target.scrollIntoView();
+  return target;
 }
 
 export function createPortfolioMotion(root: HTMLElement): () => void {
   const media = gsap.matchMedia();
+  const initialAnchor = resolveInitialAnchor(root, window.location.hash);
   let refreshFrame: number | null = null;
   let isActive = true;
   media.add({
@@ -53,15 +64,17 @@ export function createPortfolioMotion(root: HTMLElement): () => void {
       cleanups.forEach((cleanup) => cleanup());
     };
   }, root);
-  void document.fonts.ready.then((): void => {
-    if (!isActive) {
-      return;
-    }
-    refreshFrame = window.requestAnimationFrame((): void => {
-      ScrollTrigger.refresh();
-      scrollToInitialAnchor(root);
+  if (initialAnchor !== null) {
+    void document.fonts.ready.then((): void => {
+      if (!isActive) {
+        return;
+      }
+      refreshFrame = window.requestAnimationFrame((): void => {
+        ScrollTrigger.refresh();
+        initialAnchor.scrollIntoView();
+      });
     });
-  });
+  }
   return (): void => {
     isActive = false;
     if (refreshFrame !== null) {

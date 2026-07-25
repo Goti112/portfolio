@@ -25,6 +25,59 @@ test("restores the direct method anchor after desktop pin geometry initializes",
     const box = await method.boundingBox();
     return box?.y ?? Number.POSITIVE_INFINITY;
   }).toBeLessThan(100);
+  const methodBox = await method.boundingBox();
+  expect(methodBox?.y).toBeGreaterThanOrEqual(-1);
+});
+
+test("keeps every intro argument line legible during the desktop pin", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Desktop pin assertion");
+  await page.goto("/");
+  await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "ready");
+  await page.evaluate(() => window.scrollTo(0, window.innerHeight * 0.8));
+  await page.waitForTimeout(250);
+
+  const visibleRatios = await page.locator("[data-scene='intro'] [data-motion-heading] span").evaluateAll((lines) =>
+    lines.map((line): number => {
+      const lineRect = line.getBoundingClientRect();
+      let visibleTop = Math.max(0, lineRect.top);
+      let visibleBottom = Math.min(window.innerHeight, lineRect.bottom);
+      let ancestor = line.parentElement;
+      while (ancestor !== null) {
+        const overflow = getComputedStyle(ancestor).overflow;
+        if (overflow === "hidden" || overflow === "clip") {
+          const ancestorRect = ancestor.getBoundingClientRect();
+          visibleTop = Math.max(visibleTop, ancestorRect.top);
+          visibleBottom = Math.min(visibleBottom, ancestorRect.bottom);
+        }
+        ancestor = ancestor.parentElement;
+      }
+      return Math.max(0, visibleBottom - visibleTop) / lineRect.height;
+    }),
+  );
+
+  expect(visibleRatios).toHaveLength(2);
+  expect(Math.min(...visibleRatios)).toBeGreaterThanOrEqual(0.8);
+});
+
+test("ignores malformed external fragments without emitting a page error", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto("/#%");
+  await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "ready");
+  await page.waitForTimeout(250);
+  expect(errors).toEqual([]);
+});
+
+test("restores encoded external fragments after motion geometry initializes", async ({ page }) => {
+  await page.goto("/#%63apabilities");
+  await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "ready");
+  const capabilities = page.locator("#capabilities");
+  await expect.poll(async () => {
+    const box = await capabilities.boundingBox();
+    return box?.y ?? Number.POSITIVE_INFINITY;
+  }).toBeLessThan(100);
+  const capabilitiesBox = await capabilities.boundingBox();
+  expect(capabilitiesBox?.y).toBeGreaterThanOrEqual(-1);
 });
 
 test("updates scene and project progress while scrolling", async ({ page }) => {
