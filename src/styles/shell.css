@@ -76,6 +76,11 @@
   white-space: nowrap;
 }
 
+[data-motion-state="static"] .experience-progress,
+[data-motion-state="reduced"] .experience-progress {
+  visibility: hidden;
+}
+
 .experience-progress [data-progress-value] {
   color: var(--color-bone);
   border-bottom: 1px solid var(--color-alert);

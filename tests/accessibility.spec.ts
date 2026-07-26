@@ -18,6 +18,7 @@ test("keeps the complete hiring argument available without JavaScript", async ({
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:3000/");
   await expect(page.getByRole("heading", { level: 1, name: "Miquel Manzano" })).toBeVisible();
+  await expect(page.locator(".experience-progress")).toBeHidden();
   await expect(page.locator("[data-method-stage]")).toHaveCount(4);
   await expect(page.locator("[data-project-case]")).toHaveCount(3);
   await expect(page.getByText("CONSTRUIR LO SIGUIENTE.", { exact: true })).toBeVisible();

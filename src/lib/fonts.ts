@@ -4,6 +4,7 @@ export const archivo = localFont({
   src: "../../node_modules/@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2",
   variable: "--font-archivo",
   display: "optional",
+  preload: false,
   weight: "100 900",
   style: "normal",
 });

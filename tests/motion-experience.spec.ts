@@ -16,6 +16,37 @@ test("does not emit motion contract errors during initialization", async ({ page
   expect(errors).toEqual([]);
 });
 
+test("reverts partial motion when a later scene contract fails", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.addInitScript(() => {
+    const observer = new MutationObserver((): void => {
+      const claim = document.querySelector("[data-scene='claim']");
+      if (claim === null) {
+        return;
+      }
+      claim.querySelectorAll("[data-claim-fragment]")
+        .forEach((fragment) => fragment.removeAttribute("data-claim-fragment"));
+      observer.disconnect();
+    });
+    observer.observe(document, { childList: true, subtree: true });
+  });
+  await page.goto("/");
+  await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "static");
+  await expect(page.locator(".pin-spacer")).toHaveCount(0);
+  const viewport = page.viewportSize();
+  if (viewport === null) {
+    throw new Error("Failure rollback test requires a configured viewport");
+  }
+  await page.setViewportSize({
+    width: viewport.width >= 960 ? 959 : 960,
+    height: viewport.height,
+  });
+  await page.waitForTimeout(250);
+  await expect(page.locator(".pin-spacer")).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
 test("restores the direct method anchor after desktop pin geometry initializes", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-chromium", "Desktop pin assertion");
   await page.goto("/#capabilities");
@@ -83,11 +114,14 @@ test("restores encoded external fragments after motion geometry initializes", as
 test("updates scene and project progress while scrolling", async ({ page }) => {
   await page.goto("/");
   const root = page.locator("[data-motion-root]");
+  const progress = page.locator("[data-progress-value]");
   await page.locator("[data-scene='method']").scrollIntoViewIfNeeded();
   await expect(root).toHaveAttribute("data-active-scene", "method");
+  await expect(progress).toHaveText("03");
   await page.locator("[data-project-case='borderpass-ai']").scrollIntoViewIfNeeded();
   await expect(root).toHaveAttribute("data-active-scene", "projects");
   await expect(root).toHaveAttribute("data-active-project", "borderpass-ai");
+  await expect(progress).toHaveText("04");
 });
 
 test("creates no more than three desktop pin spacers", async ({ page }, testInfo) => {
@@ -159,6 +193,7 @@ test("creates no GSAP pinning or split wrappers with reduced motion", async ({ p
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "reduced");
+  await expect(page.locator(".experience-progress")).toBeHidden();
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await expect(page.locator("[data-project-case]")).toHaveCount(3);
   await expect(page.locator("[data-evidence-lens]")).toBeHidden();
@@ -167,6 +202,7 @@ test("creates no GSAP pinning or split wrappers with reduced motion", async ({ p
 test("restores claim and verdict scene state while scrolling back", async ({ page }) => {
   await page.goto("/");
   const root = page.locator("[data-motion-root]");
+  const progress = page.locator("[data-progress-value]");
   const claim = page.locator("[data-scene='claim']");
   const scrollInsideSceneTrigger = async (selector: string): Promise<void> => {
     await page.locator(selector).evaluate((section) => {
@@ -177,11 +213,14 @@ test("restores claim and verdict scene state while scrolling back", async ({ pag
 
   await claim.scrollIntoViewIfNeeded();
   await expect(root).toHaveAttribute("data-active-scene", "claim");
+  await expect(progress).toHaveText("02");
   await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
   await scrollInsideSceneTrigger("[data-scene='verdict']");
   await expect(root).toHaveAttribute("data-active-scene", "verdict");
+  await expect(progress).toHaveText("06");
   await scrollInsideSceneTrigger("[data-scene='claim']");
   await expect(root).toHaveAttribute("data-active-scene", "claim");
+  await expect(progress).toHaveText("02");
 });
 
 test("normalizes all method connector paths", async ({ page }) => {

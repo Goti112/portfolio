@@ -1,6 +1,7 @@
 import { Flip } from "gsap/Flip";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "gsap";
+import { createSceneProgress } from "@/motion/create-scene-progress";
 import { createBuildMethodScene } from "@/motion/scenes/create-build-method-scene";
 import { createEvidenceLens } from "@/motion/scenes/create-evidence-lens";
 import { createExecutionClaimScene } from "@/motion/scenes/create-execution-claim-scene";
@@ -8,7 +9,7 @@ import { createExperimentMontageScene } from "@/motion/scenes/create-experiment-
 import { createIntroScene } from "@/motion/scenes/create-intro-scene";
 import { createProjectEvidenceScene } from "@/motion/scenes/create-project-evidence-scene";
 import { createVerdictScene } from "@/motion/scenes/create-verdict-scene";
-import type { MotionConditions } from "@/motion/types";
+import type { MotionConditions, SceneCleanup } from "@/motion/types";
 
 gsap.registerPlugin(Flip, ScrollTrigger);
 
@@ -35,35 +36,84 @@ function resolveInitialAnchor(root: HTMLElement, fragment: string): HTMLElement 
   return target;
 }
 
+function resetMotionState(root: HTMLElement): void {
+  delete root.dataset.activeScene;
+  delete root.dataset.activeProject;
+  root.dataset.motionState = "static";
+}
+
+function cleanupScenes(cleanups: readonly SceneCleanup[]): void {
+  const errors: unknown[] = [];
+  for (const cleanup of [...cleanups].reverse()) {
+    try {
+      cleanup();
+    } catch (error: unknown) {
+      errors.push(error);
+    }
+  }
+  if (errors.length > 0) {
+    throw new AggregateError(errors, "One or more portfolio motion scenes failed to clean up");
+  }
+}
+
 export function createPortfolioMotion(root: HTMLElement): () => void {
   const media = gsap.matchMedia();
   const initialAnchor = resolveInitialAnchor(root, window.location.hash);
   let refreshFrame: number | null = null;
   let isActive = true;
-  media.add({
-    isDesktop: "(min-width: 960px)",
-    isCompact: "(max-width: 959.98px)",
-    reduceMotion: "(prefers-reduced-motion: reduce)",
-    finePointer: "(pointer: fine)",
-  }, (context) => {
-    const conditions = context.conditions as unknown as MotionConditions;
-    root.dataset.motionState = conditions.reduceMotion ? "reduced" : "ready";
-    if (conditions.reduceMotion) {
-      return;
+  try {
+    media.add({
+      isDesktop: "(min-width: 960px)",
+      isCompact: "(max-width: 959.98px)",
+      reduceMotion: "(prefers-reduced-motion: reduce)",
+      finePointer: "(pointer: fine)",
+    }, (context) => {
+      const conditions = context.conditions as unknown as MotionConditions;
+      if (conditions.reduceMotion) {
+        root.dataset.motionState = "reduced";
+        return;
+      }
+      const cleanups: SceneCleanup[] = [];
+      try {
+        cleanups.push(createSceneProgress(root));
+        cleanups.push(createIntroScene(root, conditions));
+        cleanups.push(createExecutionClaimScene(root, conditions));
+        cleanups.push(createBuildMethodScene(root, conditions));
+        cleanups.push(createProjectEvidenceScene(root, conditions));
+        cleanups.push(createExperimentMontageScene(root, conditions));
+        cleanups.push(createVerdictScene(root, conditions));
+        cleanups.push(createEvidenceLens(root, conditions));
+        root.dataset.motionState = "ready";
+      } catch (error: unknown) {
+        try {
+          cleanupScenes(cleanups);
+        } catch (cleanupError: unknown) {
+          resetMotionState(root);
+          throw new AggregateError(
+            [error, cleanupError],
+            "Portfolio motion initialization and rollback both failed",
+          );
+        }
+        resetMotionState(root);
+        throw error;
+      }
+      return (): void => {
+        cleanupScenes(cleanups);
+      };
+    }, root);
+  } catch (error: unknown) {
+    try {
+      media.revert();
+    } catch (revertError: unknown) {
+      resetMotionState(root);
+      throw new AggregateError(
+        [error, revertError],
+        "Portfolio motion initialization and media rollback both failed",
+      );
     }
-    const cleanups = [
-      createIntroScene(root, conditions),
-      createExecutionClaimScene(root, conditions),
-      createBuildMethodScene(root, conditions),
-      createProjectEvidenceScene(root, conditions),
-      createExperimentMontageScene(root, conditions),
-      createVerdictScene(root, conditions),
-      createEvidenceLens(root, conditions),
-    ];
-    return (): void => {
-      cleanups.forEach((cleanup) => cleanup());
-    };
-  }, root);
+    resetMotionState(root);
+    throw error;
+  }
   if (initialAnchor !== null) {
     void document.fonts.ready.then((): void => {
       if (!isActive) {
@@ -81,8 +131,6 @@ export function createPortfolioMotion(root: HTMLElement): () => void {
       window.cancelAnimationFrame(refreshFrame);
     }
     media.revert();
-    delete root.dataset.activeScene;
-    delete root.dataset.activeProject;
-    root.dataset.motionState = "static";
+    resetMotionState(root);
   };
 }
