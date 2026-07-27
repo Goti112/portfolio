@@ -53,11 +53,10 @@ test("uses a native horizontal snap strip for compact experiments", async ({ pag
   const dimensions = await strip.evaluate((element) => ({
     clientWidth: element.clientWidth,
     scrollWidth: element.scrollWidth,
-    bodyScrollWidth: document.body.scrollWidth,
-    viewportWidth: window.innerWidth,
+    pageHasHorizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
   }));
   expect(dimensions.scrollWidth).toBeGreaterThan(dimensions.clientWidth);
-  expect(dimensions.bodyScrollWidth).toBeLessThanOrEqual(dimensions.viewportWidth);
+  expect(dimensions.pageHasHorizontalOverflow).toBe(false);
 
   await strip.evaluate((element) => element.scrollTo({ left: element.scrollWidth, behavior: "instant" }));
   await expect.poll(async () => strip.evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);

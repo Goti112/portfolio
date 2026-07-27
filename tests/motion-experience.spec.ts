@@ -146,7 +146,6 @@ for (const route of ["/", "/en"] as const) {
     });
     expect(pinGeometry.distance).toBeGreaterThan(0);
     await page.evaluate((top) => window.scrollTo({ top, behavior: "instant" }), pinGeometry.top);
-    await page.waitForTimeout(250);
 
     const stage = page.locator("[data-experiment-stage]");
     const strip = page.locator("[data-experiment-strip]");
@@ -171,45 +170,48 @@ for (const route of ["/", "/en"] as const) {
       ({ top, distance }) => window.scrollTo({ top: top + distance * 0.5, behavior: "instant" }),
       pinGeometry,
     );
-    await page.waitForTimeout(250);
-    const middleStripX = await strip.evaluate(
-      (element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).m41,
-    );
-    expect(Math.abs(middleStripX - startGeometry.stripX)).toBeGreaterThan(50);
+    await expect.poll(async () => {
+      const stripX = await strip.evaluate(
+        (element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).m41,
+      );
+      return Math.abs(stripX - startGeometry.stripX) > 50;
+    }).toBe(true);
     await expect(root).toHaveAttribute("data-active-scene", "experiments");
 
     await page.evaluate(
       ({ top, distance }) => window.scrollTo({ top: top + distance * 0.99, behavior: "instant" }),
       pinGeometry,
     );
-    await page.waitForTimeout(250);
-    const finalGeometry = await stage.evaluate((element) => {
-      const experimentCards = Array.from(element.querySelectorAll<HTMLElement>("[data-experiment-card]"));
-      const firstCard = experimentCards[0];
-      const finalCard = experimentCards[2];
-      if (firstCard === undefined || finalCard === undefined) {
-        throw new Error("Experiment stage does not contain three cards");
-      }
-      const stageBounds = element.getBoundingClientRect();
-      const finalBounds = finalCard.getBoundingClientRect();
-      return {
-        bodyHasHorizontalOverflow: document.body.scrollWidth > document.documentElement.clientWidth,
-        firstScale: new DOMMatrixReadOnly(getComputedStyle(firstCard).transform).m11,
-        finalScale: new DOMMatrixReadOnly(getComputedStyle(finalCard).transform).m11,
-        leftInset: finalBounds.left - stageBounds.left,
-        rightInset: stageBounds.right - finalBounds.right,
-      };
-    });
-    expect(finalGeometry.leftInset).toBeGreaterThanOrEqual(-1);
-    expect(finalGeometry.rightInset).toBeGreaterThanOrEqual(-1);
-    expect(finalGeometry.finalScale).toBeGreaterThan(finalGeometry.firstScale);
-    expect(finalGeometry.bodyHasHorizontalOverflow).toBe(false);
+    await expect.poll(async () => {
+      const finalGeometry = await stage.evaluate((element) => {
+        const experimentCards = Array.from(element.querySelectorAll<HTMLElement>("[data-experiment-card]"));
+        const firstCard = experimentCards[0];
+        const finalCard = experimentCards[2];
+        if (firstCard === undefined || finalCard === undefined) {
+          throw new Error("Experiment stage does not contain three cards");
+        }
+        const stageBounds = element.getBoundingClientRect();
+        const finalBounds = finalCard.getBoundingClientRect();
+        return {
+          bodyHasHorizontalOverflow: document.body.scrollWidth > document.documentElement.clientWidth,
+          firstScale: new DOMMatrixReadOnly(getComputedStyle(firstCard).transform).m11,
+          finalScale: new DOMMatrixReadOnly(getComputedStyle(finalCard).transform).m11,
+          leftInset: finalBounds.left - stageBounds.left,
+          rightInset: stageBounds.right - finalBounds.right,
+        };
+      });
+      return finalGeometry.leftInset >= -1
+        && finalGeometry.rightInset >= -1
+        && finalGeometry.finalScale > finalGeometry.firstScale
+        && !finalGeometry.bodyHasHorizontalOverflow;
+    }).toBe(true);
   });
 }
 
 test("creates no more than four approved desktop pin spacers", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-chromium", "Desktop pin assertion");
   await page.goto("/");
+  await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "ready");
   await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
   const pinCount = await page.locator(".pin-spacer").count();
   expect(pinCount).toBeGreaterThan(0);
@@ -220,6 +222,7 @@ test("creates no more than four approved desktop pin spacers", async ({ page }, 
 test("does not pin the compact experience", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile-chromium", "Compact-only assertion");
   await page.goto("/");
+  await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "ready");
   await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await expect(page.locator("[data-scene='experiments']").locator("..")).not.toHaveClass(/pin-spacer/);

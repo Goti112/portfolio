@@ -289,6 +289,10 @@
   border-bottom: var(--scene-border);
 }
 
+[data-experiment-strip]:focus-visible {
+  box-shadow: inset 0 0 0 3px var(--color-bone), inset 0 0 0 6px var(--color-alert);
+}
+
 .experiment-montage__item {
   display: flex;
   min-width: 0;

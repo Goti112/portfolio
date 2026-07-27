@@ -92,6 +92,10 @@ for (const { route, heading } of [
     await page.goto(route);
     const strip = page.getByRole("region", { name: heading });
     await expect(strip).toHaveAttribute("tabindex", "0");
+    await strip.focus();
+    await expect(strip).toBeFocused();
+    const focusBoxShadow = await strip.evaluate((element) => getComputedStyle(element).boxShadow);
+    expect(focusBoxShadow).toContain("inset");
   });
 }
 
