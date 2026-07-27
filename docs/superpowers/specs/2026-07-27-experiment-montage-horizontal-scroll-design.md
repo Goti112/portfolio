@@ -95,6 +95,8 @@ The desktop implementation uses one GSAP timeline with one ScrollTrigger:
 
 Geometry must be derived from the section's inner stage rather than from `window.innerWidth`. This keeps the final alignment correct when page gutters or container widths change.
 
+This approved scene raises the desktop pin budget from three to four. The intro, method, and primary-project pins remain unchanged; the experiment montage is the only additional pin. Compact and reduced-motion experiences continue to create no pin spacers.
+
 Use existing motion media conditions. Desktop motion is created only for the desktop, non-reduced-motion branch. Compact and reduced-motion presentation remain CSS-owned.
 
 The scene cleanup must kill its timeline and ScrollTrigger and restore inline transform, opacity, and scale state. Re-entering the route or refreshing media conditions must not create duplicate triggers.
@@ -168,6 +170,7 @@ Also verify:
 - Resizing and orientation changes recalculate the end position.
 - No horizontal page overflow appears.
 - No duplicate ScrollTriggers remain after remounting.
+- Desktop creates no more than the four approved pin spacers.
 - Both Spanish and English routes preserve the same behavior.
 
 ## Acceptance criteria
