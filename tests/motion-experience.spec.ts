@@ -124,7 +124,7 @@ test("updates scene and project progress while scrolling", async ({ page }) => {
   await expect(progress).toHaveText("04");
 });
 
-for (const route of ["/", "/en"] as const) {
+for (const route of ["/", "/es"] as const) {
   test(`pins and traverses every experiment card on ${route}`, async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-chromium", "Desktop pin assertion");
     await page.goto(route);

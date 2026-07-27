@@ -5,7 +5,7 @@ module.exports = {
       settings: {
         chromeFlags: "--no-sandbox",
       },
-      url: ["http://127.0.0.1:3000/", "http://127.0.0.1:3000/en"],
+      url: ["http://127.0.0.1:3000/", "http://127.0.0.1:3000/es"],
     },
     assert: {
       assertions: {
