@@ -8,7 +8,7 @@ export function ExperienceHeader({ content }: ExperienceHeaderProps): React.JSX.
   const navigationLabel = content.locale === "es" ? "Navegación principal" : "Main navigation";
   const skipLabel = content.locale === "es" ? "Saltar al contenido" : "Skip to content";
   const targetLocale = content.locale === "es" ? "en" : "es";
-  const targetHref = content.locale === "es" ? "/en" : "/";
+  const targetHref = content.locale === "es" ? "/" : "/es";
   const targetLabel = content.locale === "es" ? "English" : "Español";
 
   return (

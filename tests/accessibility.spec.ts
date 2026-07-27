@@ -16,7 +16,7 @@ test("keeps enhanced motion additive to semantic content", async ({ page }) => {
 test("keeps the complete hiring argument available without JavaScript", async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:3000/");
+  await page.goto("http://127.0.0.1:3000/es");
   await expect(page.getByRole("heading", { level: 1, name: "Miquel Manzano" })).toBeVisible();
   await expect(page.locator(".experience-progress")).toBeHidden();
   await expect(page.locator("[data-method-stage]")).toHaveCount(4);
@@ -84,8 +84,8 @@ test("presents experiments as a subordinate montage", async ({ page }, testInfo)
 });
 
 for (const { route, heading } of [
-  { route: "/", heading: "ARCHIVOS SECUNDARIOS" },
-  { route: "/en", heading: "SECONDARY FILES" },
+  { route: "/es", heading: "ARCHIVOS SECUNDARIOS" },
+  { route: "/", heading: "SECONDARY FILES" },
 ] as const) {
   test(`gives the compact experiment strip a localized keyboard entry point on ${route}`, async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "mobile-chromium", "Compact-only assertion");
@@ -109,7 +109,7 @@ test.describe("reduced motion", () => {
 });
 
 test("supports a keyboard-only skip and project navigation path", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/es");
   await page.keyboard.press("Tab");
   const skipLink = page.getByRole("link", { name: "Saltar al contenido" });
   await expect(skipLink).toBeFocused();

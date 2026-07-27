@@ -4,21 +4,21 @@ import { archivo, jetBrainsMono } from "@/lib/fonts";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Miquel Manzano — Desarrollador full-stack",
-  description: "Portfolio técnico de Miquel Manzano: desarrollo web, aplicaciones, IA aplicada y proyectos interactivos.",
+  title: "Miquel Manzano — Full-stack developer",
+  description: "Technical portfolio of Miquel Manzano: web development, applications, applied AI, and interactive projects.",
   alternates: {
     canonical: "/",
-    languages: { es: "/", en: "/en" },
+    languages: { en: "/", es: "/es" },
   },
 };
 
-interface SpanishLayoutProps {
+interface EnglishLayoutProps {
   readonly children: ReactNode;
 }
 
-export default function SpanishLayout({ children }: SpanishLayoutProps): React.JSX.Element {
+export default function EnglishLayout({ children }: EnglishLayoutProps): React.JSX.Element {
   return (
-    <html lang="es">
+    <html lang="en">
       <body className={`${archivo.variable} ${jetBrainsMono.variable}`}>
         {children}
       </body>

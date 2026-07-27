@@ -7,23 +7,33 @@ test("compresses the exported HTML document", async ({ page }) => {
   expect(response?.headers()["content-encoding"]).toBe("br");
 });
 
-test("serves Spanish as the default semantic document", async ({ page }) => {
+test("serves English as the default semantic document", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("lang", "es");
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page).toHaveTitle(/Miquel Manzano/);
   const identityHeading = page.getByRole("heading", { level: 1, name: "Miquel Manzano" });
   await expect(identityHeading).toBeVisible();
   const identityHeadingBox = await identityHeading.boundingBox();
   expect(identityHeadingBox?.width).toBeGreaterThan(120);
   expect(identityHeadingBox?.height).toBeGreaterThanOrEqual(16);
-  await expect(page.getByRole("link", { name: "English" })).toHaveAttribute("href", "/en");
+  await expect(page.locator("link[rel='canonical']")).toHaveAttribute("href", "/");
+  await expect(page.getByRole("link", { name: "Español" })).toHaveAttribute("href", "/es");
+  await expect(page.getByRole("navigation", { name: "Main navigation" })).toBeVisible();
+});
+
+test("serves Spanish at /es with reciprocal navigation", async ({ page }) => {
+  await page.goto("/es");
+  await expect(page.locator("html")).toHaveAttribute("lang", "es");
+  await expect(page.locator("link[rel='canonical']")).toHaveAttribute("href", "/es");
+  await expect(page.getByRole("link", { name: "English" })).toHaveAttribute("href", "/");
   await expect(page.getByRole("navigation", { name: "Navegación principal" })).toBeVisible();
 });
 
-test("serves the English document with reciprocal navigation", async ({ page }) => {
+test("keeps /en as an English compatibility route", async ({ page }) => {
   await page.goto("/en");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  await expect(page.getByRole("link", { name: "Español" })).toHaveAttribute("href", "/");
+  await expect(page.locator("link[rel='canonical']")).toHaveAttribute("href", "/");
+  await expect(page.getByRole("link", { name: "Español" })).toHaveAttribute("href", "/es");
   await expect(page.getByRole("navigation", { name: "Main navigation" })).toBeVisible();
 });
 
@@ -35,7 +45,7 @@ test("exposes direct anchors for every narrative destination", async ({ page }) 
 });
 
 test("renders confirmed profile, capabilities, education, and AI positioning", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/es");
   await expect(page.getByText("Disponible para crear, aprender y llevar ideas hasta producción.").first()).toBeVisible();
   await expect(page.getByText(/Uso la IA como acelerador/)).toBeVisible();
   await expect(page.getByText("TypeScript", { exact: true }).first()).toBeVisible();
@@ -46,7 +56,7 @@ test("renders confirmed profile, capabilities, education, and AI positioning", a
 });
 
 test("renders the proof execution narrative in semantic order", async ({ page }, testInfo) => {
-  await page.goto("/");
+  await page.goto("/es");
   const main = page.getByRole("main");
   const challenge = main.locator("[data-scene='intro'] [data-motion-heading]");
   await expect(main.getByRole("heading", { level: 1, name: "Miquel Manzano" })).toBeVisible();
