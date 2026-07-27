@@ -13,7 +13,7 @@
 .project-evidence__heading {
   margin-top: 0;
   margin-bottom: clamp(3rem, 8vw, 8rem);
-  font-size: clamp(2.25rem, 6vw, 6rem);
+  font-size: clamp(2.25rem, 6vw, 4.75rem);
   line-height: 0.85;
   letter-spacing: -0.06em;
   text-transform: uppercase;
@@ -61,7 +61,7 @@
 
 .project-evidence__name {
   margin: 0 0 1.25rem;
-  font-size: clamp(2rem, 4vw, 4rem);
+  font-size: clamp(2rem, 4vw, 3.25rem);
   line-height: 0.9;
   letter-spacing: -0.05em;
   overflow-wrap: anywhere;
@@ -272,7 +272,7 @@
 .experiment-montage__heading {
   margin-top: 0;
   margin-bottom: clamp(2rem, 5vw, 5rem);
-  font-size: clamp(1.75rem, 4vw, 4rem);
+  font-size: clamp(1.75rem, 4vw, 3.25rem);
   letter-spacing: -0.04em;
   text-transform: uppercase;
 }
@@ -318,7 +318,7 @@
 
 .experiment-montage__name {
   margin: 1.25rem 0 0.5rem;
-  font-size: clamp(1.25rem, 2.5vw, 2.25rem);
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
   letter-spacing: -0.03em;
   overflow-wrap: anywhere;
   text-transform: uppercase;

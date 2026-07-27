@@ -72,5 +72,5 @@ test("pending destinations never render broken anchors", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("a[href=''], a:not([href])")).toHaveCount(0);
   await expect(page.locator(".external-action--pending[aria-disabled='true']")).toHaveCount(8);
-  await expect(page.getByText("ENLACE_PENDIENTE").first()).toBeVisible();
+  await expect(page.getByText("LINK_PENDING").first()).toBeVisible();
 });

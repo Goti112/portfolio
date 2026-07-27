@@ -81,6 +81,28 @@ test("renders the proof execution narrative in semantic order", async ({ page },
   await expect(main.getByText("CONSTRUIR LO SIGUIENTE.", { exact: true })).toBeVisible();
 });
 
+test("keeps the desktop proof challenge within the readable display cap", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Desktop-only typography assertion");
+  await page.goto("/");
+
+  const fontSize = await page.locator(".proof-intro__challenge").evaluate((element) => {
+    return Number.parseFloat(getComputedStyle(element).fontSize);
+  });
+
+  expect(fontSize).toBeLessThanOrEqual(112);
+});
+
+test("keeps the mobile proof challenge within the readable display cap", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium", "Mobile-only typography assertion");
+  await page.goto("/");
+
+  const fontSize = await page.locator(".proof-intro__challenge").evaluate((element) => {
+    return Number.parseFloat(getComputedStyle(element).fontSize);
+  });
+
+  expect(fontSize).toBeLessThanOrEqual(60);
+});
+
 test("exposes every motion scene exactly once", async ({ page }) => {
   await page.goto("/");
   for (const scene of ["intro", "claim", "method", "projects", "experiments", "verdict"]) {

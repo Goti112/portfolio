@@ -36,7 +36,7 @@
 .execution-claim h2,
 .build-method > h2,
 .proof-verdict h2 {
-  font-size: clamp(3.25rem, 10vw, 10rem);
+  font-size: clamp(2.75rem, 7.5vw, 7rem);
   font-weight: 800;
   line-height: 0.78;
   letter-spacing: -0.07em;
