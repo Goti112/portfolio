@@ -17,6 +17,8 @@ test("serves English as the default semantic document", async ({ page }) => {
   expect(identityHeadingBox?.width).toBeGreaterThan(120);
   expect(identityHeadingBox?.height).toBeGreaterThanOrEqual(16);
   await expect(page.locator("link[rel='canonical']")).toHaveAttribute("href", "/");
+  await expect(page.locator("link[rel='alternate'][hreflang='en']")).toHaveAttribute("href", "/");
+  await expect(page.locator("link[rel='alternate'][hreflang='es']")).toHaveAttribute("href", "/es");
   await expect(page.getByRole("link", { name: "Español" })).toHaveAttribute("href", "/es");
   await expect(page.getByRole("navigation", { name: "Main navigation" })).toBeVisible();
 });
@@ -25,14 +27,21 @@ test("serves Spanish at /es with reciprocal navigation", async ({ page }) => {
   await page.goto("/es");
   await expect(page.locator("html")).toHaveAttribute("lang", "es");
   await expect(page.locator("link[rel='canonical']")).toHaveAttribute("href", "/es");
+  await expect(page.locator("link[rel='alternate'][hreflang='en']")).toHaveAttribute("href", "/");
+  await expect(page.locator("link[rel='alternate'][hreflang='es']")).toHaveAttribute("href", "/es");
   await expect(page.getByRole("link", { name: "English" })).toHaveAttribute("href", "/");
   await expect(page.getByRole("navigation", { name: "Navegación principal" })).toBeVisible();
 });
 
 test("keeps /en as an English compatibility route", async ({ page }) => {
-  await page.goto("/en");
+  const response = await page.goto("/en");
+  expect(response).not.toBeNull();
+  expect(response?.status()).toBe(200);
+  expect(new URL(page.url()).pathname).toBe("/en");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.locator("link[rel='canonical']")).toHaveAttribute("href", "/");
+  await expect(page.locator("link[rel='alternate'][hreflang='en']")).toHaveAttribute("href", "/");
+  await expect(page.locator("link[rel='alternate'][hreflang='es']")).toHaveAttribute("href", "/es");
   await expect(page.getByRole("link", { name: "Español" })).toHaveAttribute("href", "/es");
   await expect(page.getByRole("navigation", { name: "Main navigation" })).toBeVisible();
 });
