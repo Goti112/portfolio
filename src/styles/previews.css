@@ -277,9 +277,14 @@
   text-transform: uppercase;
 }
 
+.experiment-montage__stage {
+  min-width: 0;
+}
+
 .experiment-montage__strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  position: relative;
   border-top: var(--scene-border);
   border-bottom: var(--scene-border);
 }

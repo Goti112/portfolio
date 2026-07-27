@@ -28,11 +28,45 @@ test("renders secondary experiments without invented descriptions", async ({ pag
   await expect(montage.getByText("AI Wrapped", { exact: true }).first()).toBeVisible();
 });
 
-test("keeps secondary work in a subordinate montage", async ({ page }) => {
+test("keeps secondary work in one semantic three-card stage", async ({ page }) => {
   await page.goto("/");
-  const montage = page.locator("[data-experiment-strip]");
-  await expect(montage).toHaveCount(1);
-  await expect(montage.locator("article")).toHaveCount(3);
+  const stage = page.locator("[data-experiment-stage]");
+  const strip = stage.locator("[data-experiment-strip]");
+  const cards = strip.locator("[data-experiment-card]");
+
+  await expect(stage).toHaveCount(1);
+  await expect(strip).toHaveCount(1);
+  await expect(cards).toHaveCount(3);
+  await expect(cards.locator(".experiment-montage__name")).toHaveText(["Web Game", "Roblox Game", "AI Wrapped"]);
+});
+
+test("uses a native horizontal snap strip for compact experiments", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium", "Mobile-only assertion");
+  await page.goto("/");
+  const strip = page.locator("[data-experiment-strip]");
+  const lastCard = strip.locator("[data-experiment-card]").last();
+
+  await expect(strip).toHaveCSS("grid-auto-flow", "column");
+  await expect(strip).toHaveCSS("overflow-x", "auto");
+  await expect(strip).toHaveCSS("scroll-snap-type", "x mandatory");
+
+  const dimensions = await strip.evaluate((element) => ({
+    clientWidth: element.clientWidth,
+    scrollWidth: element.scrollWidth,
+    bodyScrollWidth: document.body.scrollWidth,
+    viewportWidth: window.innerWidth,
+  }));
+  expect(dimensions.scrollWidth).toBeGreaterThan(dimensions.clientWidth);
+  expect(dimensions.bodyScrollWidth).toBeLessThanOrEqual(dimensions.viewportWidth);
+
+  await strip.evaluate((element) => element.scrollTo({ left: element.scrollWidth, behavior: "instant" }));
+  await expect.poll(async () => strip.evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);
+
+  const [stripBox, lastCardBox] = await Promise.all([strip.boundingBox(), lastCard.boundingBox()]);
+  expect(stripBox).not.toBeNull();
+  expect(lastCardBox).not.toBeNull();
+  expect(lastCardBox!.x - stripBox!.x).toBeGreaterThanOrEqual(-1);
+  expect(stripBox!.x + stripBox!.width - (lastCardBox!.x + lastCardBox!.width)).toBeGreaterThanOrEqual(-1);
 });
 
 test("pending destinations never render broken anchors", async ({ page }) => {

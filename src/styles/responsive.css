@@ -39,8 +39,7 @@
 
   .build-method__stages,
   .formation-trace__list,
-  .project-evidence__layout,
-  .experiment-montage__strip {
+  .project-evidence__layout {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -48,15 +47,39 @@
     min-height: calc(100svh - 20.125rem);
   }
 
-  .build-method__stage,
-  .experiment-montage__item {
+  .build-method__stage {
     border-right: 0;
     border-bottom: 1px solid currentColor;
   }
 
-  .build-method__stage:last-child,
-  .experiment-montage__item:last-child {
+  .build-method__stage:last-child {
     border-bottom: 0;
+  }
+
+  .experiment-montage__stage {
+    overflow: hidden;
+  }
+
+  .experiment-montage__strip {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(min(17rem, 82vw), 86vw);
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .experiment-montage__item {
+    border-right: var(--scene-border);
+    border-bottom: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .experiment-montage__item:last-child {
+    border-right: 0;
   }
 
   .build-method__stage p {
