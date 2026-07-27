@@ -337,4 +337,20 @@
   [data-motion-state="ready"] [data-project-inline-preview] {
     display: none;
   }
+
+  .experiment-montage {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .experiment-montage__stage {
+    overflow-x: auto;
+  }
+
+  .experiment-montage__strip {
+    width: max-content;
+    grid-template-columns: repeat(3, clamp(24rem, 42vw, 36rem));
+  }
 }

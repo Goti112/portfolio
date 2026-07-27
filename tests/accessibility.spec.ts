@@ -21,6 +21,8 @@ test("keeps the complete hiring argument available without JavaScript", async ({
   await expect(page.locator(".experience-progress")).toBeHidden();
   await expect(page.locator("[data-method-stage]")).toHaveCount(4);
   await expect(page.locator("[data-project-case]")).toHaveCount(3);
+  await expect(page.locator("[data-experiment-card]")).toHaveCount(3);
+  await expect(page.getByRole("heading", { level: 3, name: "AI Wrapped" })).toBeVisible();
   await expect(page.getByText("CONSTRUIR LO SIGUIENTE.", { exact: true })).toBeVisible();
   await context.close();
 });
@@ -80,6 +82,18 @@ test("presents experiments as a subordinate montage", async ({ page }, testInfo)
   expect(columnCount).toBe(3);
   expect(experimentItemHeight).toBeLessThan(projectCaseHeight);
 });
+
+for (const { route, heading } of [
+  { route: "/", heading: "ARCHIVOS SECUNDARIOS" },
+  { route: "/en", heading: "SECONDARY FILES" },
+] as const) {
+  test(`gives the compact experiment strip a localized keyboard entry point on ${route}`, async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile-chromium", "Compact-only assertion");
+    await page.goto(route);
+    const strip = page.getByRole("region", { name: heading });
+    await expect(strip).toHaveAttribute("tabindex", "0");
+  });
+}
 
 test.describe("reduced motion", () => {
   test("exposes stable final content", async ({ page }) => {

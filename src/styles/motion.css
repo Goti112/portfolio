@@ -92,9 +92,12 @@
 }
 
 @media (min-width: 960px) {
-  [data-motion-state="ready"] [data-experiment-strip] {
-    width: max-content;
-    grid-template-columns: repeat(3, minmax(24rem, 42vw));
+  [data-motion-state="ready"] [data-experiment-stage] {
+    overflow: clip;
+  }
+
+  [data-motion-state="ready"] [data-experiment-card] {
+    transform-origin: center;
   }
 }
 
@@ -175,7 +178,7 @@
   [data-output-row] {
     animation: none !important;
     opacity: 1 !important;
-    transform: none !important;
     translate: none !important;
+    transform: none !important;
   }
 }

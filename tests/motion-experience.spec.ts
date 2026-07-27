@@ -124,13 +124,97 @@ test("updates scene and project progress while scrolling", async ({ page }) => {
   await expect(progress).toHaveText("04");
 });
 
-test("creates no more than three desktop pin spacers", async ({ page }, testInfo) => {
+for (const route of ["/", "/en"] as const) {
+  test(`pins and traverses every experiment card on ${route}`, async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "desktop-chromium", "Desktop pin assertion");
+    await page.goto(route);
+    const root = page.locator("[data-motion-root]");
+    await expect(root).toHaveAttribute("data-motion-state", "ready");
+
+    const section = page.locator("[data-scene='experiments']");
+    const spacer = section.locator("..");
+    await expect(spacer).toHaveClass(/pin-spacer/);
+    const pinGeometry = await spacer.evaluate((element) => {
+      const experimentSection = element.querySelector<HTMLElement>("[data-scene='experiments']");
+      if (experimentSection === null) {
+        throw new Error("Experiment pin spacer is missing its section");
+      }
+      return {
+        top: element.getBoundingClientRect().top + window.scrollY,
+        distance: element.clientHeight - experimentSection.clientHeight,
+      };
+    });
+    expect(pinGeometry.distance).toBeGreaterThan(0);
+    await page.evaluate((top) => window.scrollTo({ top, behavior: "instant" }), pinGeometry.top);
+    await page.waitForTimeout(250);
+
+    const stage = page.locator("[data-experiment-stage]");
+    const strip = page.locator("[data-experiment-strip]");
+    const cards = page.locator("[data-experiment-card]");
+    await expect(cards).toHaveCount(3);
+    const startGeometry = await stage.evaluate((element) => {
+      const experimentStrip = element.querySelector<HTMLElement>("[data-experiment-strip]");
+      const firstCard = element.querySelector<HTMLElement>("[data-experiment-card]");
+      if (experimentStrip === null || firstCard === null) {
+        throw new Error("Experiment stage is missing its strip or first card");
+      }
+      const stripX = new DOMMatrixReadOnly(getComputedStyle(experimentStrip).transform).m41;
+      return {
+        cardCenter: firstCard.offsetLeft + firstCard.offsetWidth / 2 + stripX,
+        stageCenter: element.clientWidth / 2,
+        stripX,
+      };
+    });
+    expect(Math.abs(startGeometry.cardCenter - startGeometry.stageCenter)).toBeLessThanOrEqual(1);
+
+    await page.evaluate(
+      ({ top, distance }) => window.scrollTo({ top: top + distance * 0.5, behavior: "instant" }),
+      pinGeometry,
+    );
+    await page.waitForTimeout(250);
+    const middleStripX = await strip.evaluate(
+      (element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).m41,
+    );
+    expect(Math.abs(middleStripX - startGeometry.stripX)).toBeGreaterThan(50);
+    await expect(root).toHaveAttribute("data-active-scene", "experiments");
+
+    await page.evaluate(
+      ({ top, distance }) => window.scrollTo({ top: top + distance * 0.99, behavior: "instant" }),
+      pinGeometry,
+    );
+    await page.waitForTimeout(250);
+    const finalGeometry = await stage.evaluate((element) => {
+      const experimentCards = Array.from(element.querySelectorAll<HTMLElement>("[data-experiment-card]"));
+      const firstCard = experimentCards[0];
+      const finalCard = experimentCards[2];
+      if (firstCard === undefined || finalCard === undefined) {
+        throw new Error("Experiment stage does not contain three cards");
+      }
+      const stageBounds = element.getBoundingClientRect();
+      const finalBounds = finalCard.getBoundingClientRect();
+      return {
+        bodyHasHorizontalOverflow: document.body.scrollWidth > document.documentElement.clientWidth,
+        firstScale: new DOMMatrixReadOnly(getComputedStyle(firstCard).transform).m11,
+        finalScale: new DOMMatrixReadOnly(getComputedStyle(finalCard).transform).m11,
+        leftInset: finalBounds.left - stageBounds.left,
+        rightInset: stageBounds.right - finalBounds.right,
+      };
+    });
+    expect(finalGeometry.leftInset).toBeGreaterThanOrEqual(-1);
+    expect(finalGeometry.rightInset).toBeGreaterThanOrEqual(-1);
+    expect(finalGeometry.finalScale).toBeGreaterThan(finalGeometry.firstScale);
+    expect(finalGeometry.bodyHasHorizontalOverflow).toBe(false);
+  });
+}
+
+test("creates no more than four approved desktop pin spacers", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-chromium", "Desktop pin assertion");
   await page.goto("/");
   await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
   const pinCount = await page.locator(".pin-spacer").count();
   expect(pinCount).toBeGreaterThan(0);
-  expect(pinCount).toBeLessThanOrEqual(3);
+  expect(pinCount).toBeLessThanOrEqual(4);
+  await expect(page.locator(".pin-spacer [data-scene='experiments']")).toHaveCount(1);
 });
 
 test("does not pin the compact experience", async ({ page }, testInfo) => {
@@ -138,6 +222,7 @@ test("does not pin the compact experience", async ({ page }, testInfo) => {
   await page.goto("/");
   await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
+  await expect(page.locator("[data-scene='experiments']").locator("..")).not.toHaveClass(/pin-spacer/);
 });
 
 test("keeps compact and desktop motion exhaustive at the breakpoint", async ({ page }, testInfo) => {
@@ -197,6 +282,41 @@ test("creates no GSAP pinning or split wrappers with reduced motion", async ({ p
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await expect(page.locator("[data-project-case]")).toHaveCount(3);
   await expect(page.locator("[data-evidence-lens]")).toBeHidden();
+  const experimentStyles = await page.locator("[data-scene='experiments']").evaluate((section) => {
+    const strip = section.querySelector<HTMLElement>("[data-experiment-strip]");
+    if (strip === null) {
+      throw new Error("Reduced-motion experiment section is missing its strip");
+    }
+    const cards = Array.from(section.querySelectorAll<HTMLElement>("[data-experiment-card]"));
+    return {
+      cardOpacities: cards.map((card) => getComputedStyle(card).opacity),
+      cardTransforms: cards.map((card) => getComputedStyle(card).transform),
+      stripTransform: getComputedStyle(strip).transform,
+    };
+  });
+  expect(experimentStyles.cardOpacities).toEqual(["1", "1", "1"]);
+  expect(experimentStyles.cardTransforms).toEqual(["none", "none", "none"]);
+  expect(experimentStyles.stripTransform).toBe("none");
+});
+
+test("remounts one experiment pin across desktop and compact breakpoints", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Desktop lifecycle assertion");
+  const originalViewport = page.viewportSize();
+  if (originalViewport === null) {
+    throw new Error("Experiment lifecycle test requires a configured viewport");
+  }
+  await page.goto("/");
+  await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "ready");
+  await expect(page.locator(".pin-spacer [data-scene='experiments']")).toHaveCount(1);
+
+  await page.setViewportSize({ width: 959, height: originalViewport.height });
+  await page.waitForTimeout(350);
+  await expect(page.locator(".pin-spacer [data-scene='experiments']")).toHaveCount(0);
+  await expect(page.locator("[data-experiment-strip]")).toHaveCSS("transform", "none");
+
+  await page.setViewportSize(originalViewport);
+  await page.waitForTimeout(350);
+  await expect(page.locator(".pin-spacer [data-scene='experiments']")).toHaveCount(1);
 });
 
 test("restores claim and verdict scene state while scrolling back", async ({ page }) => {
