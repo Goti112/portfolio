@@ -124,6 +124,23 @@ test("updates scene and project progress while scrolling", async ({ page }) => {
   await expect(progress).toHaveText("04");
 });
 
+test("keeps the desktop project preview centered while project evidence scrolls", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Desktop project-stage assertion");
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "ready");
+
+  const firstCase = page.locator("[data-project-case='qgc-planner']");
+  await firstCase.scrollIntoViewIfNeeded();
+  await page.evaluate(() => window.scrollBy({ top: 600, behavior: "instant" }));
+
+  const centerOffset = await page.locator("[data-project-visual-stage]").evaluate((stage) => {
+    const bounds = stage.getBoundingClientRect();
+    return Math.abs(bounds.top + bounds.height / 2 - window.innerHeight / 2);
+  });
+  expect(centerOffset).toBeLessThanOrEqual(1);
+});
+
 for (const route of ["/", "/es"] as const) {
   test(`pins and traverses every experiment card on ${route}`, async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-chromium", "Desktop pin assertion");

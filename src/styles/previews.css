@@ -336,6 +336,8 @@
 @media (min-width: 960px) {
   [data-motion-state="ready"] [data-project-visual-stage] {
     display: block;
+    position: sticky;
+    top: calc((100svh - min(70vh, 48rem)) / 2);
   }
 
   [data-motion-state="ready"] [data-project-inline-preview] {

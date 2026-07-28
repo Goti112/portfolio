@@ -3,18 +3,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MotionContractError, requireElement, requireElements } from "@/motion/contracts";
 import type { MotionConditions, SceneCleanup } from "@/motion/types";
 
-function requireLastElement(
-  elements: readonly HTMLElement[],
-  scene: string,
-  selector: string,
-): HTMLElement {
-  const element = elements.at(-1);
-  if (element === undefined) {
-    throw new MotionContractError(scene, selector, window.location.pathname);
-  }
-  return element;
-}
-
 function requireFirstElement(
   elements: readonly HTMLElement[],
   scene: string,
@@ -70,15 +58,11 @@ export function createProjectEvidenceScene(root: HTMLElement, conditions: Motion
 
   const visualStage = requireElement<HTMLElement>(section, scene, "[data-project-visual-stage]");
   const previews = requireElements<HTMLElement>(visualStage, scene, "[data-project-preview]");
-  const lastCase = requireLastElement(cases, scene, "[data-project-case]");
   const firstPreview = requireFirstElement(previews, scene, "[data-project-preview]");
-  const pin = ScrollTrigger.create({
+  const sceneTrigger = ScrollTrigger.create({
     trigger: section,
-    endTrigger: lastCase,
     start: "top top",
     end: "bottom bottom",
-    pin: visualStage,
-    pinSpacing: false,
     onEnter: (): void => {
       root.dataset.activeScene = scene;
     },
@@ -112,7 +96,7 @@ export function createProjectEvidenceScene(root: HTMLElement, conditions: Motion
   });
 
   return (): void => {
-    pin.kill();
+    sceneTrigger.kill();
     caseTriggers.forEach((trigger) => trigger.kill());
     gsap.killTweensOf(previews);
     gsap.set(previews, { clearProps: "all" });
