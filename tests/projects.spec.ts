@@ -25,6 +25,8 @@ test("publishes the confirmed repositories and contact destinations", async ({ p
 
   await expect(page.getByRole("link", { name: "QGC Planner" }))
     .toHaveAttribute("href", "https://github.com/Goti112/Mission-Planner-Demo");
+  await expect(page.getByRole("link", { name: "BorderPass AI" }))
+    .toHaveAttribute("href", "https://github.com/Goti112/borderpass-ai");
   await expect(page.getByRole("link", { name: "Ticket OCR Scanner" }))
     .toHaveAttribute("href", "https://github.com/Goti112/ticket_app");
   await expect(page.getByRole("link", { name: "EMAIL" }))
@@ -33,7 +35,7 @@ test("publishes the confirmed repositories and contact destinations", async ({ p
     .toHaveAttribute("href", "https://github.com/Goti112");
 
   const borderPass = page.locator("[data-project-case='borderpass-ai']");
-  await expect(borderPass.locator(".external-action--pending")).toHaveAttribute("aria-disabled", "true");
+  await expect(borderPass.getByRole("link", { name: "BorderPass AI" })).toHaveCount(1);
 });
 
 test("renders external actions as semantic launch modules", async ({ page }) => {
@@ -49,13 +51,11 @@ test("renders external actions as semantic launch modules", async ({ page }) => 
   const email = page.getByRole("link", { name: "EMAIL", exact: true });
   await expect(email.locator(".external-action__destination")).toHaveText("mmanz2606@gmail.com");
 
-  const borderPass = page.locator("[data-project-case='borderpass-ai'] .external-action--pending");
-  await expect(borderPass).toHaveAttribute("aria-disabled", "true");
-  await expect(borderPass.locator(".external-action__destination")).toHaveCount(0);
-  await expect(borderPass.locator("svg")).toHaveCount(0);
-  await expect(borderPass.locator(".external-action__status-mark")).toHaveCount(1);
-  await expect(borderPass.locator(".external-action__status-mark")).toHaveCSS("border-left-width", "1px");
-  await expect(borderPass).toContainText("LINK_PENDING");
+  const borderPass = page.locator("[data-project-case='borderpass-ai']").getByRole("link", { name: "BorderPass AI" });
+  await expect(borderPass.locator(".external-action__label")).toHaveText("BorderPass AI");
+  await expect(borderPass.locator(".external-action__destination"))
+    .toHaveText("github.com/Goti112/borderpass-ai");
+  await expect(borderPass.locator(".external-action__icon-bay svg")).toHaveCount(1);
 });
 
 test("styles active actions as interactive launch modules", async ({ page }) => {
@@ -126,7 +126,7 @@ for (const route of ["/", "/es"] as const) {
     ).toHaveText(["TypeScript", "React", "Mapbox GL", "Cesium"]);
     await expect(
       page.locator("[data-project-case='borderpass-ai'] .project-evidence__techs li"),
-    ).toHaveText(["AI", "CBAM"]);
+    ).toHaveText(["Next.js", "TypeScript", "PostgreSQL", "Prisma"]);
     await expect(
       page.locator("[data-project-case='ticket-ocr'] .project-evidence__techs li"),
     ).toHaveText(["Dart", "Flutter", "Google ML Kit", "XLSX"]);
@@ -184,6 +184,6 @@ test("uses a native horizontal snap strip for compact experiments", async ({ pag
 test("pending destinations never render broken anchors", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("a[href=''], a:not([href])")).toHaveCount(0);
-  await expect(page.locator(".external-action--pending[aria-disabled='true']")).toHaveCount(4);
+  await expect(page.locator(".external-action--pending[aria-disabled='true']")).toHaveCount(3);
   await expect(page.getByText("LINK_PENDING").first()).toBeVisible();
 });

@@ -75,7 +75,7 @@ export const portfolioEnglish = {
         caseLabel: "CASE_02",
         name: "BorderPass AI",
         summary: "Assistant for customs professionals and importers working with CBAM controls.",
-        technologies: ["AI", "CBAM"],
+        technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma"],
         repository: projectRepositories["borderpass-ai"],
       },
       {

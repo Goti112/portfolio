@@ -9,7 +9,7 @@ const publishedDestination = (url: string): ExternalDestination => Object.freeze
 
 export const projectRepositories: Readonly<Record<PrimaryProjectId, ExternalDestination>> = Object.freeze({
   "qgc-planner": publishedDestination("https://github.com/Goti112/Mission-Planner-Demo"),
-  "borderpass-ai": pendingDestination,
+  "borderpass-ai": publishedDestination("https://github.com/Goti112/borderpass-ai"),
   "ticket-ocr": publishedDestination("https://github.com/Goti112/ticket_app"),
 });
 
