@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { archivo, jetBrainsMono } from "@/lib/fonts";
+import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function EnglishLayout({ children }: EnglishLayoutProps): React.J
     <html lang="en">
       <body className={`${archivo.variable} ${jetBrainsMono.variable}`}>
         {children}
+        <Analytics />
       </body>
     </html>
   );
