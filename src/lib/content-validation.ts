@@ -60,7 +60,7 @@ function projectSignature(items: readonly PrimaryProject[]): string {
 
 function experimentSignature(items: readonly Experiment[]): string {
   return items
-    .map((experiment) => `${experiment.id}:${destinationSignature(experiment.repository)}`)
+    .map((experiment) => `${experiment.id}:${experiment.marker}`)
     .join("|");
 }
 
@@ -116,8 +116,8 @@ function validateRequiredContent(content: PortfolioContent): void {
     }
   }
   for (const experiment of content.experiments.items) {
-    assertNonEmpty(experiment.name, `${locale}:experiments.${experiment.id}.name`);
-    assertNonEmpty(experiment.category, `${locale}:experiments.${experiment.id}.category`);
+    assertNonEmpty(experiment.marker, `${locale}:experiments.${experiment.id}.marker`);
+    assertNonEmpty(experiment.ariaLabel, `${locale}:experiments.${experiment.id}.ariaLabel`);
   }
   for (const item of content.education.items) {
     assertNonEmpty(item.qualification, `${locale}:education.${item.abbreviation}.qualification`);
@@ -164,9 +164,6 @@ export function validatePortfolioPair(spanish: PortfolioContent, english: Portfo
     validateNarrative(content);
     for (const project of content.projects.items) {
       validateDestination(project.repository, `${content.locale}:${project.id}`);
-    }
-    for (const experiment of content.experiments.items) {
-      validateDestination(experiment.repository, `${content.locale}:${experiment.id}`);
     }
     validateDestination(content.verdict.email, `${content.locale}:email`);
     validateDestination(content.verdict.github, `${content.locale}:github`);

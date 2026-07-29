@@ -133,12 +133,20 @@ for (const route of ["/", "/es"] as const) {
   });
 }
 
-test("renders secondary experiments without invented descriptions", async ({ page }) => {
-  await page.goto("/");
-  const montage = page.locator("[data-scene='experiments']");
-  await expect(montage.getByText("Web Game", { exact: true }).first()).toBeVisible();
-  await expect(montage.getByText("Roblox Game", { exact: true }).first()).toBeVisible();
-  await expect(montage.getByText("AI Wrapped", { exact: true }).first()).toBeVisible();
+test("renders accessible future project placeholders in both locales", async ({ page }) => {
+  for (const [route, labels] of [
+    ["/", ["Future project 01", "Future project 02", "Future project 03"]],
+    ["/es", ["Próximo proyecto 01", "Próximo proyecto 02", "Próximo proyecto 03"]],
+  ] as const) {
+    await page.goto(route);
+    const cards = page.locator("[data-experiment-card]");
+    await expect(cards).toHaveCount(3);
+    await expect(cards.locator(".experiment-montage__placeholder")).toHaveText(["?", "?", "?"]);
+    await expect(cards.locator(".external-action")).toHaveCount(0);
+    for (const [index, label] of labels.entries()) {
+      await expect(cards.nth(index)).toHaveAttribute("aria-label", label);
+    }
+  }
 });
 
 test("keeps secondary work in one semantic three-card stage", async ({ page }) => {
@@ -150,7 +158,8 @@ test("keeps secondary work in one semantic three-card stage", async ({ page }) =
   await expect(stage).toHaveCount(1);
   await expect(strip).toHaveCount(1);
   await expect(cards).toHaveCount(3);
-  await expect(cards.locator(".experiment-montage__name")).toHaveText(["Web Game", "Roblox Game", "AI Wrapped"]);
+  await expect(cards.locator(".experiment-montage__placeholder")).toHaveText(["?", "?", "?"]);
+  await expect(cards.locator(".external-action")).toHaveCount(0);
 });
 
 test("uses a native horizontal snap strip for compact experiments", async ({ page }, testInfo) => {
@@ -181,9 +190,9 @@ test("uses a native horizontal snap strip for compact experiments", async ({ pag
   expect(stripBox!.x + stripBox!.width - (lastCardBox!.x + lastCardBox!.width)).toBeGreaterThanOrEqual(-1);
 });
 
-test("pending destinations never render broken anchors", async ({ page }) => {
+test("does not render pending external actions", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("a[href=''], a:not([href])")).toHaveCount(0);
-  await expect(page.locator(".external-action--pending[aria-disabled='true']")).toHaveCount(3);
-  await expect(page.getByText("LINK_PENDING").first()).toBeVisible();
+  await expect(page.locator(".external-action--pending[aria-disabled='true']")).toHaveCount(0);
+  await expect(page.getByText("LINK_PENDING")).toHaveCount(0);
 });

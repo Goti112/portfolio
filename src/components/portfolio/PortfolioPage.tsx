@@ -22,7 +22,7 @@ export function PortfolioPage({ content }: PortfolioPageProps): React.JSX.Elemen
         <ExecutionClaim content={content.claim} />
         <BuildMethod method={content.method} education={content.education} />
         <ProjectEvidence {...content.projects} pendingLabel={content.system.pendingLink} />
-        <ExperimentMontage {...content.experiments} pendingLabel={content.system.pendingLink} />
+        <ExperimentMontage {...content.experiments} />
         <ProofVerdict content={content.verdict} pendingLabel={content.system.pendingLink} />
       </main>
       <EvidenceLens />

@@ -1,6 +1,5 @@
 import {
   contactDestinations,
-  experimentRepositories,
   projectRepositories,
 } from "@/content/destinations";
 import type { PortfolioContent } from "@/content/types";
@@ -92,9 +91,9 @@ export const portfolioSpanish = {
     eyebrow: "ÍNDICE DE EXPERIMENTOS / 03",
     heading: "ARCHIVOS SECUNDARIOS",
     items: [
-      { id: "web-game", name: "Web Game", category: "Juego web", repository: experimentRepositories["web-game"] },
-      { id: "roblox-game", name: "Roblox Game", category: "Experiencia Roblox", repository: experimentRepositories["roblox-game"] },
-      { id: "ai-wrapped", name: "AI Wrapped", category: "Experimento de IA", repository: experimentRepositories["ai-wrapped"] },
+      { id: "future-project-01", marker: "?", ariaLabel: "Próximo proyecto 01" },
+      { id: "future-project-02", marker: "?", ariaLabel: "Próximo proyecto 02" },
+      { id: "future-project-03", marker: "?", ariaLabel: "Próximo proyecto 03" },
     ],
   },
   education: {

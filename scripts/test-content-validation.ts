@@ -47,12 +47,12 @@ const projectTechnologyMismatch: PortfolioContent = {
   },
 };
 
-const experimentDestinationMismatch: PortfolioContent = {
+const experimentMarkerMismatch: PortfolioContent = {
   ...portfolioEnglish,
   experiments: {
     ...portfolioEnglish.experiments,
     items: portfolioEnglish.experiments.items.map((experiment, index) => index === 0
-      ? { ...experiment, repository: { status: "published", url: "https://example.com/project" } }
+      ? { ...experiment, id: "future-project-03" }
       : experiment),
   },
 };
@@ -103,7 +103,7 @@ assert.throws(
   /Project immutable data differ between Spanish and English content/,
 );
 assert.throws(
-  () => validatePortfolioPair(portfolioSpanish, experimentDestinationMismatch),
+  () => validatePortfolioPair(portfolioSpanish, experimentMarkerMismatch),
   /Experiment immutable data differ between Spanish and English content/,
 );
 assert.throws(

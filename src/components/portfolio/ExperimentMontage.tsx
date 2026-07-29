@@ -1,14 +1,12 @@
-import { ExternalAction } from "@/components/portfolio/ExternalAction";
 import type { Experiment } from "@/content/types";
 
 interface ExperimentMontageProps {
   readonly eyebrow: string;
   readonly heading: string;
   readonly items: readonly Experiment[];
-  readonly pendingLabel: string;
 }
 
-export function ExperimentMontage({ eyebrow, heading, items, pendingLabel }: ExperimentMontageProps): React.JSX.Element {
+export function ExperimentMontage({ eyebrow, heading, items }: ExperimentMontageProps): React.JSX.Element {
   return (
     <section className="experiment-montage" data-scene="experiments" data-motion-section="experiments">
       <p className="experiment-montage__eyebrow">{eyebrow}</p>
@@ -22,11 +20,14 @@ export function ExperimentMontage({ eyebrow, heading, items, pendingLabel }: Exp
           tabIndex={0}
         >
           {items.map((experiment) => (
-            <article key={experiment.id} className="experiment-montage__item" data-motion-reveal data-experiment-card>
-              <span className="experiment-montage__case-id">{experiment.id}</span>
-              <h3 className="experiment-montage__name">{experiment.name}</h3>
-              <span className="experiment-montage__category">{experiment.category}</span>
-              <ExternalAction destination={experiment.repository} label={experiment.name} pendingLabel={pendingLabel} />
+            <article
+              key={experiment.id}
+              aria-label={experiment.ariaLabel}
+              className="experiment-montage__item"
+              data-motion-reveal
+              data-experiment-card
+            >
+              <span aria-hidden="true" className="experiment-montage__placeholder">{experiment.marker}</span>
             </article>
           ))}
         </div>

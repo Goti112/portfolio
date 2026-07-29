@@ -298,7 +298,8 @@
   min-width: 0;
   min-height: 18rem;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   padding: clamp(1.25rem, 3vw, 3rem);
   border-right: var(--scene-border);
 }
@@ -307,30 +308,10 @@
   border-right: 0;
 }
 
-.experiment-montage__case-id,
-.experiment-montage__category {
-  color: var(--color-muted);
+.experiment-montage__placeholder {
   font-family: var(--font-code);
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.experiment-montage__name {
-  margin: 1.25rem 0 0.5rem;
-  font-size: clamp(1.25rem, 2.5vw, 2rem);
-  letter-spacing: -0.03em;
-  overflow-wrap: anywhere;
-  text-transform: uppercase;
-}
-
-.experiment-montage__category {
-  margin-bottom: 2rem;
-}
-
-.experiment-montage__item .external-action {
-  width: 100%;
-  margin-top: auto;
+  font-size: clamp(4rem, 12vw, 9rem);
+  line-height: 1;
 }
 
 @media (min-width: 960px) {
