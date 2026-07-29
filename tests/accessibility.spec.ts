@@ -21,8 +21,10 @@ test("keeps the complete hiring argument available without JavaScript", async ({
   await expect(page.locator(".experience-progress")).toBeHidden();
   await expect(page.locator("[data-method-stage]")).toHaveCount(4);
   await expect(page.locator("[data-project-case]")).toHaveCount(3);
-  await expect(page.locator("[data-experiment-card]")).toHaveCount(3);
-  await expect(page.getByRole("heading", { level: 3, name: "AI Wrapped" })).toBeVisible();
+  const futureProjects = page.locator("[data-experiment-card]");
+  await expect(futureProjects).toHaveCount(3);
+  await expect(futureProjects.locator(".experiment-montage__placeholder")).toHaveText(["?", "?", "?"]);
+  await expect(futureProjects.nth(0)).toHaveAttribute("aria-label", "Próximo proyecto 01");
   await expect(page.getByText("CONSTRUIR LO SIGUIENTE.", { exact: true })).toBeVisible();
   await context.close();
 });
