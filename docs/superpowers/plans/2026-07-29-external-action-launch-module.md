@@ -30,7 +30,7 @@
 **Interfaces:**
 - Consumes: `ExternalDestination` from `src/content/types.ts`
 - Produces: `formatDestination(url: string): string`
-- Produces: `.external-action__content`, `.external-action__label`, `.external-action__destination`, `.external-action__icon-bay`, and `.external-action__status-mark` elements
+- Produces: `.external-action__content`, `.external-action__label`, `.external-action__destination`, `.external-action__pending-label`, `.external-action__icon-bay`, and `.external-action__status-mark` elements
 - Preserves: `ExternalAction(props: ExternalActionProps): React.JSX.Element`
 
 - [ ] **Step 1: Write the failing structure and destination-metadata test**
@@ -126,7 +126,7 @@ Render a pending destination as:
 <span className="external-action external-action--pending" aria-disabled="true">
   <span className="external-action__content">
     <span className="external-action__label">{label}</span>
-    <span className="external-action__destination">{pendingLabel}</span>
+    <span className="external-action__pending-label">{pendingLabel}</span>
   </span>
   <span className="external-action__icon-bay" aria-hidden="true">
     <span className="external-action__status-mark" />
@@ -286,7 +286,8 @@ Replace the existing `.external-action`, hover/focus, and pending rules in `src/
   letter-spacing: 0.1em;
 }
 
-.external-action__destination {
+.external-action__destination,
+.external-action__pending-label {
   min-width: 0;
   margin-top: 0.35rem;
   overflow: hidden;

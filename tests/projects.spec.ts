@@ -36,6 +36,27 @@ test("publishes the confirmed repositories and contact destinations", async ({ p
   await expect(borderPass.locator(".external-action--pending")).toHaveAttribute("aria-disabled", "true");
 });
 
+test("renders external actions as semantic launch modules", async ({ page }) => {
+  await page.goto("/");
+
+  const planner = page.getByRole("link", { name: "QGC Planner", exact: true });
+  await expect(planner.locator(".external-action__label")).toHaveText("QGC Planner");
+  await expect(planner.locator(".external-action__destination"))
+    .toHaveText("github.com/Goti112/Mission-Planner-Demo");
+  await expect(planner.locator(".external-action__icon-bay svg")).toHaveCount(1);
+  await expect(planner).not.toContainText("↗");
+
+  const email = page.getByRole("link", { name: "EMAIL", exact: true });
+  await expect(email.locator(".external-action__destination")).toHaveText("mmanz2606@gmail.com");
+
+  const borderPass = page.locator("[data-project-case='borderpass-ai'] .external-action--pending");
+  await expect(borderPass).toHaveAttribute("aria-disabled", "true");
+  await expect(borderPass.locator(".external-action__destination")).toHaveCount(0);
+  await expect(borderPass.locator("svg")).toHaveCount(0);
+  await expect(borderPass.locator(".external-action__status-mark")).toHaveCount(1);
+  await expect(borderPass).toContainText("LINK_PENDING");
+});
+
 for (const route of ["/", "/es"] as const) {
   test(`shows verified project technologies on ${route}`, async ({ page }) => {
     await page.goto(route);
