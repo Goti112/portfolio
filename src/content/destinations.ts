@@ -2,10 +2,15 @@ import type { ExternalDestination, PrimaryProjectId } from "@/content/types";
 
 const pendingDestination: ExternalDestination = Object.freeze({ status: "pending" });
 
+const publishedDestination = (url: string): ExternalDestination => Object.freeze({
+  status: "published",
+  url,
+});
+
 export const projectRepositories: Readonly<Record<PrimaryProjectId, ExternalDestination>> = Object.freeze({
-  "qgc-planner": pendingDestination,
+  "qgc-planner": publishedDestination("https://github.com/Goti112/Mission-Planner-Demo"),
   "borderpass-ai": pendingDestination,
-  "ticket-ocr": pendingDestination,
+  "ticket-ocr": publishedDestination("https://github.com/Goti112/ticket_app"),
 });
 
 export const experimentRepositories: Readonly<
@@ -20,6 +25,6 @@ export const contactDestinations: Readonly<{
   email: ExternalDestination;
   github: ExternalDestination;
 }> = Object.freeze({
-  email: pendingDestination,
-  github: pendingDestination,
+  email: publishedDestination("mailto:mmanz2606@gmail.com"),
+  github: publishedDestination("https://github.com/Goti112"),
 });

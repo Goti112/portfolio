@@ -20,6 +20,38 @@ test("renders each primary project as a motion-ready semantic case", async ({ pa
   await expect(stage.locator("[data-project-case='ticket-ocr']")).toContainText("Ticket OCR Scanner");
 });
 
+test("publishes the confirmed repositories and contact destinations", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(page.getByRole("link", { name: "QGC Planner" }))
+    .toHaveAttribute("href", "https://github.com/Goti112/Mission-Planner-Demo");
+  await expect(page.getByRole("link", { name: "Ticket OCR Scanner" }))
+    .toHaveAttribute("href", "https://github.com/Goti112/ticket_app");
+  await expect(page.getByRole("link", { name: "EMAIL" }))
+    .toHaveAttribute("href", "mailto:mmanz2606@gmail.com");
+  await expect(page.getByRole("link", { name: "GITHUB" }))
+    .toHaveAttribute("href", "https://github.com/Goti112");
+
+  const borderPass = page.locator("[data-project-case='borderpass-ai']");
+  await expect(borderPass.locator(".external-action--pending")).toHaveAttribute("aria-disabled", "true");
+});
+
+for (const route of ["/", "/es"] as const) {
+  test(`shows verified project technologies on ${route}`, async ({ page }) => {
+    await page.goto(route);
+
+    await expect(
+      page.locator("[data-project-case='qgc-planner'] .project-evidence__techs li"),
+    ).toHaveText(["TypeScript", "React", "Mapbox GL", "Cesium"]);
+    await expect(
+      page.locator("[data-project-case='borderpass-ai'] .project-evidence__techs li"),
+    ).toHaveText(["AI", "CBAM"]);
+    await expect(
+      page.locator("[data-project-case='ticket-ocr'] .project-evidence__techs li"),
+    ).toHaveText(["Dart", "Flutter", "Google ML Kit", "XLSX"]);
+  });
+}
+
 test("renders secondary experiments without invented descriptions", async ({ page }) => {
   await page.goto("/");
   const montage = page.locator("[data-scene='experiments']");
@@ -71,6 +103,6 @@ test("uses a native horizontal snap strip for compact experiments", async ({ pag
 test("pending destinations never render broken anchors", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("a[href=''], a:not([href])")).toHaveCount(0);
-  await expect(page.locator(".external-action--pending[aria-disabled='true']")).toHaveCount(8);
+  await expect(page.locator(".external-action--pending[aria-disabled='true']")).toHaveCount(4);
   await expect(page.getByText("LINK_PENDING").first()).toBeVisible();
 });

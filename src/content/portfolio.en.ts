@@ -67,7 +67,7 @@ export const portfolioEnglish = {
         caseLabel: "CASE_01",
         name: "QGC Planner",
         summary: "Mission planner inspired by Mission Planner.",
-        technologies: ["React", "TypeScript", "MAVLink"],
+        technologies: ["TypeScript", "React", "Mapbox GL", "Cesium"],
         repository: projectRepositories["qgc-planner"],
       },
       {
@@ -83,7 +83,7 @@ export const portfolioEnglish = {
         caseLabel: "CASE_03",
         name: "Ticket OCR Scanner",
         summary: "Flutter application that scans tickets and extracts structured information through OCR.",
-        technologies: ["Flutter", "OCR"],
+        technologies: ["Dart", "Flutter", "Google ML Kit", "XLSX"],
         repository: projectRepositories["ticket-ocr"],
       },
     ],
