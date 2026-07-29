@@ -54,7 +54,67 @@ test("renders external actions as semantic launch modules", async ({ page }) => 
   await expect(borderPass.locator(".external-action__destination")).toHaveCount(0);
   await expect(borderPass.locator("svg")).toHaveCount(0);
   await expect(borderPass.locator(".external-action__status-mark")).toHaveCount(1);
+  await expect(borderPass.locator(".external-action__status-mark")).toHaveCSS("border-left-width", "1px");
   await expect(borderPass).toContainText("LINK_PENDING");
+});
+
+test("styles active actions as interactive launch modules", async ({ page }) => {
+  await page.goto("/");
+
+  const planner = page.getByRole("link", { name: "QGC Planner", exact: true });
+  const iconBay = planner.locator(".external-action__icon-bay");
+
+  await expect(planner).toHaveCSS("display", "grid");
+  expect(await planner.evaluate((element) =>
+    getComputedStyle(element).gridTemplateColumns.split(" ").length,
+  )).toBe(2);
+  await expect(iconBay).toHaveCSS("background-color", "rgb(238, 232, 222)");
+
+  await planner.hover();
+  await expect(iconBay).toHaveCSS("background-color", "rgb(231, 52, 43)");
+  await expect.poll(() => planner.evaluate((element) =>
+    getComputedStyle(element).transform,
+  )).not.toBe("none");
+
+  await planner.focus();
+  await expect(planner).toBeFocused();
+  await expect.poll(() => planner.evaluate((element) =>
+    getComputedStyle(element).boxShadow,
+  )).toContain("rgb(231, 52, 43)");
+});
+
+test("keeps launch-module motion still when reduced motion is requested", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+
+  const planner = page.getByRole("link", { name: "QGC Planner", exact: true });
+  await planner.hover();
+
+  await expect(planner).toHaveCSS("transform", "none");
+  await expect(planner).toHaveCSS("transition-duration", "0s");
+  await expect(planner.locator(".external-action__icon")).toHaveCSS("transform", "none");
+});
+
+test("keeps launch-module destinations inside the compact viewport", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium", "Mobile-only assertion");
+  await page.goto("/");
+
+  const planner = page.getByRole("link", { name: "QGC Planner", exact: true });
+  const destination = planner.locator(".external-action__destination");
+  const layout = await planner.evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    return {
+      left: bounds.left,
+      right: bounds.right,
+      viewport: document.documentElement.clientWidth,
+    };
+  });
+
+  expect(layout.left).toBeGreaterThanOrEqual(0);
+  expect(layout.right).toBeLessThanOrEqual(layout.viewport);
+  await expect(destination).toHaveCSS("overflow", "hidden");
+  await expect(destination).toHaveCSS("text-overflow", "ellipsis");
+  await expect(destination).toHaveCSS("white-space", "nowrap");
 });
 
 for (const route of ["/", "/es"] as const) {

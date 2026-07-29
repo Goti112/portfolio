@@ -168,6 +168,12 @@
     scroll-behavior: auto !important;
   }
 
+  .external-action,
+  .external-action__icon {
+    transform: none !important;
+    transition: none !important;
+  }
+
   [data-scanline-overlay],
   .portfolio-shell__corruption-line {
     display: none !important;

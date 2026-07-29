@@ -56,6 +56,7 @@ test("renders external actions as semantic launch modules", async ({ page }) => 
   await expect(borderPass.locator(".external-action__destination")).toHaveCount(0);
   await expect(borderPass.locator("svg")).toHaveCount(0);
   await expect(borderPass.locator(".external-action__status-mark")).toHaveCount(1);
+  await expect(borderPass.locator(".external-action__status-mark")).toHaveCSS("border-left-width", "1px");
   await expect(borderPass).toContainText("LINK_PENDING");
 });
 ```
@@ -205,6 +206,7 @@ test("keeps launch-module motion still when reduced motion is requested", async 
   await planner.hover();
 
   await expect(planner).toHaveCSS("transform", "none");
+  await expect(planner).toHaveCSS("transition-duration", "0s");
   await expect(planner.locator(".external-action__icon")).toHaveCSS("transform", "none");
 });
 
@@ -365,10 +367,19 @@ a.external-action:focus-visible .external-action__icon {
 }
 
 .external-action__status-mark {
+  display: block;
+  position: relative;
   width: 1rem;
   height: 0.625rem;
+  border: 1px solid currentColor;
+}
+
+.external-action__status-mark::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0.18rem;
+  top: calc(50% - 0.5px);
   border-top: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
 }
 
 .project-evidence__item .external-action {

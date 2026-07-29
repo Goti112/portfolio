@@ -153,6 +153,12 @@
   }
 
   .external-action {
-    overflow-wrap: anywhere;
+    grid-template-columns: minmax(0, 1fr) 3.25rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .external-action__content {
+    padding-inline: 1rem;
   }
 }
