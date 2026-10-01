@@ -1,164 +1,96 @@
-@media (max-width: 959.98px) {
+@media (max-width: 900px) {
   .experience-header {
-    position: relative;
-    grid-template-columns: minmax(0, 1fr);
-    align-items: start;
-    gap: 0.25rem;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
+    grid-template-columns: auto auto auto;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+  }
+
+  .experience-header nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: start;
+    width: 100%;
   }
 
   .experience-header__navigation {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
+    justify-content: flex-start;
+    gap: 0.1rem 1rem;
   }
 
-  .experience-header__navigation a,
   .experience-header__language {
-    width: 100%;
-    min-height: 2.75rem;
+    justify-self: end;
   }
 
-  .experience-header__language,
-  .experience-progress {
-    border-top: var(--scene-border);
-  }
-
-  .experience-progress {
-    padding-top: 0.75rem;
-  }
-
-  #profile,
-  #capabilities,
-  #projects,
-  #education,
-  #contact {
-    scroll-margin-top: 1rem;
-  }
-
-  .build-method__stages,
-  .formation-trace__list,
-  .project-evidence__layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .proof-intro {
-    min-height: calc(100svh - 20.125rem);
-  }
-
-  .build-method__stage {
-    border-right: 0;
-    border-bottom: 1px solid currentColor;
-  }
-
-  .build-method__stage:last-child {
-    border-bottom: 0;
-  }
-
-  .experiment-montage__stage {
-    overflow: hidden;
-  }
-
-  .experiment-montage__strip {
-    grid-template-columns: none;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(min(17rem, 82vw), 86vw);
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: thin;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .experiment-montage__item {
-    border-right: var(--scene-border);
-    border-bottom: 0;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-
-  .experiment-montage__item:last-child {
-    border-right: 0;
-  }
-
-  .build-method__stage p {
-    min-height: 0;
-  }
-
-  .build-method__connectors {
-    display: none;
-  }
-
-  [data-project-case] {
-    min-height: auto;
-  }
-
-  [data-motion-state="ready"] [data-project-visual-stage] {
-    display: none;
-  }
-
-  [data-motion-state="ready"] [data-project-inline-preview] {
-    display: block;
-  }
-
-  .proof-verdict__actions {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .proof-verdict__actions .external-action {
-    width: 100%;
+  .experience-header__contact {
+    justify-self: end;
   }
 }
 
-@media (max-width: 640px) {
-  :root {
-    --scene-block: clamp(4rem, 18vw, 6rem);
+@media (max-width: 760px) {
+  .proof-intro__body,
+  .project-evidence__item {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .proof-intro__challenge,
-  .execution-claim h2,
-  .build-method > h2,
-  .proof-verdict h2 {
-    font-size: clamp(2.4rem, 11vw, 3.75rem);
-    line-height: 0.84;
-  }
-
-  .proof-intro__evidence-window,
-  .proof-intro__scan {
+  .proof-intro__art {
     display: none;
   }
 
-  .project-evidence__heading {
-    font-size: clamp(2.25rem, 12vw, 3.5rem);
+  .project-evidence__item:nth-child(even) .project-evidence__preview {
+    order: 0;
   }
 
-  .preview-decision-steps {
-    gap: 0.25rem;
+  .formation-trace__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .experience-header__contact {
+    display: none;
+  }
+
+  .experience-header__navigation {
+    gap: 0.1rem 0.8rem;
+  }
+
+  .experience-header__navigation a {
+    min-height: 2rem;
+    font-size: 0.75rem;
+  }
+
+  .proof-intro h1 {
+    font-size: clamp(3.25rem, 15vw, 4.5rem);
+  }
+
+  .proof-intro__actions {
+    align-items: stretch;
+  }
+
+  .proof-intro__actions .external-action {
+    width: 100%;
   }
 
   .preview-decision-step {
-    padding: 0.2rem 0.3rem;
-    font-size: 0.5rem;
-  }
-
-  .preview-output {
-    gap: 0.35rem;
     padding: 0.5rem;
   }
 
   .preview-output-row {
-    font-size: 0.5rem;
+    gap: 0.35rem;
+    padding: 0.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 
-  .external-action {
-    grid-template-columns: minmax(0, 1fr) 3.25rem;
-    width: 100%;
-    min-width: 0;
-  }
-
-  .external-action__content {
-    padding-inline: 1rem;
+  .button,
+  .experience-header__contact,
+  .external-action,
+  .external-action__icon {
+    transform: none !important;
+    transition: none !important;
   }
 }

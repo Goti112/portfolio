@@ -1,46 +1,9 @@
-import { Flip } from "gsap/Flip";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "gsap";
-import { createSceneProgress } from "@/motion/create-scene-progress";
-import { createBuildMethodScene } from "@/motion/scenes/create-build-method-scene";
-import { createEvidenceLens } from "@/motion/scenes/create-evidence-lens";
-import { createExecutionClaimScene } from "@/motion/scenes/create-execution-claim-scene";
-import { createExperimentMontageScene } from "@/motion/scenes/create-experiment-montage-scene";
-import { createIntroScene } from "@/motion/scenes/create-intro-scene";
-import { createProjectEvidenceScene } from "@/motion/scenes/create-project-evidence-scene";
-import { createVerdictScene } from "@/motion/scenes/create-verdict-scene";
-import type { MotionConditions, SceneCleanup } from "@/motion/types";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { requireElement, requireElements } from "@/motion/contracts";
+import type { SceneCleanup } from "@/motion/types";
 
-gsap.registerPlugin(Flip, ScrollTrigger);
-
-function decodeAnchorId(fragment: string): string | null {
-  try {
-    return decodeURIComponent(fragment.slice(1));
-  } catch (error: unknown) {
-    if (error instanceof URIError) {
-      return null;
-    }
-    throw error;
-  }
-}
-
-function resolveInitialAnchor(root: HTMLElement, fragment: string): HTMLElement | null {
-  const anchorId = decodeAnchorId(fragment);
-  if (anchorId === null || anchorId.length === 0) {
-    return null;
-  }
-  const target = document.getElementById(anchorId);
-  if (target === null || !root.contains(target)) {
-    return null;
-  }
-  return target;
-}
-
-function resetMotionState(root: HTMLElement): void {
-  delete root.dataset.activeScene;
-  delete root.dataset.activeProject;
-  root.dataset.motionState = "static";
-}
+gsap.registerPlugin(ScrollTrigger);
 
 function cleanupScenes(cleanups: readonly SceneCleanup[]): void {
   const errors: unknown[] = [];
@@ -52,85 +15,126 @@ function cleanupScenes(cleanups: readonly SceneCleanup[]): void {
     }
   }
   if (errors.length > 0) {
-    throw new AggregateError(errors, "One or more portfolio motion scenes failed to clean up");
+    throw new AggregateError(errors, "One or more editorial motion scenes failed to clean up");
   }
+}
+
+function createHeroEntrance(root: HTMLElement): SceneCleanup {
+  const hero = requireElement<HTMLElement>(root, "hero", "[data-scene='intro']");
+  const items = requireElements<HTMLElement>(hero, "hero", "[data-motion-reveal]");
+  const tween = gsap.from(items, {
+    y: 24,
+    duration: 0.65,
+    stagger: 0.1,
+    ease: "power2.out",
+    clearProps: "all",
+  });
+  return (): void => { tween.revert(); };
+}
+
+function createSectionReveals(root: HTMLElement): SceneCleanup {
+  const items = requireElements<HTMLElement>(root, "sections", "[data-motion-section]");
+  const tweens = items.map((item) => gsap.from(item, {
+    y: 28,
+    duration: 0.6,
+    ease: "power2.out",
+    clearProps: "all",
+    scrollTrigger: { trigger: item, start: "top 86%", once: true },
+  }));
+  return (): void => {
+    tweens.forEach((tween) => {
+      tween.scrollTrigger?.kill();
+      tween.revert();
+    });
+  };
+}
+
+function createDiagramMotion(root: HTMLElement): SceneCleanup {
+  const qgc = requireElement<HTMLElement>(root, "qgc", "[data-project-case='qgc-planner']");
+  const borderPass = requireElement<HTMLElement>(root, "borderpass", "[data-project-case='borderpass-ai']");
+  const ocr = requireElement<HTMLElement>(root, "ocr", "[data-project-case='ticket-ocr']");
+  const route = requireElement<SVGPolylineElement>(qgc, "qgc", "[data-route]");
+  const decisions = requireElements<HTMLElement>(borderPass, "borderpass", "[data-decision-step]");
+  const outputs = requireElements<HTMLElement>(ocr, "ocr", "[data-output-row]");
+  const routeTween = gsap.fromTo(route,
+    { strokeDasharray: 1, strokeDashoffset: 1 },
+    {
+      strokeDashoffset: 0,
+      duration: 0.9,
+      ease: "power2.out",
+      scrollTrigger: { trigger: qgc, start: "top 80%", once: true },
+    },
+  );
+  const decisionTween = gsap.from(decisions, {
+    y: 12,
+    duration: 0.5,
+    stagger: 0.1,
+    clearProps: "all",
+    scrollTrigger: { trigger: borderPass, start: "top 80%", once: true },
+  });
+  const outputTween = gsap.from(outputs, {
+    y: 12,
+    duration: 0.5,
+    stagger: 0.1,
+    clearProps: "all",
+    scrollTrigger: { trigger: ocr, start: "top 80%", once: true },
+  });
+  const tweens = [routeTween, decisionTween, outputTween] as const;
+  return (): void => {
+    tweens.forEach((tween) => {
+      tween.scrollTrigger?.kill();
+      tween.revert();
+    });
+  };
 }
 
 export function createPortfolioMotion(root: HTMLElement): () => void {
   const media = gsap.matchMedia();
-  const initialAnchor = resolveInitialAnchor(root, window.location.hash);
-  let refreshFrame: number | null = null;
-  let isActive = true;
   try {
-    media.add({
-      isDesktop: "(min-width: 960px)",
-      isCompact: "(max-width: 959.98px)",
-      reduceMotion: "(prefers-reduced-motion: reduce)",
-      finePointer: "(pointer: fine)",
-    }, (context) => {
-      const conditions = context.conditions as unknown as MotionConditions;
-      if (conditions.reduceMotion) {
-        root.dataset.motionState = "reduced";
-        return;
-      }
+    media.add("(prefers-reduced-motion: reduce)", () => {
+      root.dataset.motionState = "reduced";
+      return (): void => { root.dataset.motionState = "static"; };
+    }, root);
+    media.add("(prefers-reduced-motion: no-preference)", () => {
       const cleanups: SceneCleanup[] = [];
       try {
-        cleanups.push(createSceneProgress(root));
-        cleanups.push(createIntroScene(root, conditions));
-        cleanups.push(createExecutionClaimScene(root, conditions));
-        cleanups.push(createBuildMethodScene(root, conditions));
-        cleanups.push(createProjectEvidenceScene(root, conditions));
-        cleanups.push(createExperimentMontageScene(root, conditions));
-        cleanups.push(createVerdictScene(root, conditions));
-        cleanups.push(createEvidenceLens(root, conditions));
+        cleanups.push(createHeroEntrance(root));
+        cleanups.push(createSectionReveals(root));
+        cleanups.push(createDiagramMotion(root));
         root.dataset.motionState = "ready";
       } catch (error: unknown) {
         try {
           cleanupScenes(cleanups);
         } catch (cleanupError: unknown) {
-          resetMotionState(root);
-          throw new AggregateError(
-            [error, cleanupError],
-            "Portfolio motion initialization and rollback both failed",
-          );
+          root.dataset.motionState = "static";
+          throw new AggregateError([error, cleanupError], "Editorial motion initialization and rollback failed");
         }
-        resetMotionState(root);
+        root.dataset.motionState = "static";
         throw error;
       }
       return (): void => {
-        cleanupScenes(cleanups);
+        try {
+          cleanupScenes(cleanups);
+        } finally {
+          root.dataset.motionState = "static";
+        }
       };
     }, root);
   } catch (error: unknown) {
     try {
       media.revert();
     } catch (revertError: unknown) {
-      resetMotionState(root);
-      throw new AggregateError(
-        [error, revertError],
-        "Portfolio motion initialization and media rollback both failed",
-      );
+      root.dataset.motionState = "static";
+      throw new AggregateError([error, revertError], "Editorial motion initialization and media rollback failed");
     }
-    resetMotionState(root);
+    root.dataset.motionState = "static";
     throw error;
   }
-  if (initialAnchor !== null) {
-    void document.fonts.ready.then((): void => {
-      if (!isActive) {
-        return;
-      }
-      refreshFrame = window.requestAnimationFrame((): void => {
-        ScrollTrigger.refresh();
-        initialAnchor.scrollIntoView();
-      });
-    });
-  }
   return (): void => {
-    isActive = false;
-    if (refreshFrame !== null) {
-      window.cancelAnimationFrame(refreshFrame);
+    try {
+      media.revert();
+    } finally {
+      root.dataset.motionState = "static";
     }
-    media.revert();
-    resetMotionState(root);
   };
 }

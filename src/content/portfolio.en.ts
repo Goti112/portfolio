@@ -5,65 +5,55 @@ import {
 import type { PortfolioContent } from "@/content/types";
 
 const englishNavigation = [
-  { label: "Profile", target: "profile" },
-  { label: "Capabilities", target: "capabilities" },
   { label: "Projects", target: "projects" },
+  { label: "Technologies", target: "capabilities" },
   { label: "Education", target: "education" },
   { label: "Contact", target: "contact" },
 ] as const;
 
 const englishSystem = {
-  pendingLink: "LINK_PENDING",
+  pendingLink: "Repository coming soon",
   languageLabel: "Change language",
-  progressLabel: "Evidence progress",
 } as const;
 
 const englishIntro = {
-  eyebrow: "MIQUEL MANZANO / FULL-STACK DEVELOPER",
+  eyebrow: "Portfolio / Application development",
   name: "Miquel Manzano",
-  role: "Full-stack developer",
-  challengeLines: ["DON'T TRUST THE CLAIM.", "INSPECT THE WORK."],
-  availability: "Available to create, learn, and take ideas all the way to production.",
-} as const;
-
-const englishClaim = {
-  eyebrow: "POSITIONING / FROM UNCERTAINTY TO EXECUTION",
-  problemLines: ["COMPLEX PROBLEM", "UNCERTAIN PATH", "LIMITED SIGNAL"],
-  headingLines: ["I TURN COMPLEX PROBLEMS", "INTO WORKING PRODUCTS."],
-  body: "Full-stack developer trained in systems and web development. I turn unfamiliar domains into working products.",
-  aiPosition: "I use AI as an accelerator for greater complexity, supported by a technical foundation I can apply independently.",
+  role: "Application developer",
+  summary: "I build web and mobile applications with a focus on clear interfaces, useful data, and working solutions.",
+  availability: "Open to new projects and opportunities.",
+  projectsLabel: "View projects",
+  contactLabel: "Get in touch",
 } as const;
 
 const englishMethod = {
-  eyebrow: "METHOD / QUESTION → MODEL → BUILD → SHIP",
-  headingLines: ["CHAOS", "BECOMES", "SYSTEM."],
+  eyebrow: "Capabilities",
+  heading: "Technologies",
   stages: [
-    { id: "question", label: "QUESTION", description: "Clarify the problem, context, and constraints.", capabilities: ["HTTP", "REST APIs", "JSON", "Linux", "Terminal"] },
-    { id: "model", label: "MODEL", description: "Turn the domain into relationships, data, and decisions.", capabilities: ["MySQL", "SQL", "Relational modeling", "Authentication", "Sessions", "User management", "CRUD", "MVC"] },
-    { id: "build", label: "BUILD", description: "Materialize the system with an adaptable technical foundation.", capabilities: ["TypeScript", "JavaScript", "React", "HTML", "CSS", "PHP", "Java", "Python", "Flutter", "Object-oriented programming"] },
-    { id: "ship", label: "SHIP", description: "Test, deploy, and maintain a usable experience.", capabilities: ["Git", "GitHub", "Docker", "Web deployment", "Responsive design", "Web accessibility"] },
+    { id: "languages", label: "LANGUAGES", description: "Programming foundations I keep expanding through projects.", capabilities: ["TypeScript", "JavaScript", "PHP", "Java", "Python", "Dart"] },
+    { id: "web", label: "WEB", description: "Clear, responsive, and accessible web interfaces and experiences.", capabilities: ["React", "Next.js", "HTML", "CSS", "Mapbox GL", "Cesium", "Responsive design", "Web accessibility"] },
+    { id: "data-applications", label: "DATA AND APPLICATIONS", description: "Application logic, APIs, structured data, and mobile applications.", capabilities: ["Node.js", "REST APIs", "PostgreSQL", "MySQL", "SQL", "Prisma", "Flutter", "Google ML Kit"] },
+    { id: "quality", label: "QUALITY AND DELIVERY", description: "Test, version, and take an application into a usable environment.", capabilities: ["Git", "GitHub", "Docker", "Playwright", "GitHub Actions", "Linux", "Web deployment"] },
   ],
 } as const;
 
 export const portfolioEnglish = {
   locale: "en",
   meta: {
-    title: "Miquel Manzano — Full-stack developer",
+    title: "Miquel Manzano — Application developer",
     description:
-      "Technical portfolio of Miquel Manzano: web development, applications, applied AI, and interactive projects.",
+      "Technical portfolio of Miquel Manzano: web, mobile, and interactive application development.",
   },
   navigation: englishNavigation,
   system: englishSystem,
   intro: englishIntro,
-  claim: englishClaim,
   method: englishMethod,
   projects: {
-    eyebrow: "PRIMARY CASE FILES / 03",
-    heading: "RECOVERED EVIDENCE",
+    eyebrow: "Selected work / 03",
+    heading: "Projects",
     items: [
       {
         id: "qgc-planner",
-        caseLabel: "CASE_01",
         name: "QGC Planner",
         summary: "Mission planner inspired by Mission Planner.",
         technologies: ["TypeScript", "React", "Mapbox GL", "Cesium"],
@@ -71,7 +61,6 @@ export const portfolioEnglish = {
       },
       {
         id: "borderpass-ai",
-        caseLabel: "CASE_02",
         name: "BorderPass AI",
         summary: "Assistant for customs professionals and importers working with CBAM controls.",
         technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma"],
@@ -79,7 +68,6 @@ export const portfolioEnglish = {
       },
       {
         id: "ticket-ocr",
-        caseLabel: "CASE_03",
         name: "Ticket OCR Scanner",
         summary: "Flutter application that scans tickets and extracts structured information through OCR.",
         technologies: ["Dart", "Flutter", "Google ML Kit", "XLSX"],
@@ -87,29 +75,21 @@ export const portfolioEnglish = {
       },
     ],
   },
-  experiments: {
-    eyebrow: "EXPERIMENT INDEX / 03",
-    heading: "SECONDARY FILES",
-    items: [
-      { id: "future-project-01", marker: "?", ariaLabel: "Future project 01" },
-      { id: "future-project-02", marker: "?", ariaLabel: "Future project 02" },
-      { id: "future-project-03", marker: "?", ariaLabel: "Future project 03" },
-    ],
-  },
   education: {
-    eyebrow: "EDUCATION TRACE / 2022—2026",
-    heading: "EDUCATION LOG",
+    eyebrow: "Journey / 2022—present",
+    heading: "Education",
+    currentLabel: "In progress",
     items: [
       { qualification: "Microcomputer Systems and Networks", abbreviation: "SMX", institution: "Institut Bernat el Ferrer", startYear: 2022, endYear: 2024 },
       { qualification: "Web Application Development", abbreviation: "DAW", institution: "Institut Bernat el Ferrer", startYear: 2024, endYear: 2026 },
+      { qualification: "Multiplatform Application Development", abbreviation: "DAM", institution: "Institut Bernat el Ferrer", startYear: 2026, endYear: null },
     ],
   },
-  verdict: {
-    eyebrow: "IDENTITY VERIFIED / SESSION SECURE",
-    headingLines: ["READY TO BUILD", "THE NEXT ONE."],
-    availability: "Available to create, learn, and take ideas all the way to production.",
-    emailLabel: "EMAIL",
-    githubLabel: "GITHUB",
+  contact: {
+    eyebrow: "Contact",
+    heading: "Let's talk",
+    emailLabel: "Email",
+    githubLabel: "GitHub",
     email: contactDestinations.email,
     github: contactDestinations.github,
   },

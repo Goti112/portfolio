@@ -47,16 +47,6 @@ const projectTechnologyMismatch: PortfolioContent = {
   },
 };
 
-const experimentMarkerMismatch: PortfolioContent = {
-  ...portfolioEnglish,
-  experiments: {
-    ...portfolioEnglish.experiments,
-    items: portfolioEnglish.experiments.items.map((experiment, index) => index === 0
-      ? { ...experiment, id: "future-project-03" }
-      : experiment),
-  },
-};
-
 const emptyMetadata: PortfolioContent = {
   ...portfolioEnglish,
   meta: {
@@ -70,7 +60,7 @@ const methodStageMismatch: PortfolioContent = {
   method: {
     ...portfolioEnglish.method,
     stages: [
-      { ...portfolioEnglish.method.stages[0], id: "ship" },
+      { ...portfolioEnglish.method.stages[0], id: "quality" },
       portfolioEnglish.method.stages[1],
       portfolioEnglish.method.stages[2],
       portfolioEnglish.method.stages[3],
@@ -78,11 +68,11 @@ const methodStageMismatch: PortfolioContent = {
   },
 };
 
-const emptyVerdict: PortfolioContent = {
+const emptyContact: PortfolioContent = {
   ...portfolioEnglish,
-  verdict: {
-    ...portfolioEnglish.verdict,
-    headingLines: ["", portfolioEnglish.verdict.headingLines[1]],
+  contact: {
+    ...portfolioEnglish.contact,
+    heading: "",
   },
 };
 
@@ -103,10 +93,6 @@ assert.throws(
   /Project immutable data differ between Spanish and English content/,
 );
 assert.throws(
-  () => validatePortfolioPair(portfolioSpanish, experimentMarkerMismatch),
-  /Experiment immutable data differ between Spanish and English content/,
-);
-assert.throws(
   () => validatePortfolioPair(portfolioSpanish, emptyMetadata),
   /Required content is empty for en:meta.title/,
 );
@@ -115,8 +101,8 @@ assert.throws(
   /Method stage order differs between Spanish and English content/,
 );
 assert.throws(
-  () => validatePortfolioPair(portfolioSpanish, emptyVerdict),
-  /Required content is empty for en:verdict.headingLines/,
+  () => validatePortfolioPair(portfolioSpanish, emptyContact),
+  /Required content is empty for en:contact.heading/,
 );
 
 process.stdout.write("Content validation contract is enforced.\n");

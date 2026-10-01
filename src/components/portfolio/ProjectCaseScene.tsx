@@ -13,11 +13,13 @@ export function ProjectCaseScene({ project, pendingLabel, preview: Preview }: Pr
       className="project-evidence__item"
       data-project-case={project.id}
       data-project-id={project.id}
-      data-motion-reveal
-      data-probe
+      data-motion-section
     >
+      <div className="project-evidence__preview" data-project-inline-preview={project.id}>
+        <Preview />
+      </div>
       <div className="project-evidence__text">
-        <span className="project-evidence__case-label">{project.caseLabel}</span>
+        <span className="project-evidence__case-label">{project.id === "qgc-planner" ? "01" : project.id === "borderpass-ai" ? "02" : "03"}</span>
         <h3 className="project-evidence__name">{project.name}</h3>
         <p className="project-evidence__summary">{project.summary}</p>
         <ul className="project-evidence__techs">
@@ -26,9 +28,6 @@ export function ProjectCaseScene({ project, pendingLabel, preview: Preview }: Pr
           ))}
         </ul>
         <ExternalAction destination={project.repository} label={project.name} pendingLabel={pendingLabel} />
-      </div>
-      <div className="project-evidence__preview" data-project-inline-preview={project.id}>
-        <Preview />
       </div>
     </article>
   );

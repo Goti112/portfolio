@@ -1,6 +1,5 @@
 import type {
   EducationItem,
-  Experiment,
   ExternalDestination,
   NavigationItem,
   PortfolioContent,
@@ -58,28 +57,19 @@ function projectSignature(items: readonly PrimaryProject[]): string {
     .join("|");
 }
 
-function experimentSignature(items: readonly Experiment[]): string {
-  return items
-    .map((experiment) => `${experiment.id}:${experiment.marker}`)
-    .join("|");
-}
-
 function validateNarrative(content: PortfolioContent): void {
   const locale = content.locale;
-  assertNonEmpty(content.system.progressLabel, `${locale}:system.progressLabel`);
   assertNonEmpty(content.intro.role, `${locale}:intro.role`);
-  for (const line of content.intro.challengeLines) assertNonEmpty(line, `${locale}:intro.challengeLines`);
-  for (const line of content.claim.problemLines) assertNonEmpty(line, `${locale}:claim.problemLines`);
-  for (const line of content.claim.headingLines) assertNonEmpty(line, `${locale}:claim.headingLines`);
-  assertNonEmpty(content.claim.body, `${locale}:claim.body`);
-  assertNonEmpty(content.claim.aiPosition, `${locale}:claim.aiPosition`);
-  for (const line of content.method.headingLines) assertNonEmpty(line, `${locale}:method.headingLines`);
+  assertNonEmpty(content.intro.summary, `${locale}:intro.summary`);
+  assertNonEmpty(content.intro.projectsLabel, `${locale}:intro.projectsLabel`);
+  assertNonEmpty(content.intro.contactLabel, `${locale}:intro.contactLabel`);
+  assertNonEmpty(content.method.heading, `${locale}:method.heading`);
   for (const stage of content.method.stages) {
     assertNonEmpty(stage.label, `${locale}:method.${stage.id}.label`);
     assertNonEmpty(stage.description, `${locale}:method.${stage.id}.description`);
     for (const capability of stage.capabilities) assertNonEmpty(capability, `${locale}:method.${stage.id}.capability`);
   }
-  for (const line of content.verdict.headingLines) assertNonEmpty(line, `${locale}:verdict.headingLines`);
+  assertNonEmpty(content.contact.heading, `${locale}:contact.heading`);
 }
 
 function validateRequiredContent(content: PortfolioContent): void {
@@ -91,33 +81,25 @@ function validateRequiredContent(content: PortfolioContent): void {
   assertNonEmpty(content.intro.eyebrow, `${locale}:intro.eyebrow`);
   assertNonEmpty(content.intro.name, `${locale}:intro.name`);
   assertNonEmpty(content.intro.availability, `${locale}:intro.availability`);
-  assertNonEmpty(content.claim.eyebrow, `${locale}:claim.eyebrow`);
   assertNonEmpty(content.method.eyebrow, `${locale}:method.eyebrow`);
   assertNonEmpty(content.projects.eyebrow, `${locale}:projects.eyebrow`);
   assertNonEmpty(content.projects.heading, `${locale}:projects.heading`);
-  assertNonEmpty(content.experiments.eyebrow, `${locale}:experiments.eyebrow`);
-  assertNonEmpty(content.experiments.heading, `${locale}:experiments.heading`);
   assertNonEmpty(content.education.eyebrow, `${locale}:education.eyebrow`);
   assertNonEmpty(content.education.heading, `${locale}:education.heading`);
-  assertNonEmpty(content.verdict.eyebrow, `${locale}:verdict.eyebrow`);
-  assertNonEmpty(content.verdict.availability, `${locale}:verdict.availability`);
-  assertNonEmpty(content.verdict.emailLabel, `${locale}:verdict.emailLabel`);
-  assertNonEmpty(content.verdict.githubLabel, `${locale}:verdict.githubLabel`);
+  assertNonEmpty(content.education.currentLabel, `${locale}:education.currentLabel`);
+  assertNonEmpty(content.contact.eyebrow, `${locale}:contact.eyebrow`);
+  assertNonEmpty(content.contact.emailLabel, `${locale}:contact.emailLabel`);
+  assertNonEmpty(content.contact.githubLabel, `${locale}:contact.githubLabel`);
 
   for (const item of content.navigation) {
     assertNonEmpty(item.label, `${locale}:navigation.${item.target}.label`);
   }
   for (const project of content.projects.items) {
-    assertNonEmpty(project.caseLabel, `${locale}:projects.${project.id}.caseLabel`);
     assertNonEmpty(project.name, `${locale}:projects.${project.id}.name`);
     assertNonEmpty(project.summary, `${locale}:projects.${project.id}.summary`);
     for (const technology of project.technologies) {
       assertNonEmpty(technology, `${locale}:projects.${project.id}.technology`);
     }
-  }
-  for (const experiment of content.experiments.items) {
-    assertNonEmpty(experiment.marker, `${locale}:experiments.${experiment.id}.marker`);
-    assertNonEmpty(experiment.ariaLabel, `${locale}:experiments.${experiment.id}.ariaLabel`);
   }
   for (const item of content.education.items) {
     assertNonEmpty(item.qualification, `${locale}:education.${item.abbreviation}.qualification`);
@@ -150,22 +132,17 @@ export function validatePortfolioPair(spanish: PortfolioContent, english: Portfo
     projectSignature(spanish.projects.items) === projectSignature(english.projects.items),
     "Project immutable data differ between Spanish and English content",
   );
-  assertCondition(
-    experimentSignature(spanish.experiments.items) === experimentSignature(english.experiments.items),
-    "Experiment immutable data differ between Spanish and English content",
-  );
-
   for (const content of [spanish, english]) {
-    assertCondition(content.navigation.length === 5, `Expected five navigation items for ${content.locale}`);
+    assertCondition(content.navigation.length === 4, `Expected four navigation items for ${content.locale}`);
+    assertCondition(navigationSignature(content.navigation) === "projects,capabilities,education,contact", `Unexpected navigation targets for ${content.locale}`);
     assertCondition(content.projects.items.length === 3, `Expected three primary projects for ${content.locale}`);
-    assertCondition(content.experiments.items.length === 3, `Expected three experiments for ${content.locale}`);
-    assertCondition(content.education.items.length === 2, `Expected two education items for ${content.locale}`);
+    assertCondition(content.education.items.length === 3, `Expected three education items for ${content.locale}`);
     validateRequiredContent(content);
     validateNarrative(content);
     for (const project of content.projects.items) {
       validateDestination(project.repository, `${content.locale}:${project.id}`);
     }
-    validateDestination(content.verdict.email, `${content.locale}:email`);
-    validateDestination(content.verdict.github, `${content.locale}:github`);
+    validateDestination(content.contact.email, `${content.locale}:email`);
+    validateDestination(content.contact.github, `${content.locale}:github`);
   }
 }

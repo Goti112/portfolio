@@ -34,7 +34,7 @@ export function ExternalAction({ destination, label, pendingLabel }: ExternalAct
   }
 
   return (
-    <a className="external-action" href={destination.url} rel="noreferrer" target="_blank" aria-label={label}>
+    <a className="external-action" href={destination.url} rel={destination.url.startsWith("https:") ? "noreferrer" : undefined} target={destination.url.startsWith("https:") ? "_blank" : undefined} aria-label={label}>
       <span className="external-action__content">
         <span className="external-action__label">{label}</span>
         <span className="external-action__destination" aria-hidden="true">{formatDestination(destination.url)}</span>

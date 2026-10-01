@@ -15,6 +15,7 @@ export function ExperienceHeader({ content }: ExperienceHeaderProps): React.JSX.
     <>
       <a className="skip-link" href="#main-content">{skipLabel}</a>
       <header className="experience-header">
+        <a className="experience-header__brand" href="#profile">Miquel Manzano<span aria-hidden="true">.</span></a>
         <nav aria-label={navigationLabel}>
           <ul className="experience-header__navigation">
             {content.navigation.map((item) => (
@@ -33,10 +34,7 @@ export function ExperienceHeader({ content }: ExperienceHeaderProps): React.JSX.
           <span className="sr-only">{content.system.languageLabel}: </span>
           {targetLabel}
         </a>
-        <div className="experience-progress" aria-label={content.system.progressLabel}>
-          <span data-progress-value>01</span>
-          <span aria-hidden="true"> / 06</span>
-        </div>
+        <a className="experience-header__contact" href="#contact">{content.intro.contactLabel}</a>
       </header>
     </>
   );

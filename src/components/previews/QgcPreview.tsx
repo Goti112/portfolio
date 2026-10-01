@@ -1,21 +1,17 @@
 export function QgcPreview(): React.JSX.Element {
   return (
     <div className="preview-frame preview-frame--qgc" aria-hidden="true">
-      <div className="preview-grid" />
-      <svg className="preview-route" viewBox="0 0 200 100" preserveAspectRatio="xMidYMid meet" data-route>
-        <polyline
-          points="10,80 50,20 100,60 170,30 190,70"
-          fill="none"
-          stroke="var(--color-alert)"
-          strokeWidth="1.5"
-          strokeDasharray="3 2"
-        />
-        <circle cx="10" cy="80" r="3" fill="var(--color-bone)" data-waypoint />
-        <circle cx="50" cy="20" r="3" fill="var(--color-bone)" data-waypoint />
-        <circle cx="100" cy="60" r="3" fill="var(--color-bone)" data-waypoint />
-        <circle cx="170" cy="30" r="3" fill="var(--color-bone)" data-waypoint />
+      <span className="preview-kicker">01 / MISSION PLANNING</span>
+      <svg className="preview-route" viewBox="0 0 200 100">
+        <path className="preview-route__contour" d="M0 84 Q32 60 72 78 T142 62 T200 40 M0 56 Q40 26 78 48 T152 30 T200 18" />
+        <polyline data-route pathLength="1" points="12,75 52,31 103,59 159,24 188,46" />
+        <circle cx="12" cy="75" r="3" />
+        <circle cx="52" cy="31" r="3" />
+        <circle cx="103" cy="59" r="3" />
+        <circle cx="159" cy="24" r="3" />
+        <circle cx="188" cy="46" r="3" />
       </svg>
-      <span className="preview-badge">MAVLINK / CONNECTED</span>
+      <span className="preview-caption">Map → waypoints → route</span>
     </div>
   );
 }
