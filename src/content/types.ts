@@ -2,6 +2,7 @@ export const LOCALES = ["es", "en"] as const;
 
 export type Locale = (typeof LOCALES)[number];
 export type PrimaryProjectId = "qgc-planner" | "borderpass-ai" | "ticket-ocr";
+export type FutureProjectId = "future-project-01" | "future-project-02" | "future-project-03";
 export type MethodStageId = "languages" | "web" | "data-applications" | "quality";
 
 export type ExternalDestination =
@@ -19,6 +20,12 @@ export interface PrimaryProject {
   readonly summary: string;
   readonly technologies: readonly string[];
   readonly repository: ExternalDestination;
+}
+
+export interface Experiment {
+  readonly id: FutureProjectId;
+  readonly marker: "?";
+  readonly ariaLabel: string;
 }
 
 export interface EducationItem {
