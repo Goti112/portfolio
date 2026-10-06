@@ -10,7 +10,7 @@ export function ProofVerdict({ content, pendingLabel }: ProofVerdictProps): Reac
   return (
     <section id="contact" className="proof-verdict">
       <p className="scene-eyebrow">{content.eyebrow}</p>
-      <h2 data-motion-section>{content.heading}</h2>
+      <h2>{content.heading}</h2>
       <div className="proof-verdict__actions">
         <ExternalAction destination={content.email} label={content.emailLabel} pendingLabel={pendingLabel} />
         <ExternalAction destination={content.github} label={content.githubLabel} pendingLabel={pendingLabel} />

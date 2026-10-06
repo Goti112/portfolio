@@ -82,7 +82,7 @@ export const portfolioEnglish = {
     items: [
       { qualification: "Microcomputer Systems and Networks", abbreviation: "SMX", institution: "Institut Bernat el Ferrer", startYear: 2022, endYear: 2024 },
       { qualification: "Web Application Development", abbreviation: "DAW", institution: "Institut Bernat el Ferrer", startYear: 2024, endYear: 2026 },
-      { qualification: "Multiplatform Application Development", abbreviation: "DAM", institution: "Institut Bernat el Ferrer", startYear: 2026, endYear: null },
+      { qualification: "Multiplatform Application Development", abbreviation: "DAM", institution: "Institut Gabriela Mistral", startYear: 2026, endYear: null },
     ],
   },
   contact: {

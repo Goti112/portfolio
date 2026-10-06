@@ -47,5 +47,69 @@ test("shows the existing education and capabilities", async ({ page }) => {
   await expect(page.getByText(/Desarrollo de Aplicaciones Web/)).toBeVisible();
   await expect(page.getByText(/Desarrollo de Aplicaciones Multiplataforma/)).toBeVisible();
   await expect(page.getByText("En curso", { exact: true })).toBeVisible();
-  await expect(page.getByText("Institut Bernat el Ferrer", { exact: true })).toHaveCount(3);
+  await expect(page.getByText("Institut Bernat el Ferrer", { exact: true })).toHaveCount(2);
+  await expect(page.getByText("Institut Gabriela Mistral", { exact: true })).toHaveCount(1);
 });
+
+test("centers the current study below the completed education entries", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/es");
+
+  const studyList = page.locator(".formation-trace__list");
+  const list = await studyList.boundingBox();
+  const studyItems = page.locator(".formation-trace__item");
+  const smx = await studyItems.nth(0).boundingBox();
+  const daw = await studyItems.nth(1).boundingBox();
+  const dam = await studyItems.nth(2).boundingBox();
+  if (list === null || smx === null || daw === null || dam === null) {
+    throw new Error("Education entries must have measurable layout boxes");
+  }
+
+  expect(Math.abs(smx.y - daw.y)).toBeLessThanOrEqual(1);
+  expect(dam.y).toBeGreaterThan(daw.y);
+  expect(Math.abs(dam.x + dam.width / 2 - (list.x + list.width / 2))).toBeLessThanOrEqual(2);
+  await expect(studyItems.nth(2).getByText("Institut Gabriela Mistral", { exact: true })).toBeVisible();
+});
+
+test("gives the recruiter introduction a full editorial text column", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/es");
+
+  const introductionCopy = await page.locator(".proof-intro__copy").boundingBox();
+  if (introductionCopy === null) {
+    throw new Error("Recruiter introduction must have a measurable layout box");
+  }
+
+  expect(introductionCopy.width).toBeGreaterThanOrEqual(800);
+});
+
+for (const viewport of [
+  { label: "desktop", width: 1440 },
+  { label: "mobile", width: 390 },
+] as const) {
+  test(`separates recruiter copy and contact actions on ${viewport.label}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width: viewport.width, height: 1000 });
+    await page.goto("/es");
+
+    const role = await page.locator(".proof-intro__role").boundingBox();
+    const summary = await page.locator(".proof-intro__summary").boundingBox();
+    const heroActions = await page.locator(".proof-intro__actions").boundingBox();
+    const availability = await page.locator(".proof-intro__availability").boundingBox();
+    const contactHeading = await page.locator(".proof-verdict h2").boundingBox();
+    const contactActions = await page.locator(".proof-verdict__actions").boundingBox();
+    if (
+      role === null || summary === null || heroActions === null || availability === null
+      || contactHeading === null || contactActions === null
+    ) {
+      throw new Error("Recruiter copy and contact actions must have measurable layout boxes");
+    }
+
+    expect(heroActions.y - (role.y + role.height)).toBeGreaterThanOrEqual(124);
+    expect(heroActions.y - (summary.y + summary.height)).toBeGreaterThanOrEqual(36);
+    expect(availability.y - (heroActions.y + heroActions.height)).toBeGreaterThanOrEqual(28);
+    expect(contactActions.y - (contactHeading.y + contactHeading.height)).toBeGreaterThanOrEqual(44);
+  });
+}

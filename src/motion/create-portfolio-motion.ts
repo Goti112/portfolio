@@ -19,36 +19,6 @@ function cleanupScenes(cleanups: readonly SceneCleanup[]): void {
   }
 }
 
-function createHeroEntrance(root: HTMLElement): SceneCleanup {
-  const hero = requireElement<HTMLElement>(root, "hero", "[data-scene='intro']");
-  const items = requireElements<HTMLElement>(hero, "hero", "[data-motion-reveal]");
-  const tween = gsap.from(items, {
-    y: 24,
-    duration: 0.65,
-    stagger: 0.1,
-    ease: "power2.out",
-    clearProps: "all",
-  });
-  return (): void => { tween.revert(); };
-}
-
-function createSectionReveals(root: HTMLElement): SceneCleanup {
-  const items = requireElements<HTMLElement>(root, "sections", "[data-motion-section]");
-  const tweens = items.map((item) => gsap.from(item, {
-    y: 28,
-    duration: 0.6,
-    ease: "power2.out",
-    clearProps: "all",
-    scrollTrigger: { trigger: item, start: "top 86%", once: true },
-  }));
-  return (): void => {
-    tweens.forEach((tween) => {
-      tween.scrollTrigger?.kill();
-      tween.revert();
-    });
-  };
-}
-
 function createDiagramMotion(root: HTMLElement): SceneCleanup {
   const qgc = requireElement<HTMLElement>(root, "qgc", "[data-project-case='qgc-planner']");
   const borderPass = requireElement<HTMLElement>(root, "borderpass", "[data-project-case='borderpass-ai']");
@@ -98,8 +68,6 @@ export function createPortfolioMotion(root: HTMLElement): () => void {
     media.add("(prefers-reduced-motion: no-preference)", () => {
       const cleanups: SceneCleanup[] = [];
       try {
-        cleanups.push(createHeroEntrance(root));
-        cleanups.push(createSectionReveals(root));
         cleanups.push(createDiagramMotion(root));
         root.dataset.motionState = "ready";
       } catch (error: unknown) {

@@ -36,10 +36,11 @@
 }
 
 .proof-intro__body {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.65fr);
-  align-items: center;
-  gap: clamp(2rem, 5vw, 5rem);
+  display: block;
+}
+
+.proof-intro__copy {
+  max-width: 56rem;
 }
 
 .proof-intro h1 {
@@ -52,7 +53,7 @@
 }
 
 .proof-intro__role {
-  margin: 0.75rem 0 1.5rem;
+  margin: 1rem 0 2rem;
   color: var(--color-accent);
   font-size: clamp(1.2rem, 2.4vw, 2rem);
   font-weight: 700;
@@ -61,7 +62,7 @@
 
 .proof-intro__summary {
   max-width: 43rem;
-  margin: 0 0 2rem;
+  margin: 0 0 2.5rem;
   color: var(--color-muted);
   font-size: clamp(1.0625rem, 1.6vw, 1.375rem);
   line-height: 1.55;
@@ -71,7 +72,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .button {
@@ -97,65 +98,9 @@
 }
 
 .proof-intro__availability {
-  margin: 1.25rem 0 0;
+  margin: 2rem 0 0;
   color: var(--color-muted);
   font-size: 0.875rem;
-}
-
-.proof-intro__art {
-  position: relative;
-  width: min(100%, 21rem);
-  aspect-ratio: 1;
-  justify-self: end;
-  border: 1px solid var(--color-line);
-  border-radius: 50%;
-  background: radial-gradient(circle at center, var(--color-surface) 0 36%, transparent 37%), #e9e4da;
-}
-
-.proof-intro__art::before,
-.proof-intro__art::after {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 125%;
-  border-top: 1px solid var(--color-line);
-  content: "";
-  transform: translate(-50%, -50%) rotate(-28deg);
-}
-
-.proof-intro__art::after {
-  transform: translate(-50%, -50%) rotate(62deg);
-}
-
-.proof-intro__art-orbit {
-  position: absolute;
-  inset: 14%;
-  border: 1px solid var(--color-line);
-  border-radius: 50%;
-}
-
-.proof-intro__art-orbit--two {
-  inset: 30%;
-  border-color: var(--color-accent);
-}
-
-.proof-intro__art-core {
-  position: absolute;
-  top: 43%;
-  left: 43%;
-  width: 14%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--color-accent);
-}
-
-.proof-intro__art-index {
-  position: absolute;
-  right: 2rem;
-  bottom: 2rem;
-  font-family: var(--font-code);
-  font-size: 0.7rem;
-  font-weight: 700;
 }
 
 .project-evidence {
@@ -311,7 +256,7 @@
 
 .formation-trace__list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0;
   margin: 0;
   padding: 0;
@@ -326,6 +271,13 @@
   color: var(--color-muted);
   font-family: var(--font-code);
   font-size: 0.75rem;
+}
+
+.formation-trace__item--current {
+  grid-column: 1 / -1;
+  width: min(100%, 32rem);
+  margin-inline: auto;
+  text-align: center;
 }
 
 .formation-trace__code {
@@ -360,6 +312,7 @@
 
 .proof-verdict h2 {
   color: var(--color-surface);
+  margin-bottom: 3rem;
 }
 
 .proof-verdict__actions {

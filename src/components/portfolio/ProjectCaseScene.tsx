@@ -13,7 +13,6 @@ export function ProjectCaseScene({ project, pendingLabel, preview: Preview }: Pr
       className="project-evidence__item"
       data-project-case={project.id}
       data-project-id={project.id}
-      data-motion-section
     >
       <div className="project-evidence__preview" data-project-inline-preview={project.id}>
         <Preview />

@@ -16,6 +16,18 @@ test("keeps static visuals for reduced-motion visitors", async ({ page }) => {
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
 });
 
+test("keeps hero copy still when normal motion is reserved for project diagrams", async ({ page }) => {
+  await page.clock.install();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "ready");
+
+  const headingTransform = await page.locator(".proof-intro h1").evaluate(
+    (heading) => getComputedStyle(heading).transform,
+  );
+  expect(headingTransform).toBe("none");
+});
+
 test("ignores malformed fragments without a page error", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));

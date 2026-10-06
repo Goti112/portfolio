@@ -27,13 +27,8 @@
 }
 
 @media (max-width: 760px) {
-  .proof-intro__body,
   .project-evidence__item {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .proof-intro__art {
-    display: none;
   }
 
   .project-evidence__item:nth-child(even) .project-evidence__preview {
@@ -42,6 +37,12 @@
 
   .formation-trace__list {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .formation-trace__item--current {
+    grid-column: 1;
+    width: 100%;
+    text-align: left;
   }
 }
 

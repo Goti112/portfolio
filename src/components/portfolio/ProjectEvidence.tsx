@@ -21,7 +21,7 @@ export function ProjectEvidence({ eyebrow, heading, items, pendingLabel }: Proje
   return (
     <section id="projects" className="project-evidence">
       <p className="project-evidence__eyebrow">{eyebrow}</p>
-      <h2 className="project-evidence__heading" data-motion-section>{heading}</h2>
+      <h2 className="project-evidence__heading">{heading}</h2>
       <div className="project-evidence__layout">
           {items.map((project) => (
             <ProjectCaseScene

@@ -1,8 +1,3 @@
-[data-motion-root] [data-motion-reveal],
-[data-motion-root] [data-motion-section] {
-  opacity: 1;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

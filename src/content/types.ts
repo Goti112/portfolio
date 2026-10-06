@@ -31,7 +31,7 @@ export interface Experiment {
 export interface EducationItem {
   readonly qualification: string;
   readonly abbreviation: "SMX" | "DAW" | "DAM";
-  readonly institution: "Institut Bernat el Ferrer";
+  readonly institution: "Institut Bernat el Ferrer" | "Institut Gabriela Mistral";
   readonly startYear: number;
   readonly endYear: number | null;
 }

@@ -13,20 +13,14 @@ export function ProofIntro({ content, email, pendingLabel }: ProofIntroProps): R
       <p className="scene-eyebrow">{content.eyebrow}</p>
       <div className="proof-intro__body">
         <div className="proof-intro__copy">
-          <h1 data-motion-reveal>{content.name}</h1>
+          <h1>{content.name}</h1>
           <p className="proof-intro__role">{content.role}</p>
-          <p className="proof-intro__summary" data-motion-reveal>{content.summary}</p>
-          <div className="proof-intro__actions" data-motion-reveal>
+          <p className="proof-intro__summary">{content.summary}</p>
+          <div className="proof-intro__actions">
             <a className="button button--primary" href="#projects">{content.projectsLabel}<span aria-hidden="true"> ↗</span></a>
             <ExternalAction destination={email} label={content.contactLabel} pendingLabel={pendingLabel} />
           </div>
           <p className="proof-intro__availability">{content.availability}</p>
-        </div>
-        <div className="proof-intro__art" aria-hidden="true">
-          <span className="proof-intro__art-orbit proof-intro__art-orbit--one" />
-          <span className="proof-intro__art-orbit proof-intro__art-orbit--two" />
-          <span className="proof-intro__art-core" />
-          <span className="proof-intro__art-index">01 / 03</span>
         </div>
       </div>
     </section>
