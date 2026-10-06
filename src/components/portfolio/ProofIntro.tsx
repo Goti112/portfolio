@@ -17,7 +17,7 @@ export function ProofIntro({ content, email, pendingLabel }: ProofIntroProps): R
           <p className="proof-intro__role">{content.role}</p>
           <p className="proof-intro__summary">{content.summary}</p>
           <div className="proof-intro__actions">
-            <a className="button button--primary" href="#projects">{content.projectsLabel}<span aria-hidden="true"> ↗</span></a>
+            <a className="button button--primary" href="#projects">{content.projectsLabel}</a>
             <ExternalAction destination={email} label={content.contactLabel} pendingLabel={pendingLabel} />
           </div>
           <p className="proof-intro__availability">{content.availability}</p>
