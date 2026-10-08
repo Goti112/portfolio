@@ -135,7 +135,7 @@ test("renders capabilities as wired nodes with linked status", async ({ page }) 
   await page.goto("/es");
   const section = page.locator("#capabilities");
   await section.scrollIntoViewIfNeeded();
-  await expect(section.locator(".build-method__node")).toHaveCount(29);
+  await expect(section.locator(".build-method__node")).toHaveCount(24);
   await expect(section.locator(".build-method__node .build-method__status")).toHaveCount(10);
   await expect(section.locator(".build-method__status")).toHaveCount(11);
   await expect(section.locator(".build-method__legend")).toContainText("usada en proyectos reales");

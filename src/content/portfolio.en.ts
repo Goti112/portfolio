@@ -50,9 +50,9 @@ const englishMethod = {
   },
   stages: [
     { id: "languages", label: "LANGUAGES", description: "Programming foundations I keep expanding through projects.", capabilities: ["TypeScript", "JavaScript", "PHP", "Java", "Python", "Dart"] },
-    { id: "web", label: "WEB", description: "Clear, responsive, and accessible web interfaces and experiences.", capabilities: ["React", "Next.js", "HTML", "CSS", "Mapbox GL", "Cesium", "Responsive design", "Web accessibility"] },
-    { id: "data-applications", label: "DATA AND APPLICATIONS", description: "Application logic, APIs, structured data, and mobile applications.", capabilities: ["Node.js", "REST APIs", "PostgreSQL", "MySQL", "SQL", "Prisma", "Flutter", "Google ML Kit"] },
-    { id: "quality", label: "QUALITY AND DELIVERY", description: "Test, version, and take an application into a usable environment.", capabilities: ["Git", "GitHub", "Docker", "Playwright", "GitHub Actions", "Linux", "Web deployment"] },
+    { id: "web", label: "WEB", description: "Clear, responsive, and accessible web interfaces and experiences.", capabilities: ["React", "Next.js", "HTML", "CSS", "Mapbox GL", "Cesium"] },
+    { id: "data-applications", label: "DATA AND APPLICATIONS", description: "Application logic, APIs, structured data, and mobile applications.", capabilities: ["Node.js", "REST APIs", "PostgreSQL", "MySQL", "Prisma", "Flutter", "Google ML Kit"] },
+    { id: "quality", label: "QUALITY AND DELIVERY", description: "Test, version, and take an application into a usable environment.", capabilities: ["Git", "Docker", "Playwright", "GitHub Actions", "Linux"] },
   ],
 } as const;
 
