@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { archivo, jetBrainsMono } from "@/lib/fonts";
-import "../../globals.css";
+import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Miquel Manzano — Desarrollador full-stack",
-  description: "Portfolio técnico de Miquel Manzano: desarrollo web, aplicaciones, IA aplicada y proyectos interactivos.",
+  title: "Miquel Manzano — Desarrollador de aplicaciones",
+  description: "Portfolio técnico de Miquel Manzano: desarrollo de aplicaciones web, móviles e interactivas.",
   alternates: {
-    canonical: "/es",
-    languages: { en: "/", es: "/es" },
+    canonical: "/",
+    languages: { en: "/en", es: "/" },
   },
 };
 

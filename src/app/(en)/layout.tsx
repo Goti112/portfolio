@@ -4,11 +4,11 @@ import { archivo, jetBrainsMono } from "@/lib/fonts";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Miquel Manzano — Full-stack developer",
-  description: "Technical portfolio of Miquel Manzano: web development, applications, applied AI, and interactive projects.",
+  title: "Miquel Manzano — Application developer",
+  description: "Technical portfolio of Miquel Manzano: web, mobile, and interactive application development.",
   alternates: {
-    canonical: "/",
-    languages: { en: "/", es: "/es" },
+    canonical: "/en",
+    languages: { en: "/en", es: "/" },
   },
 };
 

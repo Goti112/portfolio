@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <defs>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".86" numOctaves="2" seed="18" stitchTiles="stitch" result="noise">
+        <animate attributeName="seed" values="18;39;73;6;52;91;24;67" dur=".6s" calcMode="discrete" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feColorMatrix in="noise" type="saturate" values="0" result="gray"/>
+      <feComponentTransfer in="gray">
+        <feFuncR type="linear" slope="1.9" intercept="-.48"/>
+        <feFuncG type="linear" slope="1.9" intercept="-.48"/>
+        <feFuncB type="linear" slope="1.9" intercept="-.48"/>
+        <feFuncA type="linear" slope=".38"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="180" height="180" fill="#fff" filter="url(#grain)"/>
+  <path fill="none" stroke="#d9e8e4" stroke-opacity=".11" stroke-width="1" d="M3 11h2m19 4h1m31-8h2m17 18h1m28-13h3m34 9h1m21-16h2M11 38h1m22-5h3m30 14h1m23-8h2m33 10h1m27-15h3M5 68h3m17-9h1m33 18h2m29-12h1m30 5h3m31-13h2M12 91h2m20-9h1m32 15h3m22-6h1m32 12h2m30-17h1M6 116h1m24-10h3m29 18h1m28-15h2m31 11h1m28-8h3M13 140h3m22-9h1m27 15h2m24-8h1m34 13h3m29-17h1M4 162h2m26-7h1m33 18h3m27-12h2m29 7h1m31-12h3"/>
+  <path fill="none" stroke="#d9e8e4" stroke-opacity=".055" stroke-width="1" d="M15 5h1m27 17h2m38-12h1m26 17h2m38-8h1M8 48h2m40-11h1m32 15h2m32-7h1m43 4h2M18 73h1m28 13h2m37-16h1m30 14h2m32-12h1M9 104h2m42-9h1m33 17h2m31-14h1m44 9h2M19 128h1m25 13h2m38-16h1m34 14h2m31-10h1M7 153h2m43 15h1m29-17h2m34 19h1m43-10h2"/>
+</svg>

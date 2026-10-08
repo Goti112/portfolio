@@ -53,7 +53,7 @@ function destinationSignature(destination: ExternalDestination): string {
 
 function projectSignature(items: readonly PrimaryProject[]): string {
   return items
-    .map((project) => `${project.id}:${project.technologies.join(",")}:${destinationSignature(project.repository)}`)
+    .map((project) => `${project.id}:${project.highlights.length}:${project.technologies.join(",")}:${destinationSignature(project.repository)}`)
     .join("|");
 }
 
@@ -64,6 +64,15 @@ function validateNarrative(content: PortfolioContent): void {
   assertNonEmpty(content.intro.projectsLabel, `${locale}:intro.projectsLabel`);
   assertNonEmpty(content.intro.contactLabel, `${locale}:intro.contactLabel`);
   assertNonEmpty(content.method.heading, `${locale}:method.heading`);
+  const terminal = content.method.terminal;
+  assertNonEmpty(terminal.channelPrefix, `${locale}:method.terminal.channelPrefix`);
+  assertNonEmpty(terminal.nodesLabel, `${locale}:method.terminal.nodesLabel`);
+  assertNonEmpty(terminal.linkedLabel, `${locale}:method.terminal.linkedLabel`);
+  assertNonEmpty(terminal.legendPrefix, `${locale}:method.terminal.legendPrefix`);
+  assertNonEmpty(terminal.legendLink, `${locale}:method.terminal.legendLink`);
+  assertNonEmpty(terminal.linkedDescription, `${locale}:method.terminal.linkedDescription`);
+  assertNonEmpty(terminal.carrier, `${locale}:method.terminal.carrier`);
+  assertNonEmpty(terminal.sideNote, `${locale}:method.terminal.sideNote`);
   for (const stage of content.method.stages) {
     assertNonEmpty(stage.label, `${locale}:method.${stage.id}.label`);
     assertNonEmpty(stage.description, `${locale}:method.${stage.id}.description`);
@@ -78,12 +87,22 @@ function validateRequiredContent(content: PortfolioContent): void {
   assertNonEmpty(content.meta.description, `${locale}:meta.description`);
   assertNonEmpty(content.system.pendingLink, `${locale}:system.pendingLink`);
   assertNonEmpty(content.system.languageLabel, `${locale}:system.languageLabel`);
+  assertNonEmpty(content.system.header.broadcastLabel, `${locale}:system.header.broadcastLabel`);
+  assertNonEmpty(content.system.header.channelPrefix, `${locale}:system.header.channelPrefix`);
+  assertNonEmpty(content.system.header.homeChannelLabel, `${locale}:system.header.homeChannelLabel`);
+  assertNonEmpty(content.system.header.currentChannelLabel, `${locale}:system.header.currentChannelLabel`);
+  assertNonEmpty(content.system.header.navigationLabel, `${locale}:system.header.navigationLabel`);
+  assertNonEmpty(content.system.header.skipLabel, `${locale}:system.header.skipLabel`);
+  assertNonEmpty(content.system.header.languageTargetLabel, `${locale}:system.header.languageTargetLabel`);
   assertNonEmpty(content.intro.eyebrow, `${locale}:intro.eyebrow`);
   assertNonEmpty(content.intro.name, `${locale}:intro.name`);
   assertNonEmpty(content.intro.availability, `${locale}:intro.availability`);
   assertNonEmpty(content.method.eyebrow, `${locale}:method.eyebrow`);
   assertNonEmpty(content.projects.eyebrow, `${locale}:projects.eyebrow`);
   assertNonEmpty(content.projects.heading, `${locale}:projects.heading`);
+  for (const [key, value] of Object.entries(content.projects.labels)) {
+    assertNonEmpty(value, `${locale}:projects.labels.${key}`);
+  }
   assertNonEmpty(content.education.eyebrow, `${locale}:education.eyebrow`);
   assertNonEmpty(content.education.heading, `${locale}:education.heading`);
   assertNonEmpty(content.education.currentLabel, `${locale}:education.currentLabel`);
@@ -97,6 +116,10 @@ function validateRequiredContent(content: PortfolioContent): void {
   for (const project of content.projects.items) {
     assertNonEmpty(project.name, `${locale}:projects.${project.id}.name`);
     assertNonEmpty(project.summary, `${locale}:projects.${project.id}.summary`);
+    assertCondition(project.highlights.length > 0, `Expected highlights for ${locale}:projects.${project.id}`);
+    for (const highlight of project.highlights) {
+      assertNonEmpty(highlight, `${locale}:projects.${project.id}.highlight`);
+    }
     for (const technology of project.technologies) {
       assertNonEmpty(technology, `${locale}:projects.${project.id}.technology`);
     }
@@ -134,7 +157,7 @@ export function validatePortfolioPair(spanish: PortfolioContent, english: Portfo
   );
   for (const content of [spanish, english]) {
     assertCondition(content.navigation.length === 4, `Expected four navigation items for ${content.locale}`);
-    assertCondition(navigationSignature(content.navigation) === "projects,capabilities,education,contact", `Unexpected navigation targets for ${content.locale}`);
+    assertCondition(navigationSignature(content.navigation) === "capabilities,projects,education,contact", `Unexpected navigation targets for ${content.locale}`);
     assertCondition(content.projects.items.length === 3, `Expected three primary projects for ${content.locale}`);
     assertCondition(content.education.items.length === 3, `Expected three education items for ${content.locale}`);
     validateRequiredContent(content);

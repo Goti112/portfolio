@@ -11,3 +11,4 @@ public/browser/portfolio-effects.js
 next-env.d.ts
 tsconfig.tsbuildinfo
 *.tsbuildinfo
+.vercel

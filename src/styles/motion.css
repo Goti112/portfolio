@@ -1,4 +1,39 @@
 @media (prefers-reduced-motion: reduce) {
+  .experience-header {
+    transition: none;
+  }
+
+  .experience-header__rec-dot,
+  .experience-header__osd,
+  .experience-header__navigation a:hover .experience-header__channel-label {
+    animation: none;
+  }
+
+  .experience-header__osd {
+    transition: none;
+  }
+
+  .proof-intro::before {
+    background-image: url("/signal-noise.svg");
+  }
+
+  .build-method__cursor,
+  .build-method__title:hover,
+  .build-method:focus-visible .build-method__title,
+  .build-method[data-wired-glitch-reveal="active"] .build-method__title,
+  .build-method__title:hover::before,
+  .build-method:focus-visible .build-method__title::before,
+  .build-method[data-wired-glitch-reveal="active"] .build-method__title::before,
+  .build-method__title:hover::after,
+  .build-method:focus-visible .build-method__title::after,
+  .build-method[data-wired-glitch-reveal="active"] .build-method__title::after {
+    animation: none;
+  }
+
+  .build-method[data-wired-reveal="pending"] .build-method__node {
+    opacity: 1;
+    transform: none;
+  }
   *,
   *::before,
   *::after {

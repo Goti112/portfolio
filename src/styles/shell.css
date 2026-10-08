@@ -1,34 +1,108 @@
 .portfolio-shell {
+  --screen-margin: clamp(0.75rem, 2vw, 1.75rem);
   min-height: 100vh;
   overflow: clip;
 }
 
 .experience-header {
+  --header-control-height: 2.5rem;
   position: sticky;
   top: 0;
   z-index: 20;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto;
   align-items: center;
-  gap: clamp(1rem, 2.5vw, 2rem);
+  gap: clamp(0.75rem, 1.8vw, 1.5rem);
   min-height: 4.25rem;
+  width: calc(100% - var(--screen-margin) - var(--screen-margin));
+  max-width: 100vw;
+  margin-inline: auto;
   padding: 0.5rem var(--page-inline);
-  border-bottom: 1px solid var(--color-line);
-  background: color-mix(in srgb, var(--color-canvas) 94%, transparent);
-  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-line);
+  border-radius: 1rem 1rem 0 0;
+  background: linear-gradient(180deg, #1c1a1c, #0d0c0e);
+  box-shadow:
+    inset 0 1px rgb(242 239 231 / 7%),
+    inset 0 -1px rgb(0 0 0 / 70%),
+    0 0.5rem 1.5rem rgb(0 0 0 / 18%);
+  transition: top 240ms ease, max-width 240ms ease, border-radius 240ms ease, box-shadow 240ms ease, border-color 240ms ease, background 240ms ease;
+}
+
+.experience-header[data-mode="floating"] {
+  top: 0.5rem;
+  max-width: 70rem;
+  border-color: rgb(216 137 141 / 25%);
+  border-radius: 0;
+  background:
+    url("/signal-noise.svg") repeat,
+    repeating-linear-gradient(to bottom, rgb(185 190 194 / 2%) 0 1px, transparent 1px 3px, rgb(0 0 0 / 14%) 3px 4px),
+    rgb(13 12 14 / var(--header-floating-alpha, 82%));
+  background-size: 120px 120px, auto, auto;
+  background-blend-mode: soft-light, normal, normal;
+  backdrop-filter: blur(var(--header-floating-blur, 6px));
+  box-shadow: 0 0.875rem 2rem rgb(0 0 0 / 42%);
+}
+
+.experience-header[data-mode="floating"]::before,
+.experience-header[data-mode="floating"]::after {
+  position: absolute;
+  width: 0.75rem;
+  height: 0.75rem;
+  content: "";
+  pointer-events: none;
+  border: solid var(--color-accent-on-dark);
+}
+
+.experience-header[data-mode="floating"]::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+.experience-header[data-mode="floating"]::after {
+  right: -1px;
+  bottom: -1px;
+  border-width: 0 2px 2px 0;
 }
 
 .experience-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   color: var(--color-ink);
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-family: var(--font-code);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
   text-decoration: none;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
-.experience-header__brand span {
-  color: var(--color-accent);
+.experience-header__brand-short {
+  display: none;
+}
+
+.experience-header__rec-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--color-accent-on-dark);
+  box-shadow: 0 0 0.5rem rgb(216 137 141 / 70%);
+  animation: header-rec 2.4s ease-in-out infinite;
+}
+
+@keyframes header-rec {
+  50% {
+    opacity: 0.35;
+    box-shadow: none;
+  }
+}
+
+.experience-header__rec {
+  color: var(--color-muted);
+  font-weight: 500;
 }
 
 .experience-header nav {
@@ -37,54 +111,186 @@
 
 .experience-header__navigation {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem clamp(0.8rem, 2vw, 1.75rem);
+  align-items: stretch;
+  height: var(--header-control-height);
   margin: 0;
   padding: 0;
+  border: 1px solid var(--color-line);
+  background: rgb(11 10 12 / 80%);
   list-style: none;
 }
 
-.experience-header__navigation a,
-.experience-header__language {
-  display: inline-flex;
+.experience-header__navigation li {
+  display: flex;
+}
+
+.experience-header__navigation li + li {
+  border-left: 1px dashed var(--color-line);
+}
+
+.experience-header__navigation a {
+  position: relative;
+  display: flex;
   align-items: center;
-  min-height: 2.5rem;
+  justify-content: center;
+  height: calc(var(--header-control-height) - 2px);
+  padding: 0.5rem 0.75rem;
   color: var(--color-muted);
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-family: var(--font-code);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
   text-decoration: none;
+  text-transform: uppercase;
   white-space: nowrap;
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.experience-header__channel-copy {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5ch;
+}
+
+.experience-header__channel-number {
+  color: var(--color-muted);
+  font-size: 0.6875rem;
+  opacity: 0.55;
   transition: color 160ms ease;
 }
 
 .experience-header__navigation a:hover,
-.experience-header__navigation a:focus-visible,
-.experience-header__language:hover,
-.experience-header__language:focus-visible {
-  color: var(--color-accent);
+.experience-header__navigation a:focus-visible {
+  color: var(--color-ink);
+  background: rgb(166 83 87 / 12%);
 }
 
-.experience-header__contact {
+.experience-header__navigation a:hover .experience-header__channel-number,
+.experience-header__navigation a:focus-visible .experience-header__channel-number {
+  color: var(--color-accent-on-dark);
+  opacity: 1;
+}
+
+.experience-header__navigation a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.experience-header__navigation a[aria-current="location"] {
+  color: var(--color-ink);
+}
+
+.experience-header__navigation a[aria-current="location"] .experience-header__channel-number {
+  color: var(--color-accent-on-dark);
+  opacity: 1;
+}
+
+.experience-header__navigation a[aria-current="location"]::after {
+  position: absolute;
+  right: 0.75rem;
+  bottom: -1px;
+  left: 0.75rem;
+  height: 2px;
+  content: "";
+  background: var(--color-accent-on-dark);
+  box-shadow: 0 0 0.5rem rgb(216 137 141 / 60%);
+}
+
+.experience-header__navigation a:hover .experience-header__channel-label {
+  animation: wired-glitch 320ms steps(2, end) 1;
+}
+
+.experience-header__osd {
+  display: flex;
+  align-items: center;
+  height: var(--header-control-height);
+  margin: 0;
+  padding-inline: 0.6rem;
+  color: var(--color-accent-on-dark);
+  font-family: var(--font-code);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 0 0.5rem rgb(216 137 141 / 40%);
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 200ms ease;
+}
+
+.experience-header[data-mode="docked"] .experience-header__osd[data-channel="0"] {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.experience-header__osd[data-tuning="true"] {
+  animation: header-tune 360ms steps(3, end) 1;
+}
+
+.experience-header__osd-arrow {
+  margin-inline: 0.4em;
+}
+
+@keyframes header-tune {
+  0% {
+    opacity: 0;
+    filter: blur(1px);
+    transform: translateX(-2px);
+  }
+
+  40% {
+    opacity: 1;
+    transform: translateX(2px);
+  }
+
+  70% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+.experience-header__language {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-height: 2.5rem;
-  padding: 0.4rem 0.9rem;
-  border-radius: 99px;
-  background: var(--color-ink);
-  color: var(--color-surface);
-  font-size: 0.875rem;
-  font-weight: 700;
+  height: var(--header-control-height);
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--color-line);
+  background: rgb(11 10 12 / 80%);
+  font-family: var(--font-code);
+  font-size: 0.75rem;
   text-decoration: none;
-  white-space: nowrap;
-  transition: background 180ms ease, transform 180ms ease;
 }
 
-.experience-header__contact:hover {
-  transform: translateY(-2px);
-  background: var(--color-accent);
+.experience-header__lang-option {
+  color: var(--color-muted);
+  opacity: 0.7;
 }
 
+.experience-header__lang-option[data-current="true"] {
+  color: var(--color-ink);
+  opacity: 1;
+}
+
+.experience-header__lang-option[data-locale="en"] {
+  margin-left: 0.35rem;
+  padding-left: 0.35rem;
+  border-left: 1px dashed var(--color-line);
+}
+
+.experience-header__language:hover .experience-header__lang-option:not([data-current="true"]),
+.experience-header__language:focus-visible .experience-header__lang-option:not([data-current="true"]) {
+  color: var(--color-accent-on-dark);
+  opacity: 1;
+}
+
+.experience-header__language:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
 #profile,
 #projects,
 #capabilities,

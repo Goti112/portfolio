@@ -5,8 +5,8 @@ import {
 import type { PortfolioContent } from "@/content/types";
 
 const englishNavigation = [
-  { label: "Projects", target: "projects" },
   { label: "Technologies", target: "capabilities" },
+  { label: "Projects", target: "projects" },
   { label: "Education", target: "education" },
   { label: "Contact", target: "contact" },
 ] as const;
@@ -14,6 +14,15 @@ const englishNavigation = [
 const englishSystem = {
   pendingLink: "Repository coming soon",
   languageLabel: "Change language",
+  header: {
+    broadcastLabel: "REC",
+    channelPrefix: "CH",
+    homeChannelLabel: "PROFILE",
+    currentChannelLabel: "Current section",
+    navigationLabel: "Main navigation",
+    skipLabel: "Skip to content",
+    languageTargetLabel: "Español",
+  },
 } as const;
 
 const englishIntro = {
@@ -29,6 +38,16 @@ const englishIntro = {
 const englishMethod = {
   eyebrow: "Capabilities",
   heading: "Technologies",
+  terminal: {
+    channelPrefix: "CH",
+    nodesLabel: "NODES",
+    linkedLabel: "LINKED",
+    legendPrefix: "used in shipped projects",
+    legendLink: "See projects ↓",
+    linkedDescription: "used in projects",
+    carrier: "NO CARRIER → CONNECTED",
+    sideNote: "PRESENT DAY, PRESENT TIME",
+  },
   stages: [
     { id: "languages", label: "LANGUAGES", description: "Programming foundations I keep expanding through projects.", capabilities: ["TypeScript", "JavaScript", "PHP", "Java", "Python", "Dart"] },
     { id: "web", label: "WEB", description: "Clear, responsive, and accessible web interfaces and experiences.", capabilities: ["React", "Next.js", "HTML", "CSS", "Mapbox GL", "Cesium", "Responsive design", "Web accessibility"] },
@@ -51,11 +70,19 @@ export const portfolioEnglish = {
   projects: {
     eyebrow: "Selected work / 03",
     heading: "Projects",
+    labels: {
+      channelPrefix: "CH",
+      indexLabel: "Project channels",
+      summaryLabel: "What it does",
+      highlightsLabel: "What I built",
+      stackLabel: "Stack",
+    },
     items: [
       {
         id: "qgc-planner",
         name: "QGC Planner",
         summary: "Mission planner inspired by Mission Planner.",
+        highlights: ["2D mission map built with Mapbox GL", "3D flight view rendered with Cesium", "Waypoint route planning interface in React"],
         technologies: ["TypeScript", "React", "Mapbox GL", "Cesium"],
         repository: projectRepositories["qgc-planner"],
       },
@@ -63,6 +90,7 @@ export const portfolioEnglish = {
         id: "borderpass-ai",
         name: "BorderPass AI",
         summary: "Assistant for customs professionals and importers working with CBAM controls.",
+        highlights: ["Guided workflow for CBAM compliance checks", "Relational data model with PostgreSQL and Prisma", "Full-stack web app built on Next.js"],
         technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma"],
         repository: projectRepositories["borderpass-ai"],
       },
@@ -70,6 +98,7 @@ export const portfolioEnglish = {
         id: "ticket-ocr",
         name: "Ticket OCR Scanner",
         summary: "Flutter application that scans tickets and extracts structured information through OCR.",
+        highlights: ["Ticket capture with on-device OCR (Google ML Kit)", "Extraction of structured fields from raw text", "Export of results to XLSX spreadsheets"],
         technologies: ["Dart", "Flutter", "Google ML Kit", "XLSX"],
         repository: projectRepositories["ticket-ocr"],
       },

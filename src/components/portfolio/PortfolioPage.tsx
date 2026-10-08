@@ -17,8 +17,8 @@ export function PortfolioPage({ content }: PortfolioPageProps): React.JSX.Elemen
       <ExperienceHeader content={content} />
       <main id="main-content" tabIndex={-1}>
         <ProofIntro content={content.intro} email={content.contact.email} pendingLabel={content.system.pendingLink} />
+        <BuildMethod method={content.method} projects={content.projects.items} />
         <ProjectEvidence {...content.projects} pendingLabel={content.system.pendingLink} />
-        <BuildMethod method={content.method} />
         <FormationTrace content={content.education} />
         <ProofVerdict content={content.contact} pendingLabel={content.system.pendingLink} />
       </main>

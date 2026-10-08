@@ -18,6 +18,7 @@ export interface PrimaryProject {
   readonly id: PrimaryProjectId;
   readonly name: string;
   readonly summary: string;
+  readonly highlights: readonly string[];
   readonly technologies: readonly string[];
   readonly repository: ExternalDestination;
 }
@@ -50,6 +51,15 @@ export interface PortfolioContent {
   readonly system: {
     readonly pendingLink: string;
     readonly languageLabel: string;
+    readonly header: {
+      readonly broadcastLabel: string;
+      readonly channelPrefix: string;
+      readonly homeChannelLabel: string;
+      readonly currentChannelLabel: string;
+      readonly navigationLabel: string;
+      readonly skipLabel: string;
+      readonly languageTargetLabel: string;
+    };
   };
   readonly intro: {
     readonly eyebrow: string;
@@ -61,6 +71,16 @@ export interface PortfolioContent {
     readonly contactLabel: string;
   };
   readonly method: {
+    readonly terminal: {
+      readonly channelPrefix: string;
+      readonly nodesLabel: string;
+      readonly linkedLabel: string;
+      readonly legendPrefix: string;
+      readonly legendLink: string;
+      readonly linkedDescription: string;
+      readonly carrier: string;
+      readonly sideNote: string;
+    };
     readonly eyebrow: string;
     readonly heading: string;
     readonly stages: readonly [MethodStage, MethodStage, MethodStage, MethodStage];
@@ -68,6 +88,13 @@ export interface PortfolioContent {
   readonly projects: {
     readonly eyebrow: string;
     readonly heading: string;
+    readonly labels: {
+      readonly channelPrefix: string;
+      readonly indexLabel: string;
+      readonly summaryLabel: string;
+      readonly highlightsLabel: string;
+      readonly stackLabel: string;
+    };
     readonly items: readonly PrimaryProject[];
   };
   readonly education: {

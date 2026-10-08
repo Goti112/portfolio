@@ -76,6 +76,71 @@ const emptyContact: PortfolioContent = {
   },
 };
 
+const terminalFields = {
+  channelPrefix: "CH",
+  nodesLabel: "NODOS",
+  linkedLabel: "LINKED",
+  legendPrefix: "used in shipped projects",
+  legendLink: "See projects ↓",
+  linkedDescription: "usada en proyectos",
+  carrier: "NO CARRIER → CONECTADO",
+  sideNote: "PRESENT DAY, PRESENT TIME",
+} as const;
+const terminalFieldNames = [
+  "channelPrefix",
+  "nodesLabel",
+  "linkedLabel",
+  "legendPrefix",
+  "legendLink",
+  "linkedDescription",
+  "carrier",
+  "sideNote",
+] as const;
+
+const headerFields = {
+  broadcastLabel: "REC",
+  channelPrefix: "CH",
+  homeChannelLabel: "PROFILE",
+  currentChannelLabel: "Current section",
+  navigationLabel: "Main navigation",
+  skipLabel: "Skip to content",
+  languageTargetLabel: "Español",
+} as const;
+const headerFieldNames = [
+  "broadcastLabel",
+  "channelPrefix",
+  "homeChannelLabel",
+  "currentChannelLabel",
+  "navigationLabel",
+  "skipLabel",
+  "languageTargetLabel",
+] as const;
+
+for (const field of headerFieldNames) {
+  const invalidHeaderContent = {
+    ...portfolioEnglish,
+    system: { ...portfolioEnglish.system, header: { ...headerFields, [field]: "" } },
+  };
+  assert.throws(
+    () => validatePortfolioPair(portfolioSpanish, invalidHeaderContent),
+    new RegExp("Required content is empty for en:system.header." + field),
+  );
+}
+
+for (const field of terminalFieldNames) {
+  const invalidTerminalContent = {
+    ...portfolioEnglish,
+    method: {
+      ...portfolioEnglish.method,
+      terminal: { ...terminalFields, [field]: "" },
+    },
+  };
+  assert.throws(
+    () => validatePortfolioPair(portfolioSpanish, invalidTerminalContent),
+    new RegExp(`Required content is empty for en:method.terminal.${field}`),
+  );
+}
+
 assert.throws(
   () => validatePortfolioPair(portfolioSpanish, navigationMismatch),
   /Navigation targets differ between Spanish and English content/,
