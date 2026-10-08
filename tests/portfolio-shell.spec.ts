@@ -504,3 +504,14 @@ for (const viewport of [
     expect(contactActions.y - (contactHeading.y + contactHeading.height)).toBeGreaterThanOrEqual(44);
   });
 }
+
+test("shows education levels and the DAW internship", async ({ page }) => {
+  await page.goto("/es");
+  await expect(page.locator(".formation-trace__level")).toHaveText(["· Grado Medio", "· Grado Superior", "· Grado Superior"]);
+  const internship = page.locator("[data-internship='DAW']");
+  await expect(internship).toContainText("Prácticas en empresa");
+  await expect(internship).toContainText("Ene — Jul 2026");
+  await expect(internship.locator("li")).toHaveText(["TypeScript", "React"]);
+  await page.goto("/en");
+  await expect(page.locator("[data-internship='DAW']")).toContainText("Company internship");
+});

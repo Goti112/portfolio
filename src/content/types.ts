@@ -31,10 +31,21 @@ export interface Experiment {
 
 export interface EducationItem {
   readonly qualification: string;
+  readonly level: string;
   readonly abbreviation: "SMX" | "DAW" | "DAM";
   readonly institution: "Institut Bernat el Ferrer" | "Institut Gabriela Mistral";
   readonly startYear: number;
   readonly endYear: number | null;
+  readonly internship?: EducationInternship;
+}
+
+export interface EducationInternship {
+  readonly label: string;
+  readonly period: string;
+  readonly startMonth: `${number}-${number}`;
+  readonly endMonth: `${number}-${number}`;
+  readonly description: string;
+  readonly technologies: readonly string[];
 }
 
 export interface MethodStage {
@@ -101,6 +112,7 @@ export interface PortfolioContent {
     readonly eyebrow: string;
     readonly heading: string;
     readonly currentLabel: string;
+    readonly traceLabel: string;
     readonly items: readonly EducationItem[];
   };
   readonly contact: {

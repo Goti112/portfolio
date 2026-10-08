@@ -635,33 +635,89 @@
   background: var(--color-surface);
 }
 
+.formation-trace__trace-label {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  color: var(--color-muted);
+  font-family: var(--font-code);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .formation-trace__list {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0;
   margin: 0 auto;
   padding: 0;
-  border-top: 1px solid var(--color-line);
   list-style: none;
 }
 
 .formation-trace__item {
+  position: relative;
   min-width: 0;
-  padding: 1.5rem 1rem 1.5rem 0;
-  border-bottom: 1px solid var(--color-line);
+  padding: 2rem 1.5rem 1.5rem 0;
+  border-top: 1px solid var(--color-line);
   color: var(--color-muted);
   font-family: var(--font-code);
   font-size: 0.75rem;
 }
 
-.formation-trace__code {
-  display: block;
-  margin-bottom: 1rem;
+.formation-trace__item--current {
+  border-top-style: dashed;
+  border-top-color: rgb(216 137 141 / 55%);
+}
+
+.formation-trace__node {
+  position: absolute;
+  top: -0.375rem;
+  left: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 1px solid var(--color-accent-on-dark);
+  border-radius: 50%;
+  background: var(--color-surface);
+}
+
+.formation-trace__item:not(.formation-trace__item--current) .formation-trace__node {
+  background: var(--color-accent-on-dark);
+}
+
+.formation-trace__item--current .formation-trace__node::after {
+  position: absolute;
+  inset: -0.35rem;
+  border: 1px solid var(--color-accent-on-dark);
+  border-radius: 50%;
+  content: "";
+  animation: formation-trace-pulse 1.8s ease-out infinite;
+}
+
+@keyframes formation-trace-pulse {
+  from { opacity: 0.8; transform: scale(0.6); }
+  to { opacity: 0; transform: scale(1.4); }
+}
+
+.formation-trace__period {
+  margin: 0 0 0.75rem;
+}
+
+.formation-trace__current {
   color: var(--color-accent-on-dark);
 }
 
+.formation-trace__code {
+  margin: 0;
+  color: var(--color-accent-on-dark);
+}
+
+.formation-trace__level {
+  color: var(--color-muted);
+}
+
 .formation-trace__qualification {
-  margin: 0.8rem 0 0.5rem;
+  margin: 0.6rem 0 0.4rem;
   color: var(--color-ink);
   font-family: var(--font-display);
   font-size: clamp(1rem, 2vw, 1.375rem);
@@ -673,6 +729,53 @@
   margin: 0;
   color: var(--color-muted);
   font-family: var(--font-display);
+}
+
+.formation-trace__internship {
+  margin-top: 1.25rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--color-line);
+  border-left: 2px solid var(--color-accent-on-dark);
+  background: var(--color-canvas);
+}
+
+.formation-trace__internship-label {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1ch;
+  margin: 0 0 0.5rem;
+  color: var(--color-accent-on-dark);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.formation-trace__internship-period {
+  color: var(--color-muted);
+}
+
+.formation-trace__internship-description {
+  margin: 0 0 0.75rem;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.formation-trace__techs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.formation-trace__techs li {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid rgb(216 137 141 / 35%);
+  color: var(--color-ink);
+  font-size: 0.6875rem;
 }
 
 .proof-verdict {

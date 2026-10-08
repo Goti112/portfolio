@@ -119,6 +119,18 @@
 
   .formation-trace__list {
     grid-template-columns: minmax(0, 1fr);
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--color-line);
+  }
+
+  .formation-trace__item {
+    padding: 0 0 2rem;
+    border-top: 0;
+  }
+
+  .formation-trace__node {
+    top: 0.1rem;
+    left: calc(-1.25rem - 0.375rem - 0.5px);
   }
 }
 

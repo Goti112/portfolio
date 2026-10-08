@@ -30,6 +30,10 @@
     animation: none;
   }
 
+  .formation-trace__item--current .formation-trace__node::after {
+    animation: none;
+  }
+
   .build-method[data-wired-reveal="pending"] .build-method__node {
     opacity: 1;
     transform: none;

@@ -108,10 +108,11 @@ export const portfolioSpanish = {
     eyebrow: "Trayectoria / 2022—actualidad",
     heading: "Formación",
     currentLabel: "En curso",
+    traceLabel: "Signal trace // 2022 → ahora",
     items: [
-      { qualification: "Sistemas Microinformáticos y Redes", abbreviation: "SMX", institution: "Institut Bernat el Ferrer", startYear: 2022, endYear: 2024 },
-      { qualification: "Desarrollo de Aplicaciones Web", abbreviation: "DAW", institution: "Institut Bernat el Ferrer", startYear: 2024, endYear: 2026 },
-      { qualification: "Desarrollo de Aplicaciones Multiplataforma", abbreviation: "DAM", institution: "Institut Gabriela Mistral", startYear: 2026, endYear: null },
+      { qualification: "Sistemas Microinformáticos y Redes", level: "Grado Medio", abbreviation: "SMX", institution: "Institut Bernat el Ferrer", startYear: 2022, endYear: 2024 },
+      { qualification: "Desarrollo de Aplicaciones Web", level: "Grado Superior", abbreviation: "DAW", institution: "Institut Bernat el Ferrer", startYear: 2024, endYear: 2026, internship: { label: "Prácticas en empresa", period: "Ene — Jul 2026", startMonth: "2026-01", endMonth: "2026-07", description: "Desarrollo de software con TypeScript y React.", technologies: ["TypeScript", "React"] } },
+      { qualification: "Desarrollo de Aplicaciones Multiplataforma", level: "Grado Superior", abbreviation: "DAM", institution: "Institut Gabriela Mistral", startYear: 2026, endYear: null },
     ],
   },
   contact: {

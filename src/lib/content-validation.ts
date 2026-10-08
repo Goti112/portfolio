@@ -43,7 +43,7 @@ function methodCapabilitySignature(stages: PortfolioContent["method"]["stages"])
 
 function educationSignature(items: readonly EducationItem[]): string {
   return items
-    .map((item) => `${item.abbreviation}:${item.institution}:${item.startYear}-${item.endYear}`)
+    .map((item) => `${item.abbreviation}:${item.institution}:${item.startYear}-${item.endYear}:${item.internship === undefined ? "" : `${item.internship.startMonth}-${item.internship.endMonth}:${item.internship.technologies.join(",")}`}`)
     .join("|");
 }
 
@@ -106,6 +106,7 @@ function validateRequiredContent(content: PortfolioContent): void {
   assertNonEmpty(content.education.eyebrow, `${locale}:education.eyebrow`);
   assertNonEmpty(content.education.heading, `${locale}:education.heading`);
   assertNonEmpty(content.education.currentLabel, `${locale}:education.currentLabel`);
+  assertNonEmpty(content.education.traceLabel, `${locale}:education.traceLabel`);
   assertNonEmpty(content.contact.eyebrow, `${locale}:contact.eyebrow`);
   assertNonEmpty(content.contact.emailLabel, `${locale}:contact.emailLabel`);
   assertNonEmpty(content.contact.githubLabel, `${locale}:contact.githubLabel`);
@@ -126,6 +127,12 @@ function validateRequiredContent(content: PortfolioContent): void {
   }
   for (const item of content.education.items) {
     assertNonEmpty(item.qualification, `${locale}:education.${item.abbreviation}.qualification`);
+    assertNonEmpty(item.level, `${locale}:education.${item.abbreviation}.level`);
+    if (item.internship !== undefined) {
+      assertNonEmpty(item.internship.label, `${locale}:education.${item.abbreviation}.internship.label`);
+      assertNonEmpty(item.internship.period, `${locale}:education.${item.abbreviation}.internship.period`);
+      assertNonEmpty(item.internship.description, `${locale}:education.${item.abbreviation}.internship.description`);
+    }
     assertNonEmpty(item.institution, `${locale}:education.${item.abbreviation}.institution`);
   }
 }
