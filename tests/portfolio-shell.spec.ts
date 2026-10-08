@@ -136,8 +136,8 @@ test("renders capabilities as wired nodes with linked status", async ({ page }) 
   const section = page.locator("#capabilities");
   await section.scrollIntoViewIfNeeded();
   await expect(section.locator(".build-method__node")).toHaveCount(27);
-  await expect(section.locator(".build-method__node .build-method__status")).toHaveCount(8);
-  await expect(section.locator(".build-method__status")).toHaveCount(9);
+  await expect(section.locator(".build-method__node .build-method__status")).toHaveCount(12);
+  await expect(section.locator(".build-method__status")).toHaveCount(13);
   await expect(section.locator(".build-method__legend")).toContainText("usada en proyectos reales");
   await expect(section.locator(".build-method__legend a")).toHaveAttribute("href", "#projects");
   await expect(section.getByText("[OK]")).toHaveCount(0);
@@ -362,7 +362,7 @@ test("adds dotted leaders between capability names and linked statuses", async (
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/es");
   const section = page.locator("#capabilities");
-  await expect(section.locator(".build-method__leader")).toHaveCount(8);
+  await expect(section.locator(".build-method__leader")).toHaveCount(12);
   await expect(section.locator(".build-method__leader").first()).toHaveCSS("border-bottom-style", "dotted");
   await expect(section.locator(".build-method__leader").first()).toHaveCSS("flex-grow", "1");
   await expect(section.locator(".build-method__status").first()).toHaveCSS("margin-left", "0px");

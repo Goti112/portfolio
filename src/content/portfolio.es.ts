@@ -83,7 +83,7 @@ export const portfolioSpanish = {
         name: "QGC Planner",
         summary: "Planificador de misiones inspirado en Mission Planner.",
         highlights: ["Mapa de misión 2D con Mapbox GL", "Vista de vuelo 3D renderizada con Cesium", "Interfaz de planificación de rutas por waypoints en React"],
-        technologies: ["TypeScript", "React", "Mapbox GL", "Cesium"],
+        technologies: ["TypeScript", "React", "Vite", "Mapbox GL", "Cesium"],
         repository: projectRepositories["qgc-planner"],
       },
       {
@@ -91,7 +91,7 @@ export const portfolioSpanish = {
         name: "BorderPass AI",
         summary: "Asistente para profesionales aduaneros e importadores que trabajan con controles CBAM.",
         highlights: ["Flujo guiado para revisar el cumplimiento CBAM", "Modelo de datos relacional con PostgreSQL y Prisma", "Aplicación web full-stack con Next.js"],
-        technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma"],
+        technologies: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Prisma", "Playwright"],
         repository: projectRepositories["borderpass-ai"],
       },
       {
