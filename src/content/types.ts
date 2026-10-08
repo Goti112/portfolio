@@ -120,6 +120,13 @@ export interface PortfolioContent {
     readonly heading: string;
     readonly emailLabel: string;
     readonly githubLabel: string;
+    readonly lead: string;
+    readonly statusLabel: string;
+    readonly availability: string;
+    readonly details: readonly { readonly label: string; readonly value: string }[];
+    readonly copyLabel: string;
+    readonly copiedLabel: string;
+    readonly closing: string;
     readonly email: ExternalDestination;
     readonly github: ExternalDestination;
   };

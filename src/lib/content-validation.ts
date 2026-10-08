@@ -110,6 +110,16 @@ function validateRequiredContent(content: PortfolioContent): void {
   assertNonEmpty(content.contact.eyebrow, `${locale}:contact.eyebrow`);
   assertNonEmpty(content.contact.emailLabel, `${locale}:contact.emailLabel`);
   assertNonEmpty(content.contact.githubLabel, `${locale}:contact.githubLabel`);
+  assertNonEmpty(content.contact.lead, `${locale}:contact.lead`);
+  assertNonEmpty(content.contact.statusLabel, `${locale}:contact.statusLabel`);
+  assertNonEmpty(content.contact.availability, `${locale}:contact.availability`);
+  assertNonEmpty(content.contact.copyLabel, `${locale}:contact.copyLabel`);
+  assertNonEmpty(content.contact.copiedLabel, `${locale}:contact.copiedLabel`);
+  assertNonEmpty(content.contact.closing, `${locale}:contact.closing`);
+  for (const detail of content.contact.details) {
+    assertNonEmpty(detail.label, `${locale}:contact.details.label`);
+    assertNonEmpty(detail.value, `${locale}:contact.details.${detail.label}`);
+  }
 
   for (const item of content.navigation) {
     assertNonEmpty(item.label, `${locale}:navigation.${item.target}.label`);

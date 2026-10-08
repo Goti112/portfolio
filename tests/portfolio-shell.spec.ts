@@ -515,3 +515,16 @@ test("shows education levels and the DAW internship", async ({ page }) => {
   await page.goto("/en");
   await expect(page.locator("[data-internship='DAW']")).toContainText("Company internship");
 });
+
+test("shows recruiter status and copies the contact email", async ({ page, context, browserName }) => {
+  test.skip(browserName !== "chromium", "Clipboard permissions are Chromium-only");
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/es");
+  const contact = page.locator("#contact");
+  await expect(contact).toContainText("Disponibilidad inmediata");
+  await expect(contact.locator("dt")).toHaveText(["Rol", "Jornada", "Ubicación"]);
+  await expect(contact).toContainText("Barcelona · Presencial, híbrido o remoto");
+  await contact.getByRole("button", { name: "Copiar correo" }).click();
+  await expect(contact.getByRole("button", { name: "Copiado" })).toBeVisible();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("mmanz2606@gmail.com");
+});
