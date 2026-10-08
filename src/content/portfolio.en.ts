@@ -49,8 +49,8 @@ const englishMethod = {
     sideNote: "PRESENT DAY, PRESENT TIME",
   },
   stages: [
-    { id: "languages", label: "LANGUAGES", description: "Programming foundations I keep expanding through projects.", capabilities: ["TypeScript", "JavaScript", "PHP", "Java", "Python", "Dart"] },
-    { id: "web", label: "WEB", description: "Clear, responsive, and accessible web interfaces and experiences.", capabilities: ["React", "Next.js", "HTML", "CSS", "Mapbox GL", "Cesium"] },
+    { id: "languages", label: "LANGUAGES", description: "Programming foundations I keep expanding through projects.", capabilities: ["TypeScript", "JavaScript", "PHP", "Java", "C#", "Python", "Dart", "SQL"] },
+    { id: "web", label: "WEB", description: "Clear, responsive, and accessible web interfaces and experiences.", capabilities: ["React", "Next.js", "HTML", "CSS", "Tailwind CSS", "Vite", "GSAP"] },
     { id: "data-applications", label: "DATA AND APPLICATIONS", description: "Application logic, APIs, structured data, and mobile applications.", capabilities: ["Node.js", "REST APIs", "PostgreSQL", "MySQL", "Prisma", "Flutter", "Google ML Kit"] },
     { id: "quality", label: "QUALITY AND DELIVERY", description: "Test, version, and take an application into a usable environment.", capabilities: ["Git", "Docker", "Playwright", "GitHub Actions", "Linux"] },
   ],

@@ -49,8 +49,8 @@ const spanishMethod = {
     sideNote: "PRESENT DAY, PRESENT TIME",
   },
   stages: [
-    { id: "languages", label: "LENGUAJES", description: "Bases de programación que sigo ampliando a través de proyectos.", capabilities: ["TypeScript", "JavaScript", "PHP", "Java", "Python", "Dart"] },
-    { id: "web", label: "WEB", description: "Interfaces y experiencias web claras, responsivas y accesibles.", capabilities: ["React", "Next.js", "HTML", "CSS", "Mapbox GL", "Cesium"] },
+    { id: "languages", label: "LENGUAJES", description: "Bases de programación que sigo ampliando a través de proyectos.", capabilities: ["TypeScript", "JavaScript", "PHP", "Java", "C#", "Python", "Dart", "SQL"] },
+    { id: "web", label: "WEB", description: "Interfaces y experiencias web claras, responsivas y accesibles.", capabilities: ["React", "Next.js", "HTML", "CSS", "Tailwind CSS", "Vite", "GSAP"] },
     { id: "data-applications", label: "DATOS Y APLICACIONES", description: "Lógica de aplicación, APIs, datos estructurados y aplicaciones móviles.", capabilities: ["Node.js", "REST APIs", "PostgreSQL", "MySQL", "Prisma", "Flutter", "Google ML Kit"] },
     { id: "quality", label: "CALIDAD Y ENTREGA", description: "Probar, versionar y llevar una aplicación a un entorno utilizable.", capabilities: ["Git", "Docker", "Playwright", "GitHub Actions", "Linux"] },
   ],
