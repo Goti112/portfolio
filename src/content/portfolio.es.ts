@@ -51,8 +51,8 @@ const spanishMethod = {
   stages: [
     { id: "languages", label: "LENGUAJES", description: "Bases de programación que sigo ampliando a través de proyectos.", capabilities: ["TypeScript", "JavaScript", "PHP", "Java", "C#", "Python", "Dart", "SQL"] },
     { id: "web", label: "WEB", description: "Interfaces y experiencias web claras, responsivas y accesibles.", capabilities: ["React", "Next.js", "HTML", "CSS", "Tailwind CSS", "Vite", "GSAP"] },
-    { id: "data-applications", label: "DATOS Y APLICACIONES", description: "Lógica de aplicación, APIs, datos estructurados y aplicaciones móviles.", capabilities: ["Node.js", "REST APIs", "PostgreSQL", "MySQL", "Prisma", "Flutter", "Google ML Kit"] },
-    { id: "quality", label: "CALIDAD Y ENTREGA", description: "Probar, versionar y llevar una aplicación a un entorno utilizable.", capabilities: ["Git", "Docker", "Playwright", "GitHub Actions", "Linux"] },
+    { id: "data-applications", label: "BACKEND Y MÓVIL", description: "APIs, lógica de servidor, bases de datos SQL y NoSQL, y aplicaciones móviles.", capabilities: ["Node.js", "Laravel", "Spring Boot", "REST APIs", "MVC", "PostgreSQL", "MySQL", "MongoDB", "Supabase", "Prisma", "Flutter", "Google ML Kit"] },
+    { id: "quality", label: "CALIDAD Y ENTREGA", description: "Probar, versionar y llevar una aplicación a un entorno utilizable.", capabilities: ["Git", "Docker", "Playwright", "Vitest", "GitHub Actions", "Linux"] },
   ],
 } as const;
 
@@ -83,7 +83,7 @@ export const portfolioSpanish = {
         name: "QGC Planner",
         summary: "Planificador de misiones inspirado en Mission Planner.",
         highlights: ["Mapa de misión 2D con Mapbox GL", "Vista de vuelo 3D renderizada con Cesium", "Interfaz de planificación de rutas por waypoints en React"],
-        technologies: ["TypeScript", "React", "Vite", "Mapbox GL", "Cesium"],
+        technologies: ["TypeScript", "React", "Vite", "Mapbox GL", "Cesium", "Vitest"],
         repository: projectRepositories["qgc-planner"],
       },
       {

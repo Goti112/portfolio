@@ -57,7 +57,7 @@ for (const route of ["/", "/en"] as const) {
   test(`shows verified technologies on ${route}`, async ({ page }) => {
     await page.goto(route);
     await expect(page.locator("[data-project-case='qgc-planner'] .project-evidence__techs li"))
-      .toHaveText(["TypeScript", "React", "Vite", "Mapbox GL", "Cesium"]);
+      .toHaveText(["TypeScript", "React", "Vite", "Mapbox GL", "Cesium", "Vitest"]);
     await expect(page.locator("[data-project-case='borderpass-ai'] .project-evidence__techs li"))
       .toHaveText(["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Prisma", "Playwright"]);
     await expect(page.locator("[data-project-case='ticket-ocr'] .project-evidence__techs li"))
