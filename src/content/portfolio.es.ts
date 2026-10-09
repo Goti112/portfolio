@@ -68,7 +68,7 @@ export const portfolioSpanish = {
   intro: spanishIntro,
   method: spanishMethod,
   projects: {
-    eyebrow: "Trabajo seleccionado / 03",
+    eyebrow: "Trabajo seleccionado / 02",
     heading: "Proyectos",
     labels: {
       channelPrefix: "CH",
@@ -76,6 +76,7 @@ export const portfolioSpanish = {
       summaryLabel: "Qué hace",
       highlightsLabel: "Qué construí",
       stackLabel: "Stack",
+      sourceLabel: "Captura real",
     },
     items: [
       {
@@ -85,6 +86,7 @@ export const portfolioSpanish = {
         highlights: ["Mapa de misión 2D con Mapbox GL", "Vista de vuelo 3D renderizada con Cesium", "Interfaz de planificación de rutas por waypoints en React"],
         technologies: ["TypeScript", "React", "Vite", "Mapbox GL", "Cesium", "Vitest"],
         tooling: ["GitHub Actions"],
+        screenshot: { src: "/projects/qgc-planner.webp", width: 1600, height: 733, alt: "Captura de QGC Planner: vista 3D de una misión de dron sobre la ciudad con waypoints, ruta y panel de telemetría de vuelo." },
         repository: projectRepositories["qgc-planner"],
       },
       {
@@ -94,16 +96,8 @@ export const portfolioSpanish = {
         highlights: ["Flujo guiado para revisar el cumplimiento CBAM", "Modelo de datos relacional con PostgreSQL y Prisma", "Aplicación web full-stack con Next.js"],
         technologies: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Prisma"],
         tooling: ["GitHub Actions"],
+        screenshot: { src: "/projects/borderpass-ai.webp", width: 1440, height: 1000, alt: "Captura de BorderPass AI: panel operativo con casos CBAM pendientes de revisión, obligaciones abiertas y seguimiento de proveedores." },
         repository: projectRepositories["borderpass-ai"],
-      },
-      {
-        id: "ticket-ocr",
-        name: "Ticket OCR Scanner",
-        summary: "Aplicación Flutter que escanea tickets y extrae información estructurada mediante OCR.",
-        highlights: ["Captura de tickets con OCR en el dispositivo (Google ML Kit)", "Extracción de campos estructurados a partir del texto", "Exportación de resultados a hojas XLSX"],
-        technologies: ["Dart", "Flutter", "Google ML Kit", "XLSX"],
-        tooling: ["GitHub Actions"],
-        repository: projectRepositories["ticket-ocr"],
       },
     ],
   },

@@ -7,7 +7,7 @@ test("keeps hiring information usable without JavaScript", async ({ browser }) =
     const page = await context.newPage();
     await page.goto("http://127.0.0.1:3000/es");
     await expect(page.getByRole("heading", { level: 1, name: "Miquel Manzano" })).toBeVisible();
-    await expect(page.locator("[data-project-case]")).toHaveCount(3);
+    await expect(page.locator("[data-project-case]")).toHaveCount(2);
     await expect(page.locator("#education")).toBeVisible();
     await expect(page.getByRole("link", { name: "Correo" })).toHaveAttribute("href", "mailto:mmanz2606@gmail.com");
     await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "static");
@@ -30,7 +30,7 @@ test("supports keyboard navigation and a visible skip link", async ({ page }) =>
   await expect(page).toHaveURL(/#projects$/);
 });
 
-test("contains diagrams and labels at 320px", async ({ page }) => {
+test("contains project screenshots and labels at 320px", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 760 });
   await page.goto("/es");
   const dimensions = await page.locator("body").evaluate((body) => ({
@@ -38,7 +38,7 @@ test("contains diagrams and labels at 320px", async ({ page }) => {
     viewport: document.documentElement.clientWidth,
   }));
   expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport);
-  await expect(page.locator("[data-project-case] .preview-frame")).toHaveCount(3);
+  await expect(page.locator("[data-project-case] [data-project-shot]")).toHaveCount(2);
 });
 
 for (const route of ["/", "/es"] as const) {

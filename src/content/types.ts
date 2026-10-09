@@ -1,7 +1,7 @@
 export const LOCALES = ["es", "en"] as const;
 
 export type Locale = (typeof LOCALES)[number];
-export type PrimaryProjectId = "qgc-planner" | "borderpass-ai" | "ticket-ocr";
+export type PrimaryProjectId = "qgc-planner" | "borderpass-ai";
 export type FutureProjectId = "future-project-01" | "future-project-02" | "future-project-03";
 export type MethodStageId = "languages" | "web" | "data-applications" | "quality";
 
@@ -21,7 +21,15 @@ export interface PrimaryProject {
   readonly highlights: readonly string[];
   readonly technologies: readonly string[];
   readonly tooling: readonly string[];
+  readonly screenshot: ProjectScreenshot;
   readonly repository: ExternalDestination;
+}
+
+export interface ProjectScreenshot {
+  readonly src: `/projects/${string}`;
+  readonly width: number;
+  readonly height: number;
+  readonly alt: string;
 }
 
 export interface Experiment {
@@ -106,6 +114,7 @@ export interface PortfolioContent {
       readonly summaryLabel: string;
       readonly highlightsLabel: string;
       readonly stackLabel: string;
+      readonly sourceLabel: string;
     };
     readonly items: readonly PrimaryProject[];
   };

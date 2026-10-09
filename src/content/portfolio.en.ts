@@ -68,7 +68,7 @@ export const portfolioEnglish = {
   intro: englishIntro,
   method: englishMethod,
   projects: {
-    eyebrow: "Selected work / 03",
+    eyebrow: "Selected work / 02",
     heading: "Projects",
     labels: {
       channelPrefix: "CH",
@@ -76,6 +76,7 @@ export const portfolioEnglish = {
       summaryLabel: "What it does",
       highlightsLabel: "What I built",
       stackLabel: "Stack",
+      sourceLabel: "Live capture",
     },
     items: [
       {
@@ -85,6 +86,7 @@ export const portfolioEnglish = {
         highlights: ["2D mission map built with Mapbox GL", "3D flight view rendered with Cesium", "Waypoint route planning interface in React"],
         technologies: ["TypeScript", "React", "Vite", "Mapbox GL", "Cesium", "Vitest"],
         tooling: ["GitHub Actions"],
+        screenshot: { src: "/projects/qgc-planner.webp", width: 1600, height: 733, alt: "QGC Planner screenshot: 3D view of a drone mission over a city with waypoints, route and flight telemetry panel." },
         repository: projectRepositories["qgc-planner"],
       },
       {
@@ -94,16 +96,8 @@ export const portfolioEnglish = {
         highlights: ["Guided workflow for CBAM compliance checks", "Relational data model with PostgreSQL and Prisma", "Full-stack web app built on Next.js"],
         technologies: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Prisma"],
         tooling: ["GitHub Actions"],
+        screenshot: { src: "/projects/borderpass-ai.webp", width: 1440, height: 1000, alt: "BorderPass AI screenshot: operational dashboard with CBAM cases needing review, open obligations and supplier follow-up." },
         repository: projectRepositories["borderpass-ai"],
-      },
-      {
-        id: "ticket-ocr",
-        name: "Ticket OCR Scanner",
-        summary: "Flutter application that scans tickets and extracts structured information through OCR.",
-        highlights: ["Ticket capture with on-device OCR (Google ML Kit)", "Extraction of structured fields from raw text", "Export of results to XLSX spreadsheets"],
-        technologies: ["Dart", "Flutter", "Google ML Kit", "XLSX"],
-        tooling: ["GitHub Actions"],
-        repository: projectRepositories["ticket-ocr"],
       },
     ],
   },

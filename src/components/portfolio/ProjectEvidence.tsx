@@ -1,18 +1,9 @@
-import type { PortfolioContent, PrimaryProjectId } from "@/content/types";
+import type { PortfolioContent } from "@/content/types";
 import { ProjectCaseScene } from "@/components/portfolio/ProjectCaseScene";
-import { QgcPreview } from "@/components/previews/QgcPreview";
-import { BorderPassPreview } from "@/components/previews/BorderPassPreview";
-import { OcrPreview } from "@/components/previews/OcrPreview";
 
 type ProjectEvidenceProps = PortfolioContent["projects"] & {
   readonly pendingLabel: string;
 };
-
-const previewByProjectId: Readonly<Record<PrimaryProjectId, () => React.JSX.Element>> = Object.freeze({
-  "qgc-planner": QgcPreview,
-  "borderpass-ai": BorderPassPreview,
-  "ticket-ocr": OcrPreview,
-});
 
 function channelNumber(index: number): string {
   return String(index + 1).padStart(2, "0");
@@ -45,7 +36,6 @@ export function ProjectEvidence({ eyebrow, heading, labels, items, pendingLabel 
             channel={`${labels.channelPrefix}.${channelNumber(index)}`}
             labels={labels}
             pendingLabel={pendingLabel}
-            preview={previewByProjectId[project.id]}
           />
         ))}
       </div>

@@ -19,37 +19,19 @@ function cleanupScenes(cleanups: readonly SceneCleanup[]): void {
   }
 }
 
-function createDiagramMotion(root: HTMLElement): SceneCleanup {
-  const qgc = requireElement<HTMLElement>(root, "qgc", "[data-project-case='qgc-planner']");
-  const borderPass = requireElement<HTMLElement>(root, "borderpass", "[data-project-case='borderpass-ai']");
-  const ocr = requireElement<HTMLElement>(root, "ocr", "[data-project-case='ticket-ocr']");
-  const route = requireElement<SVGPolylineElement>(qgc, "qgc", "[data-route]");
-  const decisions = requireElements<HTMLElement>(borderPass, "borderpass", "[data-decision-step]");
-  const outputs = requireElements<HTMLElement>(ocr, "ocr", "[data-output-row]");
-  const routeTween = gsap.fromTo(route,
-    { strokeDasharray: 1, strokeDashoffset: 1 },
+function createScreenshotMotion(root: HTMLElement): SceneCleanup {
+  const projects = requireElement<HTMLElement>(root, "projects", "#projects");
+  const shots = requireElements<HTMLElement>(projects, "projects", "[data-project-shot] img");
+  const tweens = shots.map((shot) => gsap.fromTo(shot,
+    { clipPath: "inset(0 0 100% 0)" },
     {
-      strokeDashoffset: 0,
-      duration: 0.9,
+      clipPath: "inset(0 0 0% 0)",
+      duration: 0.8,
       ease: "power2.out",
-      scrollTrigger: { trigger: qgc, start: "top 80%", once: true },
+      clearProps: "clipPath",
+      scrollTrigger: { trigger: shot, start: "top 85%", once: true },
     },
-  );
-  const decisionTween = gsap.from(decisions, {
-    y: 12,
-    duration: 0.5,
-    stagger: 0.1,
-    clearProps: "all",
-    scrollTrigger: { trigger: borderPass, start: "top 80%", once: true },
-  });
-  const outputTween = gsap.from(outputs, {
-    y: 12,
-    duration: 0.5,
-    stagger: 0.1,
-    clearProps: "all",
-    scrollTrigger: { trigger: ocr, start: "top 80%", once: true },
-  });
-  const tweens = [routeTween, decisionTween, outputTween] as const;
+  ));
   return (): void => {
     tweens.forEach((tween) => {
       tween.scrollTrigger?.kill();
@@ -68,7 +50,7 @@ export function createPortfolioMotion(root: HTMLElement): () => void {
     media.add("(prefers-reduced-motion: no-preference)", () => {
       const cleanups: SceneCleanup[] = [];
       try {
-        cleanups.push(createDiagramMotion(root));
+        cleanups.push(createScreenshotMotion(root));
         root.dataset.motionState = "ready";
       } catch (error: unknown) {
         try {

@@ -176,15 +176,6 @@
   .proof-intro__actions .external-action {
     width: 100%;
   }
-
-  .preview-decision-step {
-    padding: 0.5rem;
-  }
-
-  .preview-output-row {
-    gap: 0.35rem;
-    padding: 0.4rem;
-  }
 }
 
 @media (max-width: 360px) {

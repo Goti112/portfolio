@@ -1,4 +1,5 @@
 import { ExternalAction } from "@/components/portfolio/ExternalAction";
+import { ProjectScreenshot } from "@/components/portfolio/ProjectScreenshot";
 import type { PortfolioContent, PrimaryProject } from "@/content/types";
 
 interface ProjectCaseSceneProps {
@@ -6,10 +7,9 @@ interface ProjectCaseSceneProps {
   readonly channel: string;
   readonly labels: PortfolioContent["projects"]["labels"];
   readonly pendingLabel: string;
-  readonly preview: () => React.JSX.Element;
 }
 
-export function ProjectCaseScene({ project, channel, labels, pendingLabel, preview: Preview }: ProjectCaseSceneProps): React.JSX.Element {
+export function ProjectCaseScene({ project, channel, labels, pendingLabel }: ProjectCaseSceneProps): React.JSX.Element {
   const titleId = `project-${project.id}-title`;
 
   return (
@@ -27,7 +27,7 @@ export function ProjectCaseScene({ project, channel, labels, pendingLabel, previ
       </header>
       <div className="project-evidence__body">
         <div className="project-evidence__preview" data-project-inline-preview={project.id}>
-          <Preview />
+          <ProjectScreenshot screenshot={project.screenshot} sourceLabel={labels.sourceLabel} />
         </div>
         <div className="project-evidence__text">
           <h3 id={titleId} className="project-evidence__name">{project.name}</h3>

@@ -12,11 +12,11 @@ test("keeps static visuals for reduced-motion visitors", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "reduced");
-  await expect(page.locator("[data-project-case]")).toHaveCount(3);
+  await expect(page.locator("[data-project-case]")).toHaveCount(2);
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
 });
 
-test("keeps hero copy still when normal motion is reserved for project diagrams", async ({ page }) => {
+test("keeps hero copy still when normal motion is reserved for project screenshots", async ({ page }) => {
   await page.clock.install();
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
@@ -36,12 +36,12 @@ test("ignores malformed fragments without a page error", async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
-test("leaves content visible when a diagram hook is missing", async ({ page }) => {
+test("leaves content visible when a screenshot hook is missing", async ({ page }) => {
   await page.addInitScript(() => {
     const observer = new MutationObserver((): void => {
-      const route = document.querySelector("[data-route]");
-      if (route !== null) {
-        route.removeAttribute("data-route");
+      const shots = document.querySelectorAll("[data-project-shot]");
+      if (shots.length === 2) {
+        shots.forEach((shot) => shot.removeAttribute("data-project-shot"));
         observer.disconnect();
       }
     });

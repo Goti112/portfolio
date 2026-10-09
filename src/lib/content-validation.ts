@@ -53,7 +53,7 @@ function destinationSignature(destination: ExternalDestination): string {
 
 function projectSignature(items: readonly PrimaryProject[]): string {
   return items
-    .map((project) => `${project.id}:${project.highlights.length}:${project.technologies.join(",")}:${project.tooling.join(",")}:${destinationSignature(project.repository)}`)
+    .map((project) => `${project.id}:${project.highlights.length}:${project.technologies.join(",")}:${project.tooling.join(",")}:${project.screenshot.src}:${destinationSignature(project.repository)}`)
     .join("|");
 }
 
@@ -127,6 +127,7 @@ function validateRequiredContent(content: PortfolioContent): void {
   for (const project of content.projects.items) {
     assertNonEmpty(project.name, `${locale}:projects.${project.id}.name`);
     assertNonEmpty(project.summary, `${locale}:projects.${project.id}.summary`);
+    assertNonEmpty(project.screenshot.alt, `${locale}:projects.${project.id}.screenshot.alt`);
     assertCondition(project.highlights.length > 0, `Expected highlights for ${locale}:projects.${project.id}`);
     for (const highlight of project.highlights) {
       assertNonEmpty(highlight, `${locale}:projects.${project.id}.highlight`);
@@ -175,7 +176,7 @@ export function validatePortfolioPair(spanish: PortfolioContent, english: Portfo
   for (const content of [spanish, english]) {
     assertCondition(content.navigation.length === 4, `Expected four navigation items for ${content.locale}`);
     assertCondition(navigationSignature(content.navigation) === "capabilities,projects,education,contact", `Unexpected navigation targets for ${content.locale}`);
-    assertCondition(content.projects.items.length === 3, `Expected three primary projects for ${content.locale}`);
+    assertCondition(content.projects.items.length === 2, `Expected two primary projects for ${content.locale}`);
     assertCondition(content.education.items.length === 3, `Expected three education items for ${content.locale}`);
     validateRequiredContent(content);
     validateNarrative(content);
