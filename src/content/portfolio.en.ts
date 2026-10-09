@@ -52,7 +52,7 @@ const englishMethod = {
     { id: "languages", label: "LANGUAGES", description: "Programming foundations I keep expanding through projects.", capabilities: ["TypeScript", "JavaScript", "PHP", "Java", "C#", "Python", "Dart", "SQL"] },
     { id: "web", label: "WEB", description: "Clear, responsive, and accessible web interfaces and experiences.", capabilities: ["React", "Next.js", "HTML", "CSS", "Tailwind CSS", "Vite", "GSAP"] },
     { id: "data-applications", label: "BACKEND & MOBILE", description: "APIs, server-side logic, SQL and NoSQL databases, and mobile applications.", capabilities: ["Node.js", "Laravel", "Spring Boot", "REST APIs", "MVC", "PostgreSQL", "MySQL", "MongoDB", "Supabase", "Prisma", "Flutter", "Google ML Kit"] },
-    { id: "quality", label: "QUALITY AND DELIVERY", description: "Test, version, and take an application into a usable environment.", capabilities: ["Git", "Docker", "Playwright", "Vitest", "GitHub Actions", "Linux"] },
+    { id: "quality", label: "TESTING & DEVOPS", description: "Test, version, automate, and deploy applications, working with agile methodologies.", capabilities: ["Git", "GitHub Actions", "Docker", "Vitest", "Linux", "Vercel", "Scrum"] },
   ],
 } as const;
 
@@ -84,6 +84,7 @@ export const portfolioEnglish = {
         summary: "Mission planner inspired by Mission Planner.",
         highlights: ["2D mission map built with Mapbox GL", "3D flight view rendered with Cesium", "Waypoint route planning interface in React"],
         technologies: ["TypeScript", "React", "Vite", "Mapbox GL", "Cesium", "Vitest"],
+        tooling: ["GitHub Actions"],
         repository: projectRepositories["qgc-planner"],
       },
       {
@@ -91,7 +92,8 @@ export const portfolioEnglish = {
         name: "BorderPass AI",
         summary: "Assistant for customs professionals and importers working with CBAM controls.",
         highlights: ["Guided workflow for CBAM compliance checks", "Relational data model with PostgreSQL and Prisma", "Full-stack web app built on Next.js"],
-        technologies: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Prisma", "Playwright"],
+        technologies: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Prisma"],
+        tooling: ["GitHub Actions"],
         repository: projectRepositories["borderpass-ai"],
       },
       {
@@ -100,6 +102,7 @@ export const portfolioEnglish = {
         summary: "Flutter application that scans tickets and extracts structured information through OCR.",
         highlights: ["Ticket capture with on-device OCR (Google ML Kit)", "Extraction of structured fields from raw text", "Export of results to XLSX spreadsheets"],
         technologies: ["Dart", "Flutter", "Google ML Kit", "XLSX"],
+        tooling: ["GitHub Actions"],
         repository: projectRepositories["ticket-ocr"],
       },
     ],

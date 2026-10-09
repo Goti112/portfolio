@@ -20,6 +20,7 @@ export interface PrimaryProject {
   readonly summary: string;
   readonly highlights: readonly string[];
   readonly technologies: readonly string[];
+  readonly tooling: readonly string[];
   readonly repository: ExternalDestination;
 }
 

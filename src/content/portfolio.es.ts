@@ -52,7 +52,7 @@ const spanishMethod = {
     { id: "languages", label: "LENGUAJES", description: "Bases de programación que sigo ampliando a través de proyectos.", capabilities: ["TypeScript", "JavaScript", "PHP", "Java", "C#", "Python", "Dart", "SQL"] },
     { id: "web", label: "WEB", description: "Interfaces y experiencias web claras, responsivas y accesibles.", capabilities: ["React", "Next.js", "HTML", "CSS", "Tailwind CSS", "Vite", "GSAP"] },
     { id: "data-applications", label: "BACKEND Y MÓVIL", description: "APIs, lógica de servidor, bases de datos SQL y NoSQL, y aplicaciones móviles.", capabilities: ["Node.js", "Laravel", "Spring Boot", "REST APIs", "MVC", "PostgreSQL", "MySQL", "MongoDB", "Supabase", "Prisma", "Flutter", "Google ML Kit"] },
-    { id: "quality", label: "CALIDAD Y ENTREGA", description: "Probar, versionar y llevar una aplicación a un entorno utilizable.", capabilities: ["Git", "Docker", "Playwright", "Vitest", "GitHub Actions", "Linux"] },
+    { id: "quality", label: "TESTING Y DEVOPS", description: "Probar, versionar, automatizar y desplegar aplicaciones, trabajando con metodologías ágiles.", capabilities: ["Git", "GitHub Actions", "Docker", "Vitest", "Linux", "Vercel", "Scrum"] },
   ],
 } as const;
 
@@ -84,6 +84,7 @@ export const portfolioSpanish = {
         summary: "Planificador de misiones inspirado en Mission Planner.",
         highlights: ["Mapa de misión 2D con Mapbox GL", "Vista de vuelo 3D renderizada con Cesium", "Interfaz de planificación de rutas por waypoints en React"],
         technologies: ["TypeScript", "React", "Vite", "Mapbox GL", "Cesium", "Vitest"],
+        tooling: ["GitHub Actions"],
         repository: projectRepositories["qgc-planner"],
       },
       {
@@ -91,7 +92,8 @@ export const portfolioSpanish = {
         name: "BorderPass AI",
         summary: "Asistente para profesionales aduaneros e importadores que trabajan con controles CBAM.",
         highlights: ["Flujo guiado para revisar el cumplimiento CBAM", "Modelo de datos relacional con PostgreSQL y Prisma", "Aplicación web full-stack con Next.js"],
-        technologies: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Prisma", "Playwright"],
+        technologies: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Prisma"],
+        tooling: ["GitHub Actions"],
         repository: projectRepositories["borderpass-ai"],
       },
       {
@@ -100,6 +102,7 @@ export const portfolioSpanish = {
         summary: "Aplicación Flutter que escanea tickets y extrae información estructurada mediante OCR.",
         highlights: ["Captura de tickets con OCR en el dispositivo (Google ML Kit)", "Extracción de campos estructurados a partir del texto", "Exportación de resultados a hojas XLSX"],
         technologies: ["Dart", "Flutter", "Google ML Kit", "XLSX"],
+        tooling: ["GitHub Actions"],
         repository: projectRepositories["ticket-ocr"],
       },
     ],

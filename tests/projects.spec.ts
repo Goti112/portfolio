@@ -59,7 +59,7 @@ for (const route of ["/", "/en"] as const) {
     await expect(page.locator("[data-project-case='qgc-planner'] .project-evidence__techs li"))
       .toHaveText(["TypeScript", "React", "Vite", "Mapbox GL", "Cesium", "Vitest"]);
     await expect(page.locator("[data-project-case='borderpass-ai'] .project-evidence__techs li"))
-      .toHaveText(["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Prisma", "Playwright"]);
+      .toHaveText(["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Prisma"]);
     await expect(page.locator("[data-project-case='ticket-ocr'] .project-evidence__techs li"))
       .toHaveText(["Dart", "Flutter", "Google ML Kit", "XLSX"]);
   });

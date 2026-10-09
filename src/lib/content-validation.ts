@@ -53,7 +53,7 @@ function destinationSignature(destination: ExternalDestination): string {
 
 function projectSignature(items: readonly PrimaryProject[]): string {
   return items
-    .map((project) => `${project.id}:${project.highlights.length}:${project.technologies.join(",")}:${destinationSignature(project.repository)}`)
+    .map((project) => `${project.id}:${project.highlights.length}:${project.technologies.join(",")}:${project.tooling.join(",")}:${destinationSignature(project.repository)}`)
     .join("|");
 }
 
