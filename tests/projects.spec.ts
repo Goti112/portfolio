@@ -4,8 +4,8 @@ test("shows two projects in the confirmed order with a real screenshot each", as
   await page.goto("/en");
   await expect(page.locator("[data-project-case] h3")).toHaveText(["QGC Planner", "BorderPass AI"]);
   await expect(page.locator("[data-project-case] [data-project-shot] img")).toHaveCount(2);
-  await expect(page.locator("[data-project-case='qgc-planner'] img")).toHaveAttribute("src", "/projects/qgc-planner.webp");
-  await expect(page.locator("[data-project-case='borderpass-ai'] img")).toHaveAttribute("src", "/projects/borderpass-ai.webp");
+  await expect(page.locator("[data-project-case='qgc-planner'] .project-shot img")).toHaveAttribute("src", "/projects/qgc-planner.webp");
+  await expect(page.locator("[data-project-case='borderpass-ai'] .project-shot img")).toHaveAttribute("src", "/projects/borderpass-ai.webp");
   await expect(page.locator("[data-project-case='ticket-ocr']")).toHaveCount(0);
 });
 
@@ -74,4 +74,18 @@ test("gives each project a scannable channel card", async ({ page }) => {
 test("uses Spanish project labels", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("[data-project-case='qgc-planner'] dt")).toHaveText(["Qué hace", "Qué construí", "Stack"]);
+});
+
+test("enlarges a project screenshot and closes it again", async ({ page }) => {
+  await page.goto("/es");
+  const trigger = page.locator("[data-project-case='qgc-planner'] .project-shot__screen");
+  await trigger.scrollIntoViewIfNeeded();
+  await trigger.click();
+  await expect(page.locator("dialog.project-lightbox[open]")).toHaveCount(1);
+  await expect(page.locator("dialog.project-lightbox[open] img")).toHaveAttribute("src", "/projects/qgc-planner.webp");
+  await page.getByRole("button", { name: /Cerrar/ }).click();
+  await expect(page.locator("dialog.project-lightbox[open]")).toHaveCount(0);
+  await trigger.click();
+  await page.keyboard.press("Escape");
+  await expect(page.locator("dialog.project-lightbox[open]")).toHaveCount(0);
 });

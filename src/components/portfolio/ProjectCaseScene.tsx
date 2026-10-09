@@ -27,7 +27,7 @@ export function ProjectCaseScene({ project, channel, labels, pendingLabel }: Pro
       </header>
       <div className="project-evidence__body">
         <div className="project-evidence__preview" data-project-inline-preview={project.id}>
-          <ProjectScreenshot screenshot={project.screenshot} sourceLabel={labels.sourceLabel} />
+          <ProjectScreenshot screenshot={project.screenshot} sourceLabel={labels.sourceLabel} enlargeLabel={labels.enlargeLabel} closeLabel={labels.closeLabel} />
         </div>
         <div className="project-evidence__text">
           <h3 id={titleId} className="project-evidence__name">{project.name}</h3>

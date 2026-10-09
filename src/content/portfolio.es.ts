@@ -77,6 +77,8 @@ export const portfolioSpanish = {
       highlightsLabel: "Qué construí",
       stackLabel: "Stack",
       sourceLabel: "Captura real",
+      enlargeLabel: "Ampliar captura",
+      closeLabel: "Cerrar",
     },
     items: [
       {

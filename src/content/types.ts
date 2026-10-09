@@ -115,6 +115,8 @@ export interface PortfolioContent {
       readonly highlightsLabel: string;
       readonly stackLabel: string;
       readonly sourceLabel: string;
+      readonly enlargeLabel: string;
+      readonly closeLabel: string;
     };
     readonly items: readonly PrimaryProject[];
   };
