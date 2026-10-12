@@ -1,8 +1,9 @@
 {
-  "name": "unknown-session-portfolio",
+  "name": "miquel-manzano-portfolio",
   "private": true,
+  "homepage": "https://www.miquelmanzano.com",
   "version": "1.0.0",
-  "description": "",
+  "description": "Bilingual developer portfolio of Miquel Manzano, built with Next.js, React and TypeScript.",
   "scripts": {
     "build:server": "tsc scripts/serve-static-portfolio.ts --ignoreConfig --target ES2022 --lib ES2022 --types node --module CommonJS --outDir .server --strict --skipLibCheck --esModuleInterop",
     "dev": "next dev",
@@ -17,9 +18,9 @@
     "audit:performance": "patch-package && tsx scripts/audit-performance.ts",
     "validate": "npm run validate:content && npm run test:content && npm run lint && npm run typecheck && npm run build && npm run audit:performance && npm run test:e2e:built"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["portfolio", "nextjs", "react", "typescript", "gsap"],
+  "author": "Miquel Manzano (https://www.miquelmanzano.com)",
+  "license": "UNLICENSED",
   "dependencies": {
     "@fontsource-variable/archivo": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
