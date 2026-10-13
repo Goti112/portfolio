@@ -50,7 +50,7 @@ const englishMethod = {
   },
   stages: [
     { id: "languages", label: "LANGUAGES", description: "Programming foundations I keep expanding through projects.", capabilities: ["TypeScript", "JavaScript", "PHP", "Java", "C#", "Python", "Dart", "SQL"] },
-    { id: "web", label: "WEB", description: "Clear, responsive, and accessible web interfaces and experiences.", capabilities: ["React", "Next.js", "HTML", "CSS", "Tailwind CSS", "Vite", "GSAP"] },
+    { id: "web", label: "WEB", description: "Clear, responsive, and accessible web interfaces and experiences.", capabilities: ["React", "Next.js", "HTML", "CSS", "Tailwind CSS", "Vite", "GSAP", "Three.js"] },
     { id: "data-applications", label: "BACKEND & MOBILE", description: "APIs, server-side logic, SQL and NoSQL databases, and mobile applications.", capabilities: ["Node.js", "Laravel", "Spring Boot", "REST APIs", "MVC", "PostgreSQL", "MySQL", "MongoDB", "Supabase", "Prisma", "Flutter", "Google ML Kit"] },
     { id: "quality", label: "TESTING & DEVOPS", description: "Test, version, automate, and deploy applications, working with agile methodologies.", capabilities: ["Git", "GitHub Actions", "Docker", "Vitest", "Linux", "Vercel", "Scrum"] },
   ],
@@ -68,7 +68,7 @@ export const portfolioEnglish = {
   intro: englishIntro,
   method: englishMethod,
   projects: {
-    eyebrow: "Selected work / 02",
+    eyebrow: "Selected work / 03",
     heading: "Projects",
     labels: {
       channelPrefix: "CH",
@@ -81,6 +81,16 @@ export const portfolioEnglish = {
       closeLabel: "Close",
     },
     items: [
+      {
+        id: "github-city",
+        name: "GitHub City",
+        summary: "Turns any GitHub profile into a 3D city you can explore.",
+        highlights: ["3D scene with React Three Fiber: every repository is a building and every language a district", "Serverless API that aggregates a profile with a single GraphQL query to GitHub", "Profile duels and share preview cards for social networks"],
+        technologies: ["TypeScript", "React", "Three.js", "Vite", "Vercel", "Vitest"],
+        tooling: ["GitHub Actions"],
+        screenshot: { src: "/projects/github-city.webp", width: 1280, height: 720, alt: "GitHub City screenshot: 3D night city generated from a GitHub profile, with neon buildings grouped by language." },
+        repository: projectRepositories["github-city"],
+      },
       {
         id: "qgc-planner",
         name: "QGC Planner",
@@ -110,7 +120,7 @@ export const portfolioEnglish = {
     traceLabel: "Signal trace // 2022 → now",
     items: [
       { qualification: "Microcomputer Systems and Networks", level: "Intermediate VET diploma", abbreviation: "SMX", institution: "Institut Bernat el Ferrer", startYear: 2022, endYear: 2024 },
-      { qualification: "Web Application Development", level: "Higher VET diploma", abbreviation: "DAW", institution: "Institut Bernat el Ferrer", startYear: 2024, endYear: 2026, internship: { label: "Company internship", period: "Jan — Jul 2026", startMonth: "2026-01", endMonth: "2026-07", description: "Software development with TypeScript and React.", technologies: ["TypeScript", "React"] } },
+      { qualification: "Web Application Development", level: "Higher VET diploma", abbreviation: "DAW", institution: "Institut Bernat el Ferrer", startYear: 2024, endYear: 2026, internship: { label: "Company internship", period: "Jan — Jul 2026", startMonth: "2026-01", endMonth: "2026-07", description: "Rohu Innovations · Drone mission planner with React, TypeScript and MAVLink telemetry.", technologies: ["TypeScript", "React"] } },
       { qualification: "Multiplatform Application Development", level: "Higher VET diploma", abbreviation: "DAM", institution: "Institut Gabriela Mistral", startYear: 2026, endYear: null },
     ],
   },

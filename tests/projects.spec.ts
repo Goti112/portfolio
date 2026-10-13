@@ -1,9 +1,10 @@
 import { expect, test } from "@playwright/test";
 
-test("shows two projects in the confirmed order with a real screenshot each", async ({ page }) => {
+test("shows three projects in the confirmed order with a real screenshot each", async ({ page }) => {
   await page.goto("/en");
-  await expect(page.locator("[data-project-case] h3")).toHaveText(["QGC Planner", "BorderPass AI"]);
-  await expect(page.locator("[data-project-case] [data-project-shot] img")).toHaveCount(2);
+  await expect(page.locator("[data-project-case] h3")).toHaveText(["GitHub City", "QGC Planner", "BorderPass AI"]);
+  await expect(page.locator("[data-project-case] [data-project-shot] img")).toHaveCount(3);
+  await expect(page.locator("[data-project-case='github-city'] .project-shot img")).toHaveAttribute("src", "/projects/github-city.webp");
   await expect(page.locator("[data-project-case='qgc-planner'] .project-shot img")).toHaveAttribute("src", "/projects/qgc-planner.webp");
   await expect(page.locator("[data-project-case='borderpass-ai'] .project-shot img")).toHaveAttribute("src", "/projects/borderpass-ai.webp");
   await expect(page.locator("[data-project-case='ticket-ocr']")).toHaveCount(0);
@@ -30,16 +31,19 @@ for (const viewport of [
 
 test("keeps published project and contact destinations", async ({ page }) => {
   await page.goto("/en");
+  await expect(page.locator("[data-project-case]").getByRole("link", { name: "GitHub City", exact: true })).toHaveAttribute("href", "https://github.com/Goti112/github-city");
   await expect(page.locator("[data-project-case]").getByRole("link", { name: "QGC Planner", exact: true })).toHaveAttribute("href", "https://github.com/Goti112/Mission-Planner-Demo");
   await expect(page.locator("[data-project-case]").getByRole("link", { name: "BorderPass AI", exact: true })).toHaveAttribute("href", "https://github.com/Goti112/borderpass-ai");
   await expect(page.getByRole("link", { name: "Email" })).toHaveAttribute("href", "mailto:mmanz2606@gmail.com");
-  await expect(page.getByRole("link", { name: "GitHub" })).toHaveAttribute("href", "https://github.com/Goti112");
+  await expect(page.getByRole("link", { name: "GitHub", exact: true })).toHaveAttribute("href", "https://github.com/Goti112");
   await expect(page.locator("a[href=''], a:not([href])")).toHaveCount(0);
 });
 
 for (const route of ["/", "/en"] as const) {
   test(`shows verified technologies on ${route}`, async ({ page }) => {
     await page.goto(route);
+    await expect(page.locator("[data-project-case='github-city'] .project-evidence__techs li"))
+      .toHaveText(["TypeScript", "React", "Three.js", "Vite", "Vercel", "Vitest"]);
     await expect(page.locator("[data-project-case='qgc-planner'] .project-evidence__techs li"))
       .toHaveText(["TypeScript", "React", "Vite", "Mapbox GL", "Cesium", "Vitest"]);
     await expect(page.locator("[data-project-case='borderpass-ai'] .project-evidence__techs li"))
@@ -62,13 +66,13 @@ test("keeps project actions inside the mobile viewport", async ({ page }, testIn
 test("gives each project a scannable channel card", async ({ page }) => {
   await page.goto("/en");
   const index = page.getByRole("navigation", { name: "Project channels" });
-  await expect(index.getByRole("link")).toHaveCount(2);
+  await expect(index.getByRole("link")).toHaveCount(3);
   await expect(index.getByRole("link", { name: /BorderPass AI/ })).toHaveAttribute("href", "#project-borderpass-ai");
   for (const card of await page.locator("[data-project-case]").all()) {
     await expect(card.locator("dt")).toHaveText(["What it does", "What I built", "Stack"]);
     await expect(card.locator(".project-evidence__highlights li")).toHaveCount(3);
   }
-  await expect(page.locator("#project-borderpass-ai .project-evidence__bar")).toContainText("CH.02");
+  await expect(page.locator("#project-borderpass-ai .project-evidence__bar")).toContainText("CH.03");
 });
 
 test("uses Spanish project labels", async ({ page }) => {

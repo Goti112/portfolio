@@ -1,7 +1,7 @@
 export const LOCALES = ["es", "en"] as const;
 
 export type Locale = (typeof LOCALES)[number];
-export type PrimaryProjectId = "qgc-planner" | "borderpass-ai";
+export type PrimaryProjectId = "github-city" | "qgc-planner" | "borderpass-ai";
 export type FutureProjectId = "future-project-01" | "future-project-02" | "future-project-03";
 export type MethodStageId = "languages" | "web" | "data-applications" | "quality";
 

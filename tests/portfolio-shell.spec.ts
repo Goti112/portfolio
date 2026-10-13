@@ -78,7 +78,7 @@ for (const route of ["/", "/en", "/es"] as const) {
       "education",
       "contact",
     ]);
-    await expect(main.locator("[data-project-case]")).toHaveCount(2);
+    await expect(main.locator("[data-project-case]")).toHaveCount(3);
     await expect(page.locator(".pin-spacer, .experience-progress, [data-evidence-lens]")).toHaveCount(0);
     const projectsLabel = isSpanish ? "Ver proyectos" : "View projects";
     await expect(page.getByRole("link", { name: projectsLabel, exact: true })).toHaveAttribute("href", "#projects");
@@ -135,9 +135,9 @@ test("renders capabilities as wired nodes with linked status", async ({ page }) 
   await page.goto("/es");
   const section = page.locator("#capabilities");
   await section.scrollIntoViewIfNeeded();
-  await expect(section.locator(".build-method__node")).toHaveCount(34);
-  await expect(section.locator(".build-method__node .build-method__status")).toHaveCount(10);
-  await expect(section.locator(".build-method__status")).toHaveCount(11);
+  await expect(section.locator(".build-method__node")).toHaveCount(35);
+  await expect(section.locator(".build-method__node .build-method__status")).toHaveCount(12);
+  await expect(section.locator(".build-method__status")).toHaveCount(13);
   await expect(section.locator(".build-method__legend")).toContainText("usada en proyectos reales");
   await expect(section.locator(".build-method__legend a")).toHaveAttribute("href", "#projects");
   await expect(section.getByText("[OK]")).toHaveCount(0);
@@ -362,7 +362,7 @@ test("adds dotted leaders between capability names and linked statuses", async (
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/es");
   const section = page.locator("#capabilities");
-  await expect(section.locator(".build-method__leader")).toHaveCount(10);
+  await expect(section.locator(".build-method__leader")).toHaveCount(12);
   await expect(section.locator(".build-method__leader").first()).toHaveCSS("border-bottom-style", "dotted");
   await expect(section.locator(".build-method__leader").first()).toHaveCSS("flex-grow", "1");
   await expect(section.locator(".build-method__status").first()).toHaveCSS("margin-left", "0px");

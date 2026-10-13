@@ -12,7 +12,7 @@ test("keeps static visuals for reduced-motion visitors", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator("[data-motion-root]")).toHaveAttribute("data-motion-state", "reduced");
-  await expect(page.locator("[data-project-case]")).toHaveCount(2);
+  await expect(page.locator("[data-project-case]")).toHaveCount(3);
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
 });
 
@@ -40,7 +40,7 @@ test("leaves content visible when a screenshot hook is missing", async ({ page }
   await page.addInitScript(() => {
     const observer = new MutationObserver((): void => {
       const shots = document.querySelectorAll("[data-project-shot]");
-      if (shots.length === 2) {
+      if (shots.length === 3) {
         shots.forEach((shot) => shot.removeAttribute("data-project-shot"));
         observer.disconnect();
       }
