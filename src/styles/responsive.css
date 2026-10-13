@@ -7,6 +7,11 @@
   .experience-header__osd {
     display: none;
   }
+
+  /* Wider system monospace fonts (SF Mono, DejaVu Sans Mono) need the room. */
+  .experience-header__rec {
+    display: none;
+  }
 }
 
 @media (max-width: 800px) {
