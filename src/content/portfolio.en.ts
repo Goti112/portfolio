@@ -120,7 +120,7 @@ export const portfolioEnglish = {
     traceLabel: "Signal trace // 2022 → now",
     items: [
       { qualification: "Microcomputer Systems and Networks", level: "Intermediate VET diploma", abbreviation: "SMX", institution: "Institut Bernat el Ferrer", startYear: 2022, endYear: 2024 },
-      { qualification: "Web Application Development", level: "Higher VET diploma", abbreviation: "DAW", institution: "Institut Bernat el Ferrer", startYear: 2024, endYear: 2026, internship: { label: "Company internship", period: "Jan — Jul 2026", startMonth: "2026-01", endMonth: "2026-07", description: "Rohu Innovations · Drone mission planner with React, TypeScript and MAVLink telemetry.", technologies: ["TypeScript", "React"] } },
+      { qualification: "Web Application Development", level: "Higher VET diploma", abbreviation: "DAW", institution: "Institut Bernat el Ferrer", startYear: 2024, endYear: 2026, internship: { label: "Company internship", period: "Jan — Jul 2026", startMonth: "2026-01", endMonth: "2026-07", description: "Web application development with React and TypeScript.", technologies: ["TypeScript", "React"] } },
       { qualification: "Multiplatform Application Development", level: "Higher VET diploma", abbreviation: "DAM", institution: "Institut Gabriela Mistral", startYear: 2026, endYear: null },
     ],
   },
