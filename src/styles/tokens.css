@@ -7,11 +7,17 @@
   --color-line: #433d3f;
   --color-accent: #a65357;
   --color-accent-on-dark: #d8898d;
+  --color-phosphor: #78c8d2;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --color-wire-grid: rgb(220 216 216 / 6%);
-  --font-display: system-ui, Arial, sans-serif;
-  --font-code: ui-monospace, Consolas, monospace;
   --content-max: 74rem;
   --page-inline: clamp(1.25rem, 4vw, 4rem);
   --section-block: clamp(3.5rem, 6vw, 6rem);
   --focus-ring: 0 0 0 3px var(--color-surface), 0 0 0 6px var(--color-accent-on-dark);
+}
+
+/* next/font exposes its families on <body>, so the stacks that use them resolve there. */
+body {
+  --font-display: var(--font-archivo), system-ui, Arial, sans-serif;
+  --font-code: var(--font-jetbrains-mono), ui-monospace, Consolas, monospace;
 }

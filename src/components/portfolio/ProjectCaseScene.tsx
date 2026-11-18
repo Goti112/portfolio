@@ -18,12 +18,16 @@ export function ProjectCaseScene({ project, channel, labels, pendingLabel }: Pro
       className="project-evidence__item"
       data-project-case={project.id}
       data-project-id={project.id}
+      data-reveal="rise"
       aria-labelledby={titleId}
     >
       <header className="project-evidence__bar" aria-hidden="true">
         <span className="project-evidence__case-label">{channel} {"//"}</span>
         <span className="project-evidence__bar-name">{project.name}</span>
-        <span className="project-evidence__rec">● REC</span>
+        <span className="project-evidence__level">
+          <i /><i /><i /><i /><i />
+        </span>
+        <span className="project-evidence__rec"><b>●</b> REC</span>
       </header>
       <div className="project-evidence__body">
         <div className="project-evidence__preview" data-project-inline-preview={project.id}>

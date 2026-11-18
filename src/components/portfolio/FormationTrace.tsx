@@ -7,16 +7,18 @@ interface FormationTraceProps {
 export function FormationTrace({ content }: FormationTraceProps): React.JSX.Element {
   return (
     <section id="education" className="formation-trace">
+      <span className="section-ghost" aria-hidden="true" data-ghost>03</span>
       <p className="scene-eyebrow">{content.eyebrow}</p>
-      <h2 className="formation-trace__heading">{content.heading}</h2>
+      <h2 className="formation-trace__heading" data-reveal="wipe">{content.heading}</h2>
       <p className="formation-trace__trace-label" aria-hidden="true">{content.traceLabel}</p>
-      <ol className="formation-trace__list">
+      <ol className="formation-trace__list" data-trace>
         {content.items.map((item) => (
           <li
             key={item.abbreviation}
             className={item.endYear === null
               ? "formation-trace__item formation-trace__item--current"
               : "formation-trace__item"}
+            data-trace-item
           >
             <span className="formation-trace__node" aria-hidden="true" />
             <p className="formation-trace__period">

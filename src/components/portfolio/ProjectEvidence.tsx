@@ -12,8 +12,9 @@ function channelNumber(index: number): string {
 export function ProjectEvidence({ eyebrow, heading, labels, items, pendingLabel }: ProjectEvidenceProps): React.JSX.Element {
   return (
     <section id="projects" className="project-evidence" tabIndex={-1}>
+      <span className="section-ghost" aria-hidden="true" data-ghost>02</span>
       <p className="project-evidence__eyebrow">{eyebrow}</p>
-      <h2 className="project-evidence__heading">{heading}</h2>
+      <h2 className="project-evidence__heading" data-reveal="wipe">{heading}</h2>
       <nav className="project-evidence__index" aria-label={labels.indexLabel}>
         <ol>
           {items.map((project, index) => (

@@ -30,6 +30,8 @@ export function ProjectScreenshot({ screenshot, sourceLabel, enlargeLabel, close
             loading="lazy"
             decoding="async"
           />
+          <span className="project-shot__static" data-shot-static aria-hidden="true" />
+          <span className="project-shot__glare" aria-hidden="true" />
           <span className="project-shot__zoom">{enlargeLabel}</span>
         </button>
         <figcaption className="project-shot__bar" aria-hidden="true">

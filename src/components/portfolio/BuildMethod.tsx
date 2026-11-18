@@ -13,6 +13,7 @@ export function BuildMethod({ method, projects }: BuildMethodProps): React.JSX.E
 
   return (
     <section id="capabilities" className="build-method" tabIndex={-1}>
+      <span className="section-ghost" aria-hidden="true" data-ghost>01</span>
       <p className="build-method__carrier" aria-hidden="true">
         {t.carrier}
       </p>
@@ -30,7 +31,7 @@ export function BuildMethod({ method, projects }: BuildMethodProps): React.JSX.E
       </p>
       <div className="build-method__stages">
         {method.stages.map((stage, index) => (
-          <article key={stage.id} className="build-method__stage" data-method-stage={stage.id}>
+          <article key={stage.id} className="build-method__stage" data-method-stage={stage.id} data-reveal="rise" data-spotlight>
             <header className="build-method__stage-header">
               <span className="build-method__channel" aria-hidden="true">
                 {t.channelPrefix}-{String(index + 1).padStart(2, "0")}{" //"}
