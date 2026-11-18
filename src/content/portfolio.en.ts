@@ -129,11 +129,11 @@ export const portfolioEnglish = {
     heading: "Let's talk",
     emailLabel: "Email",
     githubLabel: "GitHub",
-    lead: "I'm looking for my first role as a junior web and mobile application developer.",
+    lead: "I'm looking for new opportunities as a web and mobile application developer.",
     statusLabel: "Status",
     availability: "Available immediately",
     details: [
-      { label: "Role", value: "Junior developer · Web / Mobile" },
+      { label: "Role", value: "Application developer · Web / Mobile" },
       { label: "Schedule", value: "Full-time or part-time · alongside studies" },
       { label: "Location", value: "Barcelona · On-site, hybrid or remote" },
     ],

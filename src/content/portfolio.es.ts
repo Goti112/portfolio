@@ -129,11 +129,11 @@ export const portfolioSpanish = {
     heading: "¿Hablamos?",
     emailLabel: "Correo",
     githubLabel: "GitHub",
-    lead: "Busco mi primer puesto como desarrollador junior de aplicaciones web y móviles.",
+    lead: "Busco nuevas oportunidades como desarrollador de aplicaciones web y móviles.",
     statusLabel: "Status",
     availability: "Disponibilidad inmediata",
     details: [
-      { label: "Rol", value: "Desarrollador junior · Web / Mobile" },
+      { label: "Rol", value: "Desarrollador de aplicaciones · Web / Mobile" },
       { label: "Jornada", value: "Completa o parcial · compatible con estudios" },
       { label: "Ubicación", value: "Barcelona · Presencial, híbrido o remoto" },
     ],
