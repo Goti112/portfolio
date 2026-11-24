@@ -59,9 +59,9 @@ const spanishMethod = {
 export const portfolioSpanish = {
   locale: "es",
   meta: {
-    title: "Miquel Manzano — Desarrollador de aplicaciones",
+    title: "Miquel Manzano — Desarrollador Full Stack",
     description:
-      "Portfolio técnico de Miquel Manzano: desarrollo de aplicaciones web, móviles e interactivas.",
+      "Portfolio de Miquel Manzano, desarrollador full stack en Barcelona: apps web y móviles con React, TypeScript, Next.js, Node.js, Java y Flutter.",
   },
   navigation: spanishNavigation,
   system: spanishSystem,
