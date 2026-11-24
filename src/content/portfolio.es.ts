@@ -68,7 +68,7 @@ export const portfolioSpanish = {
   intro: spanishIntro,
   method: spanishMethod,
   projects: {
-    eyebrow: "Trabajo seleccionado / 03",
+    eyebrow: "Trabajo seleccionado / 04",
     heading: "Proyectos",
     labels: {
       channelPrefix: "CH",
@@ -90,6 +90,16 @@ export const portfolioSpanish = {
         tooling: ["GitHub Actions"],
         screenshot: { src: "/projects/github-city.webp", width: 1280, height: 720, alt: "Captura de GitHub City: ciudad 3D de noche generada a partir de un perfil de GitHub, con edificios de neón agrupados por lenguaje." },
         repository: projectRepositories["github-city"],
+      },
+      {
+        id: "weft",
+        name: "Weft",
+        summary: "Editor de texto colaborativo local-first: varias personas editan el mismo documento, también sin conexión, y todas las copias acaban con el mismo texto.",
+        highlights: ["CRDT de texto (Fugue) escrito desde cero en TypeScript y verificado con tests de propiedades", "Servidor de sincronización en Java 21 y Spring Boot por WebSocket, con PostgreSQL y reintentos idempotentes", "Demo con tres editores, red simulada e inspector de los mensajes del protocolo y del árbol del CRDT"],
+        technologies: ["TypeScript", "React", "Java", "Spring Boot", "PostgreSQL", "Vitest"],
+        tooling: ["GitHub Actions", "Docker"],
+        screenshot: { src: "/projects/weft.webp", width: 1440, height: 1018, alt: "Captura de Weft: tres editores del mismo documento, conectados y con el mismo texto tras el escenario guiado, junto a los controles de red simulada y el inspector del protocolo." },
+        repository: projectRepositories["weft"],
       },
       {
         id: "qgc-planner",
